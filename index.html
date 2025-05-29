@@ -5,10 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ulus Simülatörü</title>
     <style>
+        :root {
+            --bg-color: #ecf0f1;
+            --container-bg: #fff;
+            --text-color: #2c3e50;
+            --primary-color: #3498db;
+            --secondary-color: #1abc9c;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --success-color: #2ecc71;
+            --panel-bg: #f5f7fa;
+            --border-color: #dfe4ea;
+            --accent-color: #5D5CDE;
+            --header-color: #1abc9c;
+            --input-bg: #ecf0f1;
+            --tab-active-color: #5D5CDE;
+        }
+
+        .dark {
+            --bg-color: #181818;
+            --container-bg: #2c3e50;
+            --text-color: #ecf0f1;
+            --primary-color: #5D5CDE;
+            --secondary-color: #1abc9c;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --success-color: #2ecc71;
+            --panel-bg: #34495e;
+            --border-color: #4e6a83;
+            --header-color: #1abc9c;
+            --input-bg: #4e6a83;
+            --tab-active-color: #5D5CDE;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #2c3e50;
-            color: #ecf0f1;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             margin: 0;
             padding: 20px;
             display: flex;
@@ -16,23 +49,25 @@
             align-items: flex-start;
             min-height: 100vh;
             box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .game-container {
-            background-color: #34495e;
+            background-color: var(--container-bg);
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            padding: 30px;
-            width: 90%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 95%;
             max-width: 1200px;
             display: flex; /* Flexbox ile ana dikey düzen */
             flex-direction: column;
             gap: 20px;
+            transition: background-color 0.3s ease;
         }
 
         h1 {
             text-align: center;
-            color: #1abc9c;
+            color: var(--header-color);
             margin-bottom: 20px;
         }
 
@@ -41,14 +76,14 @@
             display: flex;
             justify-content: center;
             margin-bottom: 20px;
-            border-bottom: 2px solid #4e6a83;
+            border-bottom: 2px solid var(--border-color);
             padding-bottom: 10px;
             gap: 10px; /* Sekmeler arası boşluk */
             flex-wrap: wrap; /* Küçük ekranlarda sarmalama */
         }
 
         .tab-btn {
-            background-color: #3498db;
+            background-color: var(--primary-color);
             color: white;
             border: none;
             padding: 12px 20px;
@@ -60,25 +95,34 @@
             min-width: 120px; /* Minimum genişlik */
         }
 
+        @media (max-width: 768px) {
+            .tab-btn {
+                min-width: 90px;
+                padding: 10px 12px;
+                font-size: 0.9em;
+            }
+        }
+
         .tab-btn:hover {
-            background-color: #2980b9;
+            background-color: var(--primary-color);
+            opacity: 0.9;
             transform: translateY(-2px); /* Hafif yukarı kalkma efekti */
         }
 
         .tab-btn.active {
-            background-color: #1abc9c; /* Aktif sekme rengi */
+            background-color: var(--tab-active-color); /* Aktif sekme rengi */
             font-weight: bold;
-            border-bottom: 2px solid #1abc9c; /* Aktif sekmede alt çizgi */
+            border-bottom: 2px solid var(--tab-active-color); /* Aktif sekmede alt çizgi */
             transform: translateY(0); /* Sabit konum */
         }
 
         /* Tüm ekranları gizle */
         .game-screen {
             display: none;
-            background-color: #34495e; /* Tüm ekranlar için ortak arka plan */
+            background-color: var(--container-bg); /* Tüm ekranlar için ortak arka plan */
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             min-height: 500px; /* Ekranlar arası boşluğu korumak için */
             overflow-y: auto; /* İçerik taşarsa kaydırma */
         }
@@ -94,16 +138,32 @@
                 "log canvas";
         }
 
+        @media (max-width: 768px) {
+            #main-screen {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "stats"
+                    "actions"
+                    "log"
+                    "canvas";
+            }
+
+            .game-container {
+                padding: 15px;
+                width: 98%;
+            }
+        }
+
         #main-screen.active {
             display: grid;
         }
 
         .stats-panel {
             grid-area: stats;
-            background-color: #2c3e50;
+            background-color: var(--panel-bg);
             padding: 20px;
             border-radius: 6px;
-            border-left: 5px solid #1abc9c;
+            border-left: 5px solid var(--secondary-color);
         }
 
         .stats-panel p {
@@ -113,19 +173,19 @@
 
         .stats-panel span {
             font-weight: bold;
-            color: #ecf0f1;
+            color: var(--text-color);
         }
 
         .actions-panel {
             grid-area: actions;
-            background-color: #2c3e50;
+            background-color: var(--panel-bg);
             padding: 20px;
             border-radius: 6px;
-            border-left: 5px solid #e67e22;
+            border-left: 5px solid var(--warning-color);
         }
 
         .actions-panel h2 {
-            color: #e67e22;
+            color: var(--warning-color);
             margin-top: 0;
             margin-bottom: 15px;
         }
@@ -133,7 +193,7 @@
         .action-category {
             margin-bottom: 20px;
             padding-bottom: 15px;
-            border-bottom: 1px dashed #4e6a83;
+            border-bottom: 1px dashed var(--border-color);
         }
 
         .action-category:last-child {
@@ -142,14 +202,14 @@
         }
 
         .action-category h3 {
-            color: #f1c40f;
+            color: var(--warning-color);
             margin-top: 0;
             margin-bottom: 10px;
             font-size: 1.2em;
         }
 
         button {
-            background-color: #3498db;
+            background-color: var(--primary-color);
             color: white;
             border: none;
             padding: 10px 15px;
@@ -161,7 +221,8 @@
         }
 
         button:hover {
-            background-color: #2980b9;
+            background-color: var(--primary-color);
+            opacity: 0.9;
         }
 
         button:disabled {
@@ -171,7 +232,7 @@
 
         .log-panel {
             grid-area: log;
-            background-color: #2c3e50;
+            background-color: var(--panel-bg);
             padding: 20px;
             border-radius: 6px;
             border-left: 5px solid #9b59b6;
@@ -192,7 +253,7 @@
         }
 
         #game-log li {
-            background-color: #34495e;
+            background-color: var(--container-bg);
             padding: 8px 12px;
             margin-bottom: 5px;
             border-radius: 4px;
@@ -201,8 +262,8 @@
 
         #gameCanvas {
             grid-area: canvas;
-            background-color: #2c3e50;
-            border: 1px solid #7f8c8d;
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
             border-radius: 6px;
             width: 100%;
             height: 300px; /* Canvas boyutu */
@@ -210,7 +271,7 @@
 
         /* Yeni Ekranların Genel Stili */
         .game-screen h2 {
-            color: #f1c40f; /* Sarımsı başlık rengi */
+            color: var(--warning-color); /* Sarımsı başlık rengi */
             margin-bottom: 20px;
             text-align: center;
         }
@@ -222,7 +283,7 @@
         }
 
         .game-screen li {
-            background-color: #2c3e50;
+            background-color: var(--panel-bg);
             padding: 10px 15px;
             margin-bottom: 8px;
             border-radius: 5px;
@@ -245,9 +306,9 @@
         .game-screen select {
             padding: 10px;
             border-radius: 5px;
-            border: 1px solid #7f8c8d;
-            background-color: #4e6a83;
-            color: #ecf0f1;
+            border: 1px solid var(--border-color);
+            background-color: var(--input-bg);
+            color: var(--text-color);
             font-size: 1em;
             flex-grow: 1;
             min-width: 150px;
@@ -273,7 +334,7 @@
         }
 
         #game-over-screen h1 {
-            color: #e74c3c;
+            color: var(--danger-color);
             margin-bottom: 20px;
         }
 
@@ -283,14 +344,15 @@
         }
 
         #game-over-screen button {
-            background-color: #e74c3c;
+            background-color: var(--danger-color);
             padding: 15px 30px;
             font-size: 1.2em;
             margin-top: 30px;
         }
 
         #game-over-screen button:hover {
-            background-color: #c0392b;
+            background-color: var(--danger-color);
+            opacity: 0.9;
         }
 
         /* Meclis Action butonları */
@@ -301,16 +363,18 @@
         }
 
         .parliament-action-btn[data-action="approve"] {
-            background-color: #27ae60;
+            background-color: var(--success-color);
         }
         .parliament-action-btn[data-action="approve"]:hover {
-            background-color: #229954;
+            background-color: var(--success-color);
+            opacity: 0.9;
         }
         .parliament-action-btn[data-action="reject"] {
-            background-color: #e74c3c;
+            background-color: var(--danger-color);
         }
         .parliament-action-btn[data-action="reject"]:hover {
-            background-color: #c0392b;
+            background-color: var(--danger-color);
+            opacity: 0.9;
         }
 
         /* Dış İlişkiler listesi */
@@ -326,9 +390,44 @@
             align-items: center;
             flex-wrap: wrap; /* Küçük ekranlarda sarmalama */
         }
+
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--text-color);
+            z-index: 100;
+        }
+
+        /* Chart styles */
+        #reportChartCanvas {
+            background-color: var(--panel-bg);
+            border-radius: 6px;
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 480px) {
+            button {
+                padding: 8px 12px;
+                font-size: 0.85em;
+                margin: 3px;
+            }
+            
+            .stats-panel p, .actions-panel h3 {
+                font-size: 0.95em;
+            }
+        }
     </style>
 </head>
 <body>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark/light mode">🌓</button>
     <div class="game-container">
         <h1>Ulus Simülatörü</h1>
 
@@ -379,7 +478,7 @@
             <canvas id="gameCanvas"></canvas>
         </div>
 
-        <div id="cabinet-screen" class="game-screen hidden">
+        <div id="cabinet-screen" class="game-screen">
             <h2>Kabine Yönetimi</h2>
             <p>Mevcut Kabine Üyeleri:</p>
             <ul id="cabinet-list">
@@ -400,7 +499,7 @@
             <p>Kabine kararları haftalık süreçleri etkiler.</p>
         </div>
 
-        <div id="parliament-screen" class="game-screen hidden">
+        <div id="parliament-screen" class="game-screen">
             <h2>Meclis</h2>
             <p>Meclis Desteği: <span id="parliament-support"></span></p>
             <h3>Gündemdeki Yasalar / Talepler</h3>
@@ -417,7 +516,7 @@
             <p class="parliament-note">Meclisi feshetmek diktatörlüğe yol açabilir veya halk memnuniyetini düşürebilir.</p>
         </div>
 
-        <div id="foreign-affairs-screen" class="game-screen hidden">
+        <div id="foreign-affairs-screen" class="game-screen">
             <h2>Dış İlişkiler</h2>
             <p>Genel Dış İlişkiler Puanı: <span id="foreign-relations-display"></span></p>
             <h3>Ülkelerle İlişkiler</h3>
@@ -432,7 +531,7 @@
             <button id="declare-war">Savaş İlan Et</button>
         </div>
 
-        <div id="security-screen" class="game-screen hidden">
+        <div id="security-screen" class="game-screen">
             <h2>Güvenlik ve Adalet</h2>
             <p>Suç Oranı: <span id="crime-rate">5</span>%</p>
             <p>Halkın Güvenlik Algısı: <span id="security-perception">75</span>%</p>
@@ -444,7 +543,7 @@
             <p class="security-note">Gözetim programları ve muhalefeti bastırma, suç oranını düşürebilir ancak halk memnuniyetini etkileyebilir.</p>
         </div>
 
-        <div id="reports-screen" class="game-screen hidden">
+        <div id="reports-screen" class="game-screen">
             <h2>Raporlar</h2>
             <h3>Ekonomik Rapor</h3>
             <p>Geçen Hafta GSYİH Değişimi: <span id="gdp-change-report"></span></p>
@@ -459,7 +558,7 @@
             <canvas id="reportChartCanvas" width="600" height="300"></canvas>
         </div>
 
-        <div id="game-over-screen" class="game-screen hidden">
+        <div id="game-over-screen" class="game-screen">
             <h1>Oyun Bitti!</h1>
             <p id="game-over-reason"></p>
             <p>Son Hafta: <span id="final-week"></span></p>
@@ -488,6 +587,14 @@
         let parliamentSupport = 70; // % Meclis desteği (yasaları geçirme şansı)
         let foreignRelationsScore = 50; // Genel dış ilişkiler puanı (0-100)
         let nationalHolidays = 0; // Eklenen milli bayram sayısı
+
+        // Tarih verilerini tutmak için diziler
+        const historicalData = {
+            weeks: [],
+            gdp: [],
+            satisfaction: [],
+            inflation: []
+        };
 
         // Geçici haftalık etki depolayıcıları
         let weeklyBudgetChange = 0;
@@ -520,6 +627,9 @@
         const parliamentAgenda = [];
 
         // --- DOM Elementleri ---
+        // Dark Mode Toggle
+        const themeToggleBtn = document.getElementById('theme-toggle');
+
         // Sekme Butonları
         const tabButtons = document.querySelectorAll('.tab-btn');
         const gameScreens = document.querySelectorAll('.game-screen');
@@ -586,8 +696,8 @@
         const holidayCountReportEl = document.getElementById('holiday-count-report');
         const governmentSupportReportEl = document.getElementById('government-support-report');
         const oppositionStrengthReportEl = document.getElementById('opposition-strength-report');
-        // const reportChartCanvas = document.getElementById('reportChartCanvas');
-        // const reportChartCtx = reportChartCanvas.getContext('2d'); // Eğer chart.js gibi kütüphane kullanmayacaksak, direkt çizim için
+        const reportChartCanvas = document.getElementById('reportChartCanvas');
+        const reportChartCtx = reportChartCanvas.getContext('2d');
 
         // Oyun Sonu Ekranı
         const gameOverScreen = document.getElementById('game-over-screen');
@@ -597,17 +707,46 @@
         const finalGdpEl = document.getElementById('final-gdp');
         const restartGameBtn = document.getElementById('restart-game-btn');
 
+        // --- Dark Mode Kontrolü ---
+        function initTheme() {
+            // Kullanıcının tercihini kontrol et
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+                themeToggleBtn.textContent = '☀️';
+            } else {
+                themeToggleBtn.textContent = '🌙';
+            }
+            
+            // Sistem değişikliklerini dinle
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+                if (event.matches) {
+                    document.documentElement.classList.add('dark');
+                    themeToggleBtn.textContent = '☀️';
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    themeToggleBtn.textContent = '🌙';
+                }
+            });
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                themeToggleBtn.textContent = '🌙';
+            } else {
+                document.documentElement.classList.add('dark');
+                themeToggleBtn.textContent = '☀️';
+            }
+        });
 
         // --- Yardımcı Fonksiyonlar ---
 
         // Ekran değiştirme fonksiyonu
         function showScreen(screenId) {
             gameScreens.forEach(screen => {
-                screen.classList.remove('active');
-                screen.classList.add('hidden');
+                screen.style.display = 'none';
             });
-            document.getElementById(screenId).classList.add('active');
-            document.getElementById(screenId).classList.remove('hidden');
+            document.getElementById(screenId).style.display = screenId === 'main-screen' ? 'grid' : 'block';
 
             tabButtons.forEach(btn => {
                 if (btn.dataset.tab === screenId) {
@@ -617,6 +756,14 @@
                 }
             });
             updateReports(); // Her ekran değişiminde raporları güncelle
+        }
+
+        // Responsive canvas boyutu ayarlama
+        function resizeCanvas() {
+            const container = gameCanvas.parentElement;
+            gameCanvas.width = container.offsetWidth;
+            gameCanvas.height = 300;
+            drawCanvasStats();
         }
 
         // Oyun değişkenlerini sıfırlama
@@ -647,6 +794,12 @@
             weeklyForeignRelationsChange = 0;
             weeklyCrimeRateChange = 0;
             weeklySecurityPerceptionChange = 0;
+
+            // Tarih verilerini sıfırla
+            historicalData.weeks = [];
+            historicalData.gdp = [];
+            historicalData.satisfaction = [];
+            historicalData.inflation = [];
 
             // Kabineyi sıfırla
             for (const type in cabinet) {
@@ -699,9 +852,9 @@
         function addLog(message, type = 'info') {
             const listItem = document.createElement('li');
             listItem.textContent = `Hafta ${week}: ${message}`;
-            if (type === 'warning') listItem.style.color = '#f39c12';
-            if (type === 'danger') listItem.style.color = '#e74c3c';
-            if (type === 'success') listItem.style.color = '#2ecc71';
+            if (type === 'warning') listItem.style.color = 'var(--warning-color)';
+            if (type === 'danger') listItem.style.color = 'var(--danger-color)';
+            if (type === 'success') listItem.style.color = 'var(--success-color)';
             gameLogEl.prepend(listItem); // En yeni mesaj en üste gelir
         }
 
@@ -715,16 +868,16 @@
             let currentY = 30;
 
             ctx.font = '16px Arial';
-            ctx.fillStyle = '#ecf0f1';
+            ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
 
             // Memnuniyet Barı
             ctx.fillText('Memnuniyet:', 10, currentY + barHeight / 2 + 5);
             const satisfactionFill = (satisfaction / 100) * barWidth;
             ctx.fillStyle = `rgb(${255 - (satisfaction * 2.55)}, ${satisfaction * 2.55}, 0)`;
             ctx.fillRect(startX, currentY, satisfactionFill, barHeight);
-            ctx.strokeStyle = '#7f8c8d';
+            ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--border-color');
             ctx.strokeRect(startX, currentY, barWidth, barHeight);
-            ctx.fillStyle = '#ecf0f1';
+            ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
             ctx.fillText(`${satisfaction.toFixed(1)}%`, startX + barWidth + 5, currentY + barHeight / 2 + 5);
             currentY += barHeight + 20;
 
@@ -734,9 +887,9 @@
             const inflationFill = scaledInflation * barWidth;
             ctx.fillStyle = `rgb(${scaledInflation * 255}, ${255 - (scaledInflation * 255)}, 0)`;
             ctx.fillRect(startX, currentY, inflationFill, barHeight);
-            ctx.strokeStyle = '#7f8c8d';
+            ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--border-color');
             ctx.strokeRect(startX, currentY, barWidth, barHeight);
-            ctx.fillStyle = '#ecf0f1';
+            ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
             ctx.fillText(`${inflation.toFixed(1)}%`, startX + barWidth + 5, currentY + barHeight / 2 + 5);
             currentY += barHeight + 20;
 
@@ -745,23 +898,107 @@
             const foreignRelationsFill = (foreignRelationsScore / 100) * barWidth;
             ctx.fillStyle = `rgb(0, ${foreignRelationsScore * 2.55}, ${255 - (foreignRelationsScore * 2.55)})`;
             ctx.fillRect(startX, currentY, foreignRelationsFill, barHeight);
-            ctx.strokeStyle = '#7f8c8d';
+            ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--border-color');
             ctx.strokeRect(startX, currentY, barWidth, barHeight);
-            ctx.fillStyle = '#ecf0f1';
+            ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
             ctx.fillText(`${foreignRelationsScore.toFixed(0)}%`, startX + barWidth + 5, currentY + barHeight / 2 + 5);
             currentY += barHeight + 20;
         }
 
+        // Rapor Grafiğini Çizme Fonksiyonu
+        function drawReportChart() {
+            // Grafiği temizle
+            reportChartCtx.clearRect(0, 0, reportChartCanvas.width, reportChartCanvas.height);
+
+            // En az 2 veri noktası yoksa çizme
+            if (historicalData.weeks.length < 2) {
+                reportChartCtx.font = '16px Arial';
+                reportChartCtx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
+                reportChartCtx.textAlign = 'center';
+                reportChartCtx.fillText('Veri henüz yetersiz. En az 2 hafta gerekli.', reportChartCanvas.width / 2, reportChartCanvas.height / 2);
+                return;
+            }
+
+            const padding = 40;
+            const chartWidth = reportChartCanvas.width - (padding * 2);
+            const chartHeight = reportChartCanvas.height - (padding * 2);
+            
+            // Koordinat sistemini çiz
+            reportChartCtx.beginPath();
+            reportChartCtx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--border-color');
+            reportChartCtx.moveTo(padding, padding);
+            reportChartCtx.lineTo(padding, reportChartCanvas.height - padding);
+            reportChartCtx.lineTo(reportChartCanvas.width - padding, reportChartCanvas.height - padding);
+            reportChartCtx.stroke();
+
+            // Son 10 veriyi göster (veya varsa daha az)
+            const dataPoints = Math.min(historicalData.weeks.length, 10);
+            const startIndex = Math.max(0, historicalData.weeks.length - dataPoints);
+            
+            // X ekseni etiketlerini çiz
+            reportChartCtx.font = '12px Arial';
+            reportChartCtx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
+            reportChartCtx.textAlign = 'center';
+            
+            for (let i = 0; i < dataPoints; i++) {
+                const x = padding + (i * (chartWidth / (dataPoints - 1)));
+                reportChartCtx.fillText(historicalData.weeks[startIndex + i].toString(), x, reportChartCanvas.height - padding + 20);
+            }
+
+            // Memnuniyet çizgisi
+            reportChartCtx.beginPath();
+            reportChartCtx.strokeStyle = 'rgb(46, 204, 113)'; // Yeşil
+            reportChartCtx.lineWidth = 2;
+            
+            for (let i = 0; i < dataPoints; i++) {
+                const x = padding + (i * (chartWidth / (dataPoints - 1)));
+                const y = reportChartCanvas.height - padding - ((historicalData.satisfaction[startIndex + i] / 100) * chartHeight);
+                
+                if (i === 0) {
+                    reportChartCtx.moveTo(x, y);
+                } else {
+                    reportChartCtx.lineTo(x, y);
+                }
+            }
+            reportChartCtx.stroke();
+
+            // Enflasyon çizgisi
+            reportChartCtx.beginPath();
+            reportChartCtx.strokeStyle = 'rgb(231, 76, 60)'; // Kırmızı
+            reportChartCtx.lineWidth = 2;
+            
+            for (let i = 0; i < dataPoints; i++) {
+                const inflationValue = Math.min(historicalData.inflation[startIndex + i], 20); // 20% max gösterim
+                const x = padding + (i * (chartWidth / (dataPoints - 1)));
+                const y = reportChartCanvas.height - padding - ((inflationValue / 20) * chartHeight);
+                
+                if (i === 0) {
+                    reportChartCtx.moveTo(x, y);
+                } else {
+                    reportChartCtx.lineTo(x, y);
+                }
+            }
+            reportChartCtx.stroke();
+
+            // Lejant
+            reportChartCtx.font = '14px Arial';
+            reportChartCtx.fillStyle = 'rgb(46, 204, 113)';
+            reportChartCtx.fillText('Memnuniyet', padding + 10, padding - 10);
+            
+            reportChartCtx.fillStyle = 'rgb(231, 76, 60)';
+            reportChartCtx.fillText('Enflasyon', padding + 100, padding - 10);
+        }
+
         // Tüm aksiyon butonlarını aktif/pasif hale getirme
         function enableAllActionButtons(enable = true) {
-            const allButtons = document.querySelectorAll('button:not(.tab-btn):not(#restart-game-btn)');
+            const allButtons = document.querySelectorAll('button:not(.tab-btn):not(#restart-game-btn):not(#theme-toggle)');
             allButtons.forEach(button => button.disabled = !enable);
             
             // Siyasi sisteme göre bazı butonların durumu
             if (politicalSystem === 'Demokrasi') {
                 declareDictatorshipBtn.disabled = !enable;
                 callElectionsBtn.disabled = !enable;
-                dissolveParliamentBtn.disabled = true; // Demokraside meclis feshedilmez
+                dissolveParliamentBtn.disabled = !enable; // Demokraside meclis feshedilir
                 crackdownDissentBtn.disabled = true; // Demokraside muhalefet bastırılamaz
             } else { // Diktatörlük
                 declareDictatorshipBtn.disabled = true; // Zaten diktatörlükse
@@ -789,6 +1026,12 @@
         // Haftayı Bitir Fonksiyonu
         function endWeek() {
             week++;
+
+            // Tarih verilerini kaydet
+            historicalData.weeks.push(week);
+            historicalData.gdp.push(gdp);
+            historicalData.satisfaction.push(satisfaction);
+            historicalData.inflation.push(inflation);
 
             // --- Haftalık GSYİH Değişimi ---
             gdp *= (1 + (Math.random() - 0.5) * 0.003 * cabinet.economy.efficiency); // Bakan verimliliği etkisi
@@ -926,7 +1169,6 @@
             updateGameStats();
         }
 
-
         // --- Kabine Yönetimi Fonksiyonları ---
         function updateCabinetDisplay() {
             cabinetListEl.innerHTML = '';
@@ -937,23 +1179,6 @@
                 cabinetListEl.appendChild(listItem);
             }
         }
-
-        appointMinisterBtn.addEventListener('click', () => {
-            const ministerType = ministerTypeSelect.value;
-            let ministerName = ministerNameInput.value.trim();
-            if (ministerName === '') {
-                ministerName = 'Yeni Bakan'; // İsim girilmezse varsayılan
-            }
-
-            // Yeni bakanın özellikleri
-            const newEfficiency = Math.random() * 0.4 + 0.6; // 0.6 ile 1.0 arası
-            const newCorruption = Math.random() * 0.3; // 0.0 ile 0.3 arası
-
-            cabinet[ministerType] = { name: ministerName, efficiency: newEfficiency, corruption: newCorruption };
-            addLog(`${capitalizeFirstLetter(ministerType)} Bakanı ${ministerName} olarak atandı.`, 'info');
-            updateCabinetDisplay();
-            ministerNameInput.value = ''; // Inputu temizle
-        });
 
         function capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
@@ -1011,47 +1236,6 @@
             updateGameStats();
         }
 
-        proposeLawBtn.addEventListener('click', () => {
-            const proposalText = proposalInput.value.trim();
-            if (proposalText === '') {
-                addLog('Lütfen bir yasa teklifi girin.', 'warning');
-                return;
-            }
-
-            // Basit bir yasa teklifi ekleme
-            parliamentAgenda.push({
-                description: proposalText,
-                onApprove: () => {
-                    addLog(`Kendi teklifiniz olan "${proposalText}" yasası onaylandı!`, 'success');
-                    weeklySatisfactionChange += 1; // Genellikle iyi niyetli teklif memnuniyeti artırır
-                },
-                onReject: () => {
-                    addLog(`Kendi teklifiniz olan "${proposalText}" yasası reddedildi.`, 'warning');
-                    weeklySatisfactionChange -= 0.5; // Reddedilmesi hafif memnuniyet düşürebilir
-                }
-            });
-            addLog(`Yeni yasa teklifi "${proposalText}" meclis gündemine eklendi.`, 'info');
-            proposalInput.value = '';
-            updateParliamentDisplay();
-        });
-
-        dissolveParliamentBtn.addEventListener('click', () => {
-            if (politicalSystem === 'Demokrasi') {
-                addLog('Meclisi feshetmek diktatörlüğe yol açar ve halk memnuniyetini büyük ölçüde düşürür!', 'danger');
-                weeklySatisfactionChange -= 30; // Büyük memnuniyet düşüşü
-                politicalSystem = 'Diktatörlük';
-                parliamentSupport = 0; // Meclis kalmadı
-                // Tüm yasama yetkisi bize geçer
-                parliamentAgenda.length = 0; // Gündemi temizle
-                updateParliamentDisplay();
-                enableAllActionButtons(); // Butonları yeniden düzenle
-            } else {
-                addLog('Zaten diktatörlükle yönetiliyorsunuz, meclis zaten feshedilmiş durumda.', 'warning');
-            }
-            updateGameStats();
-        });
-
-
         // --- Dış İlişkiler Fonksiyonları ---
         function updateForeignRelationsDisplay() {
             foreignRelationsDisplayEl.textContent = foreignRelationsScore.toFixed(0);
@@ -1061,9 +1245,9 @@
                 const listItem = document.createElement('li');
                 let status = '';
                 let color = '';
-                if (country.relation >= 70) { status = 'Mükemmel'; color = 'green'; }
-                else if (country.relation >= 40) { status = 'İyi'; color = 'orange'; }
-                else { status = 'Kötü'; color = 'red'; }
+                if (country.relation >= 70) { status = 'Mükemmel'; color = 'var(--success-color)'; }
+                else if (country.relation >= 40) { status = 'İyi'; color = 'var(--warning-color)'; }
+                else { status = 'Kötü'; color = 'var(--danger-color)'; }
 
                 listItem.innerHTML = `
                     ${countryName}: ${status} (<span style="color:${color};">${country.relation.toFixed(0)}</span>)
@@ -1154,21 +1338,7 @@
             updateGameStats();
         }
 
-        globalSummitBtn.addEventListener('click', () => {
-            const cost = 10000000;
-            if (budget >= cost) {
-                budget -= cost;
-                weeklyBudgetChange -= cost;
-                weeklyForeignRelationsChange += 10;
-                weeklySatisfactionChange += 2;
-                addLog(`Uluslararası Zirveye katıldınız. Dış ilişkiler güçlendi ve itibarınız arttı.`, 'success');
-            } else {
-                addLog(`Yeterli bütçe yok! Uluslararası zirve maliyeti: $${cost.toLocaleString()}`, 'warning');
-            }
-            updateGameStats();
-        });
-
-        // --- Raporlar Fonksiyonları (Basit Placeholder) ---
+        // --- Raporlar Fonksiyonları ---
         function updateReports() {
             gdpChangeReportEl.textContent = `${((weeklyGdpChangeFactor - 1) * 100).toFixed(2)}%`;
             inflationChangeReportEl.textContent = `${weeklyInflationChange.toFixed(2)}%`;
@@ -1178,11 +1348,9 @@
             governmentSupportReportEl.textContent = `${satisfaction.toFixed(1)}%`; // Hükümet desteği şimdilik memnuniyetle eşleşsin
             oppositionStrengthReportEl.textContent = `${(100 - parliamentSupport).toFixed(1)}%`; // Muhalefet gücü meclis desteği tersi
 
-
-            // Eğer Chart.js gibi bir kütüphane kullanıyorsak burada grafikleri güncelleyebiliriz.
-            // Şimdilik sadece metinsel raporlar.
+            // Grafiği çiz
+            drawReportChart();
         }
-
 
         // --- Buton Olay Dinleyicileri (Genel) ---
 
@@ -1283,6 +1451,30 @@
             updateGameStats();
         });
 
+        // Meclis Butonları
+        callElectionsBtn.addEventListener('click', () => {
+            if (politicalSystem === 'Demokrasi') {
+                addLog('Erken seçim çağrısı yaptınız!', 'warning');
+                weeklySatisfactionChange -= 2; // Erken seçim halkı rahatsız eder
+                setTimeout(() => conductElections(), 1000); // 1 saniye sonra seçim yap
+            } else {
+                addLog('Diktatörlükte seçim yapamazsınız.', 'danger');
+            }
+        });
+
+        declareDictatorshipBtn.addEventListener('click', () => {
+            if (politicalSystem === 'Demokrasi') {
+                addLog('Diktatörlük ilan ettiniz! Demokrasi sona erdi.', 'danger');
+                politicalSystem = 'Diktatörlük';
+                weeklySatisfactionChange -= 20; // Büyük memnuniyet düşüşü
+                weeklyForeignRelationsChange -= 30; // Dış ilişkiler kötüleşir
+                parliamentSupport = 100; // Tam kontrol
+                updateGameStats();
+                enableAllActionButtons(); // Buton durumlarını güncelle
+            } else {
+                addLog('Zaten diktatörlükle yönetiliyorsunuz.', 'warning');
+            }
+        });
 
         // Güvenlik Ekranı Butonları
         increasePoliceBudgetBtn.addEventListener('click', () => {
@@ -1329,6 +1521,144 @@
             updateGameStats();
         });
 
+        crackdownDissentBtn.addEventListener('click', () => {
+            if (politicalSystem === 'Diktatörlük') {
+                const cost = 2000000;
+                if (budget >= cost) {
+                    budget -= cost;
+                    weeklyBudgetChange -= cost;
+                    weeklySatisfactionChange -= 10; // Halk memnuniyeti düşer
+                    weeklySecurityPerceptionChange += 5; // Güvenlik algısı artar
+                    weeklyForeignRelationsChange -= 5; // Dış ilişkiler düşer
+                    parliamentSupport = Math.min(100, parliamentSupport + 5); // Kontrol artar
+                    addLog(`Muhalefeti bastırdınız. Halk öfkeli ama rejimin kontrolü arttı.`, 'danger');
+                } else {
+                    addLog(`Yeterli bütçeniz yok! Muhalefeti bastırma maliyeti: $${cost.toLocaleString()}`, 'warning');
+                }
+            } else {
+                addLog(`Demokratik bir rejimde muhalefeti yasal olarak bastıramazsınız!`, 'danger');
+            }
+            updateGameStats();
+        });
+
+        // Dış İlişkiler Butonları
+        globalSummitBtn.addEventListener('click', () => {
+            const cost = 10000000;
+            if (budget >= cost) {
+                budget -= cost;
+                weeklyBudgetChange -= cost;
+                weeklyForeignRelationsChange += 10;
+                weeklySatisfactionChange += 2;
+                addLog(`Uluslararası Zirveye katıldınız. Dış ilişkiler güçlendi ve itibarınız arttı.`, 'success');
+            } else {
+                addLog(`Yeterli bütçe yok! Uluslararası zirve maliyeti: $${cost.toLocaleString()}`, 'warning');
+            }
+            updateGameStats();
+        });
+
+        signTradeDealBtn.addEventListener('click', () => {
+            const cost = 1000000;
+            if (budget >= cost) {
+                budget -= cost;
+                weeklyBudgetChange -= cost;
+                
+                // En yüksek ilişkiye sahip ve anlaşması olmayan ülkeyi bul
+                let bestCountry = null;
+                let bestRelation = -1;
+                
+                for (const countryName in countries) {
+                    const country = countries[countryName];
+                    if (!country.tradeDeal && country.relation > bestRelation) {
+                        bestCountry = countryName;
+                        bestRelation = country.relation;
+                    }
+                }
+                
+                if (bestCountry) {
+                    countries[bestCountry].tradeDeal = true;
+                    countries[bestCountry].relation += 5;
+                    weeklyGdpChangeFactor *= 1.001;
+                    addLog(`${bestCountry} ile ticaret anlaşması imzaladınız!`, 'success');
+                } else {
+                    addLog(`Tüm ülkelerle zaten ticaret anlaşmanız var.`, 'warning');
+                    budget += cost; // Parayı geri ver
+                    weeklyBudgetChange += cost;
+                }
+            } else {
+                addLog(`Yeterli bütçe yok! Ticaret anlaşması maliyeti: $${cost.toLocaleString()}`, 'warning');
+            }
+            updateForeignRelationsDisplay();
+            updateGameStats();
+        });
+
+        improveRelationsBtn.addEventListener('click', () => {
+            const cost = 2000000;
+            if (budget >= cost) {
+                budget -= cost;
+                weeklyBudgetChange -= cost;
+                weeklyForeignRelationsChange += 3;
+                
+                // Tüm ülke ilişkilerini hafifçe iyileştir
+                for (const countryName in countries) {
+                    countries[countryName].relation = Math.min(100, countries[countryName].relation + 2);
+                }
+                
+                addLog(`Diplomatik ilişkileri geliştirmek için girişimlerde bulundunuz.`, 'info');
+            } else {
+                addLog(`Yeterli bütçe yok! Diplomasi girişimi maliyeti: $${cost.toLocaleString()}`, 'warning');
+            }
+            updateForeignRelationsDisplay();
+            updateGameStats();
+        });
+
+        declareWarBtn.addEventListener('click', () => {
+            // En düşük ilişkili ülkeyi bul
+            let worstCountry = null;
+            let worstRelation = 101;
+            
+            for (const countryName in countries) {
+                const country = countries[countryName];
+                if (country.relation < worstRelation) {
+                    worstCountry = countryName;
+                    worstRelation = country.relation;
+                }
+            }
+            
+            if (worstRelation < 30) {
+                const cost = 50000000;
+                if (budget >= cost) {
+                    budget -= cost;
+                    weeklyBudgetChange -= cost;
+                    addLog(`${worstCountry} ülkesine savaş ilan ettiniz!`, 'danger');
+                    weeklySatisfactionChange -= 5;
+                    simulateWar(worstCountry);
+                } else {
+                    addLog(`Yeterli bütçe yok! Savaş ilan etme maliyeti: $${cost.toLocaleString()}`, 'warning');
+                }
+            } else {
+                addLog(`Hiçbir ülke ile ilişkileriniz savaş ilan edecek kadar kötü değil.`, 'warning');
+            }
+            updateGameStats();
+        });
+
+        // Kabine Butonları
+        appointMinisterBtn.addEventListener('click', () => {
+            const ministerType = ministerTypeSelect.value;
+            let ministerName = ministerNameInput.value.trim();
+            if (ministerName === '') {
+                ministerName = 'Yeni Bakan'; // İsim girilmezse varsayılan
+            }
+
+            // Yeni bakanın özellikleri
+            const newEfficiency = Math.random() * 0.4 + 0.6; // 0.6 ile 1.0 arası
+            const newCorruption = Math.random() * 0.3; // 0.0 ile 0.3 arası
+
+            cabinet[ministerType] = { name: ministerName, efficiency: newEfficiency, corruption: newCorruption };
+            addLog(`${capitalizeFirstLetter(ministerType)} Bakanı ${ministerName} olarak atandı.`, 'info');
+            updateCabinetDisplay();
+            ministerNameInput.value = ''; // Inputu temizle
+        });
+
         // Oyun Sonu Ekranı Butonu
         restartGameBtn.addEventListener('click', () => {
             resetGame();
@@ -1339,7 +1669,12 @@
             endWeek();
         });
 
-        // İlk yüklemede oyunu başlat
+        // Pencere boyutu değiştiğinde canvas'ı yeniden boyutlandır
+        window.addEventListener('resize', resizeCanvas);
+
+        // İlk yükleme
+        initTheme();
+        resizeCanvas();
         resetGame();
     </script>
 </body>
