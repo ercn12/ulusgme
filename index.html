@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ulus Simülatörü</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>Ulus Simülatörü</h1>
+
+        <div class="stats-panel">
+            <p>Hafta: <span id="current-week">1</span></p>
+            <p>Nüfus: <span id="population">10,000,000</span></p>
+            <p>GSYİH: $<span id="gdp">1,000,000,000</span></p>
+            <p>Enflasyon: <span id="inflation">2</span>%</p>
+            <p>Halk Memnuniyeti: <span id="satisfaction">70</span>%</p>
+            <p>Bütçe: $<span id="budget">100,000,000</span></p>
+            <p>Siyasi Sistem: <span id="political-system">Demokrasi</span></p>
+            <p>Dış İlişkiler: <span id="foreign-relations">50</span></p>
+        </div>
+
+        <div class="actions-panel">
+            <h2>Kararlar</h2>
+            <div class="action-category">
+                <h3>Ekonomi</h3>
+                <button id="increase-taxes">Vergileri Artır (+%0.1)</button>
+                <button id="decrease-taxes">Vergileri Azalt (-%0.1)</button>
+                <button id="invest-economy">Ekonomiye Yatırım Yap ($10M)</button>
+            </div>
+            <div class="action-category">
+                <h3>Sosyal</h3>
+                <button id="invest-education">Eğitime Yatırım Yap ($5M)</button>
+                <button id="invest-health">Sağlığa Yatırım Yap ($7M)</button>
+                <button id="promote-culture">Kültürü Destekle ($3M)</button>
+            </div>
+            <div class="action-category">
+                <h3>Siyaset</h3>
+                <button id="call-elections">Seçim Çağrısı Yap</button>
+                <button id="declare-dictatorship">Diktatörlük İlan Et</button>
+                <button id="crackdown-dissent">Muhalefeti Bastır ($2M)</button>
+            </div>
+             <div class="action-category">
+                <h3>Dış İlişkiler</h3>
+                <button id="improve-relations">Dış İlişkileri Geliştir ($2M)</button>
+                <button id="declare-war">Savaş İlan Et</button>
+                <button id="sign-trade-deal">Ticaret Anlaşması İmzala ($1M)</button>
+            </div>
+            <button id="end-week-btn">Haftayı Bitir</button>
+        </div>
+
+        <div class="log-panel">
+            <h2>Olay Günlüğü</h2>
+            <ul id="game-log"></ul>
+        </div>
+
+        <canvas id="gameCanvas"></canvas>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
