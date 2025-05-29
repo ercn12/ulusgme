@@ -44,7 +44,8 @@
                     <button id="invest-education">Eğitime Yatırım Yap ($5M)</button>
                     <button id="invest-health">Sağlığa Yatırım Yap ($7M)</button>
                     <button id="promote-culture">Kültürü Destekle ($3M)</button>
-                    <button id="declare-holiday">Yeni Tatil İlan Et ($2M)</button> </div>
+                    <button id="declare-holiday">Yeni Tatil İlan Et ($2M)</button>
+                </div>
                 <button id="end-week-btn">Haftayı Bitir</button>
             </div>
 
@@ -79,16 +80,17 @@
 
         <div id="parliament-screen" class="game-screen hidden">
             <h2>Meclis</h2>
-            <p>Meclis Durumu: <span id="parliament-support"></span></p>
+            <p>Meclis Desteği: <span id="parliament-support"></span></p>
             <h3>Gündemdeki Yasalar / Talepler</h3>
             <ul id="parliament-agenda">
-                <li><p>Yasa Teklifi: Eğitim Bütçesi Artışı (+%10)</p><button class="parliament-action-btn" data-action="approve">Onayla</button><button class="parliament-action-btn" data-action="reject">Reddet</button></li>
-            </ul>
+                </ul>
             <h3>Sizin Teklifleriniz</h3>
             <div class="parliament-propose">
                 <input type="text" id="proposal-input" placeholder="Yeni yasa teklifi">
                 <button id="propose-law-btn">Yasa Teklif Et</button>
             </div>
+            <button id="call-elections">Seçim Çağrısı Yap</button>
+            <button id="declare-dictatorship">Diktatörlük İlan Et</button>
             <button id="dissolve-parliament-btn">Meclisi Feshet</button>
             <p class="parliament-note">Meclisi feshetmek diktatörlüğe yol açabilir veya halk memnuniyetini düşürebilir.</p>
         </div>
@@ -98,13 +100,14 @@
             <p>Genel Dış İlişkiler Puanı: <span id="foreign-relations-display"></span></p>
             <h3>Ülkelerle İlişkiler</h3>
             <ul id="country-relations-list">
-                <li>Ülke A: İyi (<span style="color:green;">+80</span>) - <button>Ticaret Görüşmesi</button> <button>Elçiyi Geri Çek</button></li>
-                <li>Ülke B: Kötü (<span style="color:red;">-20</span>) - <button>Savaş İlan Et</button></li>
-            </ul>
+                </ul>
             <h3>Gelen Davetler / Olaylar</h3>
             <ul id="foreign-events-list">
                 </ul>
             <button id="global-summit-btn">Uluslararası Zirveye Katıl ($10M)</button>
+            <button id="sign-trade-deal">Ticaret Anlaşması İmzala ($1M)</button>
+            <button id="improve-relations">Dış İlişkileri Geliştir ($2M)</button>
+            <button id="declare-war">Savaş İlan Et</button>
         </div>
 
         <div id="security-screen" class="game-screen hidden">
@@ -115,7 +118,7 @@
             <button id="increase-police-budget">Polis Bütçesini Artır ($3M)</button>
             <button id="reform-justice">Adalet Sistemini Reforme Et ($5M)</button>
             <button id="surveillance-program">Gözetim Programı Başlat ($4M)</button>
-            <p class="security-note">Gözetim programları suç oranını düşürebilir ancak halk memnuniyetini etkileyebilir.</p>
+            <button id="crackdown-dissent">Muhalefeti Bastır ($2M)</button> <p class="security-note">Gözetim programları ve muhalefeti bastırma, suç oranını düşürebilir ancak halk memnuniyetini etkileyebilir.</p>
         </div>
 
         <div id="reports-screen" class="game-screen hidden">
