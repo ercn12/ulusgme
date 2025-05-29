@@ -839,4 +839,1385 @@
             <h2>Güvenlik & Ordu</h2>
             <p>Suç Oranı: <span id="crime-rate">5</span>%</p>
             <p>Halkın Güvenlik Algısı: <span id="security-perception">75</span>%</p>
-            <p>Ordu Büyüklüğü: <span id="army-
+            <p>Ordu Büyüklüğü: <span id="army-size-security">50000</span></p>
+            <p>Askeri Güç Endeksi: <span id="military-strength-index">50</span></p>
+            <p>Ordu Sadakati: <span id="army-loyalty-display">Yüksek</span></p>
+            
+            <div class="policy-slider">
+                <div class="policy-slider-header">
+                    <h3>Güvenlik Seviyesi (İç Polisaj)</h3>
+                    <span class="policy-value" id="security-level-value">5</span>
+                </div>
+                <input type="range" id="security-level-slider" min="1" max="10" value="5">
+                <div class="tooltip">ℹ️
+                    <span class="tooltiptext">Güvenlik seviyesini artırmak suçları azaltabilir ancak özgürlükleri kısıtlayabilir.</span>
+                </div>
+                <button id="apply-security-level">Uygula</button>
+            </div>
+            
+            <h3>Emniyet / Adalet Kararları</h3>
+            <div class="flex-row">
+                <label for="police-budget">Polis Bütçesi ($M):</label>
+                <div class="input-with-buttons">
+                    <button id="decrease-police-budget">-</button>
+                    <input type="number" id="police-budget" value="3" min="1" max="20">
+                    <button id="increase-police-budget">+</button>
+                </div>
+                <button id="increase-police-budget-btn">Uygula</button>
+            </div>
+            <div class="security-actions">
+                <button id="reform-justice">Adalet Sistemini Reforme Et ($5M)</button>
+                <button id="surveillance-program">Gözetim Programı Başlat ($4M)</button>
+                <button id="crackdown-dissent" title="Sadece Diktatörlükte etkili">Muhalefeti Bastır ($2M+)</button>
+            </div>
+            <p class="security-note">Gözetim programları ve muhalefeti bastırma, suç oranını düşürebilir ancak halk memnuniyetini ve siyasi istikrarı ciddi şekilde etkileyebilir.</p>
+
+            <h3>Askeri Kararlar</h3>
+             <div class="flex-row">
+                <label for="recruit-soldiers-input">Asker Alımı (x1000 kişi):</label> 
+                <div class="input-with-buttons">
+                    <button id="decrease-recruits">-</button>
+                    <input type="number" id="recruit-soldiers-input" value="5" min="1" max="50">
+                    <button id="increase-recruits">+</button>
+                </div>
+                <button id="recruit-soldiers-btn">Asker Al ($1M/1000 asker)</button>
+            </div>
+            <div class="security-actions">
+                <button id="plan-war-btn">Savaş Planlaması Yap ($5M)</button>
+                <button id="military-exercise-btn">Askeri Tatbikat Düzenle ($10M+)</button>
+                <button id="military-council-meeting-btn">Askeri Şura ile Toplantı ($1M)</button>
+            </div>
+        </div>
+
+        <div id="reports-screen" class="game-screen">
+            <h2>Raporlar & Zaman Yönetimi</h2>
+            <p>Mevcut Tarih: Hafta <span id="report-current-week">1</span>, Gün <span id="report-current-day">1</span></p>
+            <div class="reports-actions">
+                <button id="advance-day-btn">Günü İlerlet (1 Gün)</button>
+                <button id="complete-week-reports-btn" disabled>Haftayı Tamamla</button>
+            </div>
+            <hr>
+            
+            <div class="minister-advice">
+                <h3>Ekonomi Bakanlığı Raporu</h3>
+                <p>GSYİH Değişimi (Haftalık): <span id="gdp-change-report-display">-</span></p>
+                <p>Enflasyon Değişimi (Haftalık): <span id="inflation-change-report-display">-</span></p>
+                <p id="economy-report-inflation">Enflasyon Analizi: <span id="inflation-analysis">Henüz analiz yapılmadı.</span></p>
+                <p id="economy-report-gdp">GSYİH Durumu: <span id="gdp-analysis">Henüz analiz yapılmadı.</span></p>
+                <p id="economy-report-advice">Öneriler: <span id="economy-recommendations">Henüz öneri bulunmuyor.</span></p>
+            </div>
+            
+            <div class="minister-advice">
+                <h3>Sosyal Politikalar Raporu</h3>
+                <p>Eğitim Kalitesi: <span id="education-quality-report">Yetersiz</span></p>
+                <p>Sağlık Hizmetleri Kalitesi: <span id="health-quality-report">Yetersiz</span></p>
+                <p>Ulusal Bayram Sayısı: <span id="holiday-count-report">0</span></p>
+                <p>Öneriler: <span id="social-recommendations">Henüz öneri bulunmuyor.</span></p>
+            </div>
+            
+            <div class="minister-advice">
+                <h3>Siyasi Rapor</h3>
+                <p>Hükümet Desteği (Memnuniyet): <span id="government-support-report">70%</span></p>
+                <p>Meclis Desteği: <span id="parliament-support-report">70%</span></p>
+                <p>Siyasi İstikrar: <span id="political-stability-report">70%</span></p>
+                 <p>Medya Özgürlüğü Endeksi: <span id="media-freedom-report">7</span>/10</p>
+                <p>Öneriler: <span id="political-recommendations">Henüz öneri bulunmuyor.</span></p>
+            </div>
+             <div class="minister-advice">
+                <h3>Askeri Durum Raporu</h3>
+                <p>Ordu Hazırlık Seviyesi: <span id="army-readiness-report">Orta</span></p>
+                <p>Ordu Sadakati: <span id="army-loyalty-report">Yüksek</span></p>
+                <p>Genelkurmay Değerlendirmesi: <span id="military-assessment-report">Durum stabil.</span></p>
+            </div>
+            
+            <h3>Ekonomi Verileri (Son 10 Hafta)</h3>
+            <canvas id="reportChartCanvas" width="600" height="300"></canvas>
+        </div>
+
+        <div id="game-over-screen" class="game-screen">
+            <h1>Oyun Bitti!</h1>
+            <p id="game-over-reason"></p>
+            <p>Son Hafta: <span id="final-week"></span></p>
+            <p>Son Nüfus: <span id="final-population"></span></p>
+            <p>Son GSYİH: <span id="final-gdp"></span></p>
+            <button id="restart-game-btn">Tekrar Oyna</button>
+        </div>
+
+    </div>
+
+    <script>
+        // --- Oyun Değişkenleri ---
+        let week = 1;
+        let dayOfWeek = 1; 
+        let isAtWar = false;
+        let governmentType = 'Demokrasi'; 
+        let mediaFreedom = 7; 
+        let mediaInfluence = 60; 
+        let propagandaEffectWeeks = 0; 
+
+        let population = 10000000;
+        let gdp = 1000000000;
+        let inflation = 2; 
+        let satisfaction = 70; 
+        let budget = 100000000; 
+        let taxes = 10; 
+        let educationSpending = 0; 
+        let healthSpending = 0; 
+        let cultureSpending = 0; 
+        let crimeRate = 5; 
+        let securityPerception = 75; 
+        let politicalStability = 70; 
+        let parliamentSupport = 70; 
+        let foreignRelationsScore = 50; 
+        let nationalHolidays = 0; 
+        let armySize = 50000; 
+        let militaryStrengthIndex = 50; 
+        let armyUpkeepCostPerSoldier = 50; 
+        let armyLoyalty = 80; 
+
+        let socialPolicyLevel = 5; 
+        let economicPolicyLevel = 5; 
+        let diplomaticApproachLevel = 5; 
+        let securityLevel = 5; 
+
+        const historicalData = {
+            weeks: [], gdp: [], satisfaction: [], inflation: [], politicalStability: []
+        };
+        
+        let weeklyBudgetChange = 0; let weeklySatisfactionChange = 0; let weeklyGdpChangeFactor = 1;
+        let weeklyInflationChange = 0; let weeklyPopulationChangeFactor = 1; let weeklyForeignRelationsChange = 0;
+        let weeklyCrimeRateChange = 0; let weeklySecurityPerceptionChange = 0; let weeklyMilitaryStrengthChange = 0;
+        let weeklyPoliticalStabilityChange = 0; let weeklyArmyLoyaltyChange = 0;
+        let weeklyMediaFreedomChange = 0;
+
+
+        const cabinet = {
+            economy: { name: 'Boş', efficiency: 0.5, corruption: 0.1 }, education: { name: 'Boş', efficiency: 0.5, corruption: 0.1 },
+            health: { name: 'Boş', efficiency: 0.5, corruption: 0.1 }, foreign: { name: 'Boş', efficiency: 0.5, corruption: 0.1 },
+            interior: { name: 'Boş', efficiency: 0.5, corruption: 0.1 }, justice: { name: 'Boş', efficiency: 0.5, corruption: 0.1 },
+            defense: { name: 'Boş', efficiency: 0.5, corruption: 0.1 } 
+        };
+        const countries = { 
+            'Yunanistan': { relation: 40, tradeDeal: false, summitInvited: false, summitAccepted: false, militaryPower: 45 },
+            'Bulgaristan': { relation: 55, tradeDeal: false, summitInvited: false, summitAccepted: false, militaryPower: 35 },
+            'Gürcistan': { relation: 60, tradeDeal: true, summitInvited: false, summitAccepted: false, militaryPower: 30 },
+            'Ermenistan': { relation: 20, tradeDeal: false, summitInvited: false, summitAccepted: false, militaryPower: 25 },
+            'Azerbaycan': { relation: 75, tradeDeal: true, summitInvited: false, summitAccepted: false, militaryPower: 50 },
+            'İran': { relation: 30, tradeDeal: false, summitInvited: false, summitAccepted: false, militaryPower: 65 },
+            'Irak': { relation: 25, tradeDeal: false, summitInvited: false, summitAccepted: false, militaryPower: 40 },
+            'Suriye': { relation: 15, tradeDeal: false, summitInvited: false, summitAccepted: false, militaryPower: 20 }, 
+            'Rusya': { relation: 45, tradeDeal: false, summitInvited: false, summitAccepted: false, militaryPower: 90 },
+            'Ukrayna': { relation: 50, tradeDeal: false, summitInvited: false, summitAccepted: false, militaryPower: 60 }
+        };
+        const parliamentAgenda = []; 
+        let summitPlanned = false;
+        let summitInvitationsSent = false;
+        let gamePausedForWar = false; // Savaş simülasyonu sırasında diğer işlemleri durdurmak için
+
+        // --- DOM Elementleri ---
+        // (Bu blok, önceki kodunuzdaki tüm getElementById çağrılarını içermelidir. Kısalık için tekrar yazılmadı.)
+        // Önemli olan, bu değişkenlerin scriptin başında veya DOMContentLoaded içinde tanımlanmasıdır.
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const gameScreens = document.querySelectorAll('.game-screen');
+        const currentWeekEl = document.getElementById('current-week');
+        const currentDayOfWeekEl = document.getElementById('current-day-of-week'); 
+        const populationEl = document.getElementById('population');
+        const gdpEl = document.getElementById('gdp');
+        const inflationEl = document.getElementById('inflation');
+        const satisfactionEl = document.getElementById('satisfaction');
+        const budgetEl = document.getElementById('budget');
+        const taxRateEl = document.getElementById('tax-rate');
+        const governmentTypeDisplayEl = document.getElementById('government-type-display');
+        const mediaFreedomDisplayEl = document.getElementById('media-freedom-display');
+        const politicalStabilityEl = document.getElementById('political-stability');
+        const foreignRelationsScoreEl = document.getElementById('foreign-relations-score');
+        const armySizeDisplayEl = document.getElementById('army-size-display');
+        const gameLogEl = document.getElementById('game-log');
+        const gameCanvas = document.getElementById('gameCanvas');
+        const ctx = gameCanvas.getContext('2d');
+        const taxSlider = document.getElementById('tax-slider');
+        const taxSliderValue = document.getElementById('tax-slider-value');
+        const applyTaxBtn = document.getElementById('apply-tax');
+        const economyInvestmentInput = document.getElementById('economy-investment');
+        const decreaseEconomyInvestmentBtn = document.getElementById('decrease-economy-investment');
+        const increaseEconomyInvestmentBtn = document.getElementById('increase-economy-investment');
+        const investEconomyBtn = document.getElementById('invest-economy');
+        const educationInvestmentInput = document.getElementById('education-investment');
+        const decreaseEducationInvestmentBtn = document.getElementById('decrease-education-investment');
+        const increaseEducationInvestmentBtn = document.getElementById('increase-education-investment');
+        const investEducationBtn = document.getElementById('invest-education');
+        const healthInvestmentInput = document.getElementById('health-investment');
+        const decreaseHealthInvestmentBtn = document.getElementById('decrease-health-investment');
+        const increaseHealthInvestmentBtn = document.getElementById('increase-health-investment');
+        const investHealthBtn = document.getElementById('invest-health');
+        const cultureInvestmentInput = document.getElementById('culture-investment');
+        const decreaseCultureInvestmentBtn = document.getElementById('decrease-culture-investment');
+        const increaseCultureInvestmentBtn = document.getElementById('increase-culture-investment');
+        const promoteCultureBtn = document.getElementById('promote-culture');
+        const declareHolidayBtn = document.getElementById('declare-holiday');
+        const endWeekBtn = document.getElementById('end-week-btn');
+        const investGreenEnergyBtn = document.getElementById('invest-green-energy');
+        const developDefenseIndustryBtn = document.getElementById('develop-defense-industry');
+        const socialPolicySlider = document.getElementById('social-policy-slider');
+        const socialPolicyValue = document.getElementById('social-policy-value');
+        const applySocialPolicyBtn = document.getElementById('apply-social-policy');
+        const economicPolicySlider = document.getElementById('economic-policy-slider');
+        const economicPolicyValue = document.getElementById('economic-policy-value');
+        const applyEconomicPolicyBtn = document.getElementById('apply-economic-policy');
+        const diplomaticApproachSlider = document.getElementById('diplomatic-approach-slider');
+        const diplomaticApproachValue = document.getElementById('diplomatic-approach-value');
+        const applyDiplomaticApproachBtn = document.getElementById('apply-diplomatic-approach');
+        const securityLevelSlider = document.getElementById('security-level-slider');
+        const securityLevelValue = document.getElementById('security-level-value');
+        const applySecurityLevelBtn = document.getElementById('apply-security-level');
+        const policeBudgetInput = document.getElementById('police-budget');
+        const decreasePoliceBudgetBtn = document.getElementById('decrease-police-budget');
+        const increasePoliceBudgetBtn = document.getElementById('increase-police-budget');
+        const increasePoliceBudgetBtnApply = document.getElementById('increase-police-budget-btn');
+        const crimeRateEl = document.getElementById('crime-rate');
+        const securityPerceptionEl = document.getElementById('security-perception');
+        const armySizeSecurityEl = document.getElementById('army-size-security');
+        const militaryStrengthIndexEl = document.getElementById('military-strength-index');
+        const armyLoyaltyDisplayEl = document.getElementById('army-loyalty-display');
+        const reformJusticeBtn = document.getElementById('reform-justice');
+        const surveillanceProgramBtn = document.getElementById('surveillance-program');
+        const crackdownDissentBtn = document.getElementById('crackdown-dissent');
+        const recruitSoldiersInput = document.getElementById('recruit-soldiers-input');
+        const decreaseRecruitsBtn = document.getElementById('decrease-recruits');
+        const increaseRecruitsBtn = document.getElementById('increase-recruits');
+        const recruitSoldiersBtn = document.getElementById('recruit-soldiers-btn');
+        const planWarBtn = document.getElementById('plan-war-btn');
+        const militaryExerciseBtn = document.getElementById('military-exercise-btn');
+        const militaryCouncilMeetingBtn = document.getElementById('military-council-meeting-btn');
+        const cabinetListEl = document.getElementById('cabinet-list');
+        const ministerTypeSelect = document.getElementById('minister-type-select');
+        const ministerNameInput = document.getElementById('minister-name-input');
+        const appointMinisterBtn = document.getElementById('appoint-minister-btn');
+        const economyAdviceText = document.getElementById('economy-advice-text');
+        const educationAdviceText = document.getElementById('education-advice-text');
+        const healthAdviceText = document.getElementById('health-advice-text');
+        const foreignAdviceText = document.getElementById('foreign-advice-text');
+        const interiorAdviceText = document.getElementById('interior-advice-text');
+        const justiceAdviceText = document.getElementById('justice-advice-text');
+        const defenseAdviceText = document.getElementById('defense-advice-text');
+        const inflationAnalysisEl = document.getElementById('inflation-analysis');
+        const gdpAnalysisEl = document.getElementById('gdp-analysis');
+        const economyRecommendationsEl = document.getElementById('economy-recommendations');
+        const socialRecommendationsEl = document.getElementById('social-recommendations');
+        const politicalRecommendationsEl = document.getElementById('political-recommendations');
+        const parliamentSupportEl = document.getElementById('parliament-support');
+        const oppositionStrengthDisplayEl = document.getElementById('opposition-strength-display');
+        const governmentTypeParliamentEl = document.getElementById('government-type-parliament');
+        const mediaFreedomSlider = document.getElementById('media-freedom-slider');
+        const mediaFreedomTargetValueEl = document.getElementById('media-freedom-target-value');
+        const mediaFreedomValueDisplayEl = document.getElementById('media-freedom-value-display');
+        const applyMediaPolicyBtn = document.getElementById('apply-media-policy');
+        const startPropagandaBtn = document.getElementById('start-propaganda-btn');
+        const applyCensorshipBtn = document.getElementById('apply-censorship-btn');
+        const parliamentAgendaList = document.getElementById('parliament-agenda');
+        const proposalInput = document.getElementById('proposal-input');
+        const proposeLawBtn = document.getElementById('propose-law-btn');
+        const callElectionsBtn = document.getElementById('call-elections');
+        const declareDictatorshipBtn = document.getElementById('declare-dictatorship');
+        const dissolveParliamentBtn = document.getElementById('dissolve-parliament-btn');
+        const meetOppositionClosedBtn = document.getElementById('meet-opposition-closed-btn');
+        const meetOppositionOpenBtn = document.getElementById('meet-opposition-open-btn');
+        const foreignRelationsDisplayEl = document.getElementById('foreign-relations-display');
+        const countryRelationsList = document.getElementById('country-relations-list');
+        const foreignEventsList = document.getElementById('foreign-events-list');
+        const globalSummitBtn = document.getElementById('global-summit-btn');
+        const signTradeDealBtn = document.getElementById('sign-trade-deal');
+        const improveRelationsBtn = document.getElementById('improve-relations');
+        const declareWarBtn = document.getElementById('declare-war');
+        const createSummitBtn = document.getElementById('create-summit-btn');
+        const summitInvitationListEl = document.getElementById('summit-invitation-list');
+        const sendSummitInvitationsBtn = document.getElementById('send-summit-invitations-btn');
+        const advanceDayBtn = document.getElementById('advance-day-btn');
+        const completeWeekReportsBtn = document.getElementById('complete-week-reports-btn');
+        const reportCurrentWeekEl = document.getElementById('report-current-week');
+        const reportCurrentDayEl = document.getElementById('report-current-day');
+        const gdpChangeReportDisplayEl = document.getElementById('gdp-change-report-display');
+        const inflationChangeReportDisplayEl = document.getElementById('inflation-change-report-display');
+        const educationQualityReportEl = document.getElementById('education-quality-report');
+        const healthQualityReportEl = document.getElementById('health-quality-report');
+        const holidayCountReportEl = document.getElementById('holiday-count-report');
+        const governmentSupportReportEl = document.getElementById('government-support-report');
+        const parliamentSupportReportEl = document.getElementById('parliament-support-report');
+        const politicalStabilityReportEl = document.getElementById('political-stability-report');
+        const mediaFreedomReportEl = document.getElementById('media-freedom-report');
+        const armyReadinessReportEl = document.getElementById('army-readiness-report');
+        const armyLoyaltyReportEl = document.getElementById('army-loyalty-report');
+        const militaryAssessmentReportEl = document.getElementById('military-assessment-report');
+        const reportChartCanvas = document.getElementById('reportChartCanvas');
+        const reportChartCtx = reportChartCanvas.getContext('2d');
+        const gameOverScreen = document.getElementById('game-over-screen');
+        const gameOverReasonEl = document.getElementById('game-over-reason');
+        const finalWeekEl = document.getElementById('final-week');
+        const finalPopulationEl = document.getElementById('final-population');
+        const finalGdpEl = document.getElementById('final-gdp');
+        const restartGameBtn = document.getElementById('restart-game-btn');
+        
+        
+        function initTheme() { 
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                if(themeToggleBtn) themeToggleBtn.textContent = '☀️';
+            } else {
+                 document.documentElement.classList.remove('dark');
+                if(themeToggleBtn) themeToggleBtn.textContent = '🌙';
+            }
+        }
+        
+        function showScreen(screenId) { 
+            if(!gameScreens || !tabButtons) return; // Eğer ana elementler yoksa çık
+
+            gameScreens.forEach(screen => { if(screen) screen.style.display = 'none'; });
+            const targetScreen = document.getElementById(screenId);
+            if (targetScreen) {
+                 targetScreen.style.display = screenId === 'main-screen' ? 'grid' : 'block';
+            } else {
+                console.error("Hedef ekran bulunamadı:", screenId);
+                return; // Hedef ekran yoksa devam etme
+            }
+
+            tabButtons.forEach(btn => {
+                if(btn) btn.classList.toggle('active', btn.dataset.tab === screenId);
+            });
+
+            // Zaman kontrol butonlarının görünürlüğü
+            const mainScreenActive = (screenId === 'main-screen');
+            const reportsScreenActive = (screenId === 'reports-screen');
+
+            if(endWeekBtn) endWeekBtn.style.display = mainScreenActive ? 'inline-block' : 'none';
+            if(advanceDayBtn) advanceDayBtn.style.display = reportsScreenActive ? 'inline-block' : 'none';
+            if(completeWeekReportsBtn) completeWeekReportsBtn.style.display = reportsScreenActive ? 'inline-block' : 'none';
+            
+            enableAllActionButtons(); // Ekran değişiminde buton durumlarını güncelle
+
+            // Ekran özel güncellemeleri
+            if (reportsScreenActive) updateReports(); 
+            else if (screenId === 'cabinet-screen') updateMinisterAdvice();
+            else if (screenId === 'foreign-affairs-screen') { updateForeignRelationsDisplay(); updateSummitInvitationList(); }
+            else if (screenId === 'security-screen') {
+                if(armySizeSecurityEl) armySizeSecurityEl.textContent = armySize.toLocaleString();
+                if(militaryStrengthIndexEl) militaryStrengthIndexEl.textContent = militaryStrengthIndex.toFixed(0);
+                if(armyLoyaltyDisplayEl) armyLoyaltyDisplayEl.textContent = getArmyLoyaltyStatus();
+            } else if (screenId === 'parliament-screen') {
+                if(oppositionStrengthDisplayEl) oppositionStrengthDisplayEl.textContent = `${(governmentType === 'Demokrasi' ? (100 - parliamentSupport) : 'N/A').toFixed(0)}%`;
+                if(governmentTypeParliamentEl) governmentTypeParliamentEl.textContent = governmentType;
+                if(mediaFreedomValueDisplayEl) mediaFreedomValueDisplayEl.textContent = mediaFreedom.toFixed(1);
+                if(mediaFreedomSlider) mediaFreedomSlider.value = mediaFreedom;
+                if(mediaFreedomTargetValueEl) mediaFreedomTargetValueEl.textContent = mediaFreedom.toFixed(1);
+                updateParliamentDisplay(); 
+            }
+        }
+        
+        function getArmyLoyaltyStatus() { /* ... Öncekiyle aynı ... */
+            if (armyLoyalty >= 80) return "Çok Yüksek";
+            if (armyLoyalty >= 60) return "Yüksek";
+            if (armyLoyalty >= 40) return "Orta";
+            if (armyLoyalty >= 20) return "Düşük";
+            return "Çok Düşük (İsyan Riski!)";
+        }
+        
+        function resizeCanvas() { /* ... Öncekiyle aynı ... */
+            const mainCanvasContainer = gameCanvas.parentElement;
+            if (mainCanvasContainer && gameCanvas) { 
+                 gameCanvas.width = mainCanvasContainer.offsetWidth;
+                 gameCanvas.height = 300; 
+                 drawCanvasStats();
+            }
+            const reportCanvasContainer = reportChartCanvas.parentElement;
+            if (reportCanvasContainer && reportChartCanvas) { 
+                reportChartCanvas.width = reportCanvasContainer.offsetWidth > 0 ? reportCanvasContainer.offsetWidth * 0.98 : 300; 
+                reportChartCanvas.height = 300; 
+                drawReportChart(); 
+            }
+         }
+        
+        function resetGame() {
+            week = 1; dayOfWeek = 1; isAtWar = false; gamePausedForWar = false;
+            governmentType = 'Demokrasi'; mediaFreedom = 7; mediaInfluence = 60; propagandaEffectWeeks = 0;
+            population = 10000000; gdp = 1000000000; inflation = 2; satisfaction = 70;
+            budget = 100000000; taxes = 10; educationSpending = 0; healthSpending = 0; cultureSpending = 0;
+            crimeRate = 5; securityPerception = 75; politicalStability = 70;
+            parliamentSupport = 70; foreignRelationsScore = 50; nationalHolidays = 0;
+            armySize = 50000; militaryStrengthIndex = 50; armyLoyalty = 80;
+            summitPlanned = false; summitInvitationsSent = false;
+            
+            socialPolicyLevel = 5; economicPolicyLevel = 5; diplomaticApproachLevel = 5; securityLevel = 5;
+            
+            if(taxSlider) taxSlider.value = taxes; if(taxSliderValue) taxSliderValue.textContent = taxes;
+            if(socialPolicySlider) socialPolicySlider.value = socialPolicyLevel; if(socialPolicyValue) socialPolicyValue.textContent = socialPolicyLevel;
+            if(economicPolicySlider) economicPolicySlider.value = economicPolicyLevel; if(economicPolicyValue) economicPolicyValue.textContent = economicPolicyLevel;
+            if(diplomaticApproachSlider) diplomaticApproachSlider.value = diplomaticApproachLevel; if(diplomaticApproachValue) diplomaticApproachValue.textContent = diplomaticApproachLevel;
+            if(securityLevelSlider) securityLevelSlider.value = securityLevel; if(securityLevelValue) securityLevelValue.textContent = securityLevel;
+            if(mediaFreedomSlider) mediaFreedomSlider.value = mediaFreedom; if(mediaFreedomTargetValueEl) mediaFreedomTargetValueEl.textContent = mediaFreedom.toFixed(1);
+
+             ['weekly'].forEach(prefix => { 
+                Object.keys(window).filter(k => k.startsWith(prefix) && typeof window[k] === 'number').forEach(key => {
+                    if (key.includes('Factor')) window[key] = 1; else window[key] = 0;
+                });
+            });
+
+            historicalData.weeks = []; historicalData.gdp = []; historicalData.satisfaction = [];
+            historicalData.inflation = []; historicalData.politicalStability = [];
+
+            for (const type in cabinet) {
+                cabinet[type] = { name: 'Boş', efficiency: 0.4 + Math.random() * 0.3, corruption: 0.05 + Math.random() * 0.2 };
+            }
+            updateCabinetDisplay();
+             const initialCountries = { /* ... Öncekiyle aynı ... */
+                'Yunanistan': { relation: 30 + Math.floor(Math.random()*21)-10, tradeDeal: false, militaryPower: 40 + Math.floor(Math.random()*11)-5 },
+                'Bulgaristan': { relation: 45 + Math.floor(Math.random()*21)-10, tradeDeal: false, militaryPower: 30 + Math.floor(Math.random()*11)-5 },
+                'Gürcistan': { relation: 50 + Math.floor(Math.random()*21)-10, tradeDeal: Math.random() < 0.3, militaryPower: 25 + Math.floor(Math.random()*11)-5 },
+                'Ermenistan': { relation: 15 + Math.floor(Math.random()*21)-10, tradeDeal: false, militaryPower: 20 + Math.floor(Math.random()*11)-5 },
+                'Azerbaycan': { relation: 65 + Math.floor(Math.random()*21)-10, tradeDeal: Math.random() < 0.5, militaryPower: 45 + Math.floor(Math.random()*11)-5 },
+                'İran': { relation: 25 + Math.floor(Math.random()*21)-10, tradeDeal: false, militaryPower: 60 + Math.floor(Math.random()*11)-5 },
+                'Irak': { relation: 20 + Math.floor(Math.random()*21)-10, tradeDeal: false, militaryPower: 35 + Math.floor(Math.random()*11)-5 },
+                'Suriye': { relation: 10 + Math.floor(Math.random()*21)-10, tradeDeal: false, militaryPower: 15 + Math.floor(Math.random()*11)-5 },
+                'Rusya': { relation: 40 + Math.floor(Math.random()*21)-10, tradeDeal: false, militaryPower: 85 + Math.floor(Math.random()*11)-5 },
+                'Ukrayna': { relation: 45 + Math.floor(Math.random()*21)-10, tradeDeal: false, militaryPower: 55 + Math.floor(Math.random()*11)-5 }
+            };
+             for (const countryName in countries) { 
+                if (initialCountries[countryName]) {
+                    countries[countryName].relation = Math.max(0, Math.min(100, initialCountries[countryName].relation));
+                    countries[countryName].tradeDeal = initialCountries[countryName].tradeDeal;
+                    countries[countryName].militaryPower = initialCountries[countryName].militaryPower;
+                    countries[countryName].summitInvited = false;
+                    countries[countryName].summitAccepted = false;
+                }
+            }
+            updateForeignRelationsDisplay();
+            updateSummitInvitationList();
+
+            parliamentAgenda.length = 0; 
+            updateParliamentDisplay();
+            if(foreignEventsList) foreignEventsList.innerHTML = ''; 
+            if(gameLogEl) gameLogEl.innerHTML = ''; 
+            
+            if(gameOverScreen) gameOverScreen.style.display = 'none';
+            
+            addLog('Ulus Simülatörü Başladı! Yeni bir oyun...');
+            updateGameStats(); 
+            updateMinisterAdvice(); 
+            updateReports();
+            resizeCanvas(); 
+            enableAllActionButtons(); // Butonları oyun durumuna göre ayarla
+            showScreen('main-screen'); 
+        }
+
+        function updateGameStats() { /* ... Öncekiyle aynı, politicalSystem kaldırıldı ... */
+            if(currentWeekEl) currentWeekEl.textContent = week;
+            if(currentDayOfWeekEl) currentDayOfWeekEl.textContent = dayOfWeek; 
+            if(populationEl) populationEl.textContent = population.toLocaleString();
+            if(gdpEl) gdpEl.textContent = gdp.toLocaleString();
+            if(inflationEl) inflationEl.textContent = inflation.toFixed(1);
+            if(satisfactionEl) satisfactionEl.textContent = satisfaction.toFixed(1);
+            if(budgetEl) budgetEl.textContent = budget.toLocaleString();
+            if(taxRateEl) taxRateEl.textContent = taxes.toFixed(1);
+            if(governmentTypeDisplayEl) governmentTypeDisplayEl.textContent = governmentType; 
+            if(mediaFreedomDisplayEl) mediaFreedomDisplayEl.textContent = `${mediaFreedom.toFixed(1)}/10`; 
+            if(politicalStabilityEl) politicalStabilityEl.textContent = politicalStability.toFixed(1) + '%';
+            if(foreignRelationsScoreEl) foreignRelationsScoreEl.textContent = foreignRelationsScore.toFixed(0);
+            if(armySizeDisplayEl) armySizeDisplayEl.textContent = armySize.toLocaleString(); 
+            if(armySizeSecurityEl) armySizeSecurityEl.textContent = armySize.toLocaleString(); 
+            if(militaryStrengthIndexEl) militaryStrengthIndexEl.textContent = militaryStrengthIndex.toFixed(0);
+            if(armyLoyaltyDisplayEl) armyLoyaltyDisplayEl.textContent = getArmyLoyaltyStatus();
+
+            if(crimeRateEl) crimeRateEl.textContent = crimeRate.toFixed(1);
+            if(securityPerceptionEl) securityPerceptionEl.textContent = securityPerception.toFixed(1);
+            
+            if(reportCurrentWeekEl) reportCurrentWeekEl.textContent = week; 
+            if(reportCurrentDayEl) reportCurrentDayEl.textContent = dayOfWeek;
+
+            drawCanvasStats(); 
+            const reportsScreen = document.getElementById('reports-screen');
+            if(reportsScreen && reportsScreen.style.display !== 'none') {
+                 updateReports(); 
+            }
+        }
+
+        function addLog(message, type = 'info', isDaily = false) { /* ... Öncekiyle aynı ... */
+            const listItem = document.createElement('li');
+            const timePrefix = isDaily ? `H${week}, G${dayOfWeek}: ` : `Hafta ${week}: `;
+            listItem.textContent = timePrefix + message;
+
+            if (type === 'warning') listItem.style.color = 'var(--warning-color)';
+            else if (type === 'danger') listItem.style.color = 'var(--danger-color)';
+            else if (type === 'success') listItem.style.color = 'var(--success-color)';
+            else if (type === 'event') { listItem.style.color = 'var(--accent-color)'; listItem.style.fontWeight = 'bold';}
+            
+            if(isDaily) listItem.classList.add('daily');
+
+            if(gameLogEl) gameLogEl.prepend(listItem); 
+            if (gameLogEl && gameLogEl.children.length > 80) { 
+                gameLogEl.removeChild(gameLogEl.lastChild);
+            }
+         }
+
+        function drawCanvasStats() { /* ... Öncekiyle aynı ... */ 
+            if (!gameCanvas || !ctx) return;
+            ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+            const barHeight = 20;
+            const barWidth = Math.max(50, gameCanvas.width - 130); 
+            const startX = 110; 
+            let currentY = 30;
+            const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
+            const borderColor = getComputedStyle(document.documentElement).getPropertyValue('--border-color');
+            ctx.font = '14px Arial'; 
+
+            function drawBar(label, value, maxValue, colorFunc) {
+                ctx.fillStyle = textColor;
+                ctx.fillText(label, 10, currentY + barHeight / 2 + 5);
+                const fillWidth = (value / maxValue) * barWidth;
+                ctx.fillStyle = colorFunc(value, maxValue);
+                ctx.fillRect(startX, currentY, fillWidth, barHeight);
+                ctx.strokeStyle = borderColor;
+                ctx.strokeRect(startX, currentY, barWidth, barHeight);
+                ctx.fillStyle = textColor;
+                ctx.fillText(`<span class="math-inline">\{value\.toFixed\(1\)\}</span>{maxValue === 100 || maxValue === 25 || maxValue === 10 ? '%' : ''}`, startX + barWidth + 5, currentY + barHeight / 2 + 5);
+                currentY += barHeight + 15; 
+            }
+
+            drawBar('Memnuniyet:', satisfaction, 100, (val) => `rgb(${255 - (val * 2.55)}, ${val * 2.55}, 0)`);
+            drawBar('Enflasyon:', Math.min(inflation, 25), 25, (val, max) => `rgb(${(val/max) * 255}, ${255 - ((val/max) * 255)}, 0)`); 
+            drawBar('Dış İlişkiler:', foreignRelationsScore, 100, (val) => `rgb(0, ${val * 1.5}, ${255 - (val * 1.5)})`); 
+            drawBar('Suç Oranı:', Math.min(crimeRate, 25), 25, (val, max) => `rgb(${(val/max) * 255}, ${150 - ((val/max) * 150)}, 0)`); 
+            drawBar('İstikrar:', politicalStability, 100, (val) => `rgb(${val*0.5}, ${val * 2}, ${255 - val * 2})`);
+            drawBar('Med. Özg.:', mediaFreedom, 10, (val,max) => `rgb(${val/max * 100}, ${val/max * 200}, ${255 - val/max * 100})`);
+        }
+
+        function drawReportChart() { /* ... Öncekiyle aynı ... */ 
+            if (!reportChartCanvas || !reportChartCtx) return;
+            reportChartCtx.clearRect(0, 0, reportChartCanvas.width, reportChartCanvas.height);
+             const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
+            const borderColor = getComputedStyle(document.documentElement).getPropertyValue('--border-color');
+
+            if (historicalData.weeks.length < 1) { 
+                reportChartCtx.font = '16px Arial';
+                reportChartCtx.fillStyle = textColor;
+                reportChartCtx.textAlign = 'center';
+                reportChartCtx.fillText('Grafik için henüz yeterli veri yok.', reportChartCanvas.width / 2, reportChartCanvas.height / 2);
+                return;
+            }
+
+            const padding = 40;
+            const chartWidth = reportChartCanvas.width - (padding * 2);
+            const chartHeight = reportChartCanvas.height - (padding * 2);
+            
+            if (chartWidth <= 0 || chartHeight <= 0) return; 
+
+            reportChartCtx.beginPath();
+            reportChartCtx.strokeStyle = borderColor;
+            reportChartCtx.moveTo(padding, padding);
+            reportChartCtx.lineTo(padding, reportChartCanvas.height - padding);
+            reportChartCtx.lineTo(reportChartCanvas.width - padding, reportChartCanvas.height - padding);
+            reportChartCtx.stroke();
+            const dataPoints = Math.min(historicalData.weeks.length, 10);
+            const startIndex = Math.max(0, historicalData.weeks.length - dataPoints);
+            
+            reportChartCtx.font = '12px Arial';
+            reportChartCtx.fillStyle = textColor;
+            reportChartCtx.textAlign = 'center';
+            
+            if (dataPoints > 1) { 
+                for (let i = 0; i < dataPoints; i++) {
+                    const x = padding + (i * (chartWidth / (dataPoints - 1)));
+                    if(historicalData.weeks[startIndex+i] !== undefined) reportChartCtx.fillText(historicalData.weeks[startIndex + i].toString(), x, reportChartCanvas.height - padding + 20);
+                }
+            } else if (dataPoints === 1 && historicalData.weeks[startIndex] !== undefined) { 
+                 const x = padding + chartWidth / 2;
+                 reportChartCtx.fillText(historicalData.weeks[startIndex].toString(), x, reportChartCanvas.height - padding + 20);
+            }
+
+            function drawLine(dataArray, color, maxValue = 100, normalize = false) {
+                if (dataPoints === 0 || !dataArray || dataArray.length === 0) return;
+                reportChartCtx.beginPath();
+                reportChartCtx.strokeStyle = color;
+                reportChartCtx.lineWidth = 2;
+                
+                let valuesToProcess = dataArray.slice(startIndex, startIndex + dataPoints);
+                if(valuesToProcess.length === 0 && dataArray.length > 0 && dataPoints === 1 && dataArray[dataArray.length-1] !== undefined) { 
+                    valuesToProcess = [dataArray[dataArray.length-1]];
+                }
+
+                let minVal = 0, range = maxValue;
+
+                if (normalize && valuesToProcess.length > 0) {
+                    const numericValues = valuesToProcess.filter(v => typeof v === 'number' && !isNaN(v));
+                    if (numericValues.length === 0) return; 
+                    minVal = Math.min(...numericValues); 
+                    let maxVal = Math.max(...numericValues);
+                    range = maxVal - minVal;
+                    if (range === 0) range = 1; 
+                }
+
+                for (let i = 0; i < valuesToProcess.length; i++) {
+                    const x = padding + (valuesToProcess.length > 1 ? (i * (chartWidth / (valuesToProcess.length - 1))) : chartWidth / 2);
+                    let value = valuesToProcess[i];
+                     if(typeof value !== 'number' || isNaN(value)) continue; 
+
+                    let normalizedValue;
+
+                    if (normalize) {
+                        normalizedValue = (value - minVal) / range;
+                    } else {
+                        normalizedValue = Math.min(value, maxValue) / maxValue;
+                    }
+                    
+                    const y = reportChartCanvas.height - padding - (normalizedValue * chartHeight);
+
+                    if (i === 0) reportChartCtx.moveTo(x, y);
+                    else reportChartCtx.lineTo(x, y);
+                }
+                reportChartCtx.stroke();
+            }
+            
+            drawLine(historicalData.satisfaction, 'rgb(46, 204, 113)'); 
+            drawLine(historicalData.inflation, 'rgb(231, 76, 60)', 25); 
+            drawLine(historicalData.gdp, 'rgb(52, 152, 219)', 0, true); 
+            drawLine(historicalData.politicalStability, 'rgb(155, 89, 182)', 100); 
+
+            reportChartCtx.font = '12px Arial'; 
+            reportChartCtx.textAlign = 'left'; 
+            reportChartCtx.fillStyle = 'rgb(46, 204, 113)';
+            reportChartCtx.fillText('Mem.', padding + 5, padding - 5); 
+            reportChartCtx.fillStyle = 'rgb(231, 76, 60)';
+            reportChartCtx.fillText('Enf.', padding + 60, padding - 5); 
+            reportChartCtx.fillStyle = 'rgb(52, 152, 219)';
+            reportChartCtx.fillText('GSYİH', padding + 110, padding - 5);
+             reportChartCtx.fillStyle = 'rgb(155, 89, 182)';
+            reportChartCtx.fillText('İstik.', padding + 175, padding - 5); 
+        }
+
+        function updateMinisterAdvice() { /* ... Öncekiyle aynı ... */ 
+            if(!economyAdviceText || !educationAdviceText || !healthAdviceText || !foreignAdviceText || !interiorAdviceText || !justiceAdviceText || !defenseAdviceText) return; 
+            economyAdviceText.textContent = cabinet.economy.name === 'Boş' ? "Atanmadı." : 
+                (inflation > 15 ? "KRİTİK ENFLASYON! Acil sıkı para politikası ve mali disiplin!" : 
+                (inflation > 8 ? "Yüksek enflasyon endişe verici. Harcamaları kontrol altına alın." : 
+                (gdp < population * 80 ) ? "Ekonomik daralma var. Teşvikleri düşünün." : "Ekonomi stabil, mevcut politikalar sürdürülebilir.")); 
+
+            educationAdviceText.textContent = cabinet.education.name === 'Boş' ? "Atanmadı." :
+                (educationSpending < population * 0.2 ? "Eğitim yatırımları yetersiz. Kalite düşüyor, halk tepkili." :
+                (educationSpending < population * 0.5 ? "Eğitim bütçesi artırılmalı. Geleceğe yatırım önemli." : "Eğitim yatırımları iyi durumda."));
+
+            healthAdviceText.textContent = cabinet.health.name === 'Boş' ? "Atanmadı." :
+                (healthSpending < population * 0.3 ? "Sağlık sistemi çökme noktasında! Acil kaynak aktarın." :
+                (healthSpending < population * 0.7 ? "Sağlık hizmetleri geliştirilmeli. Halk sağlığı önceliğimiz." : "Sağlık altyapımız güçlü."));
+            
+            foreignAdviceText.textContent = cabinet.foreign.name === 'Boş' ? "Atanmadı." :
+                (foreignRelationsScore < 25 ? "Uluslararası izolasyonla karşı karşıyayız! Acil diplomatik açılım şart." :
+                (foreignRelationsScore < 50 ? "Dış ilişkilerimiz zayıf. Komşularla ve müttefiklerle ilişkileri güçlendirin." : "Diplomatik konumumuz iyi. Mevcut stratejiyi koruyun."));
+
+            interiorAdviceText.textContent = cabinet.interior.name === 'Boş' ? "Atanmadı." :
+                (crimeRate > 12 ? "Suç oranları kontrolden çıktı! Emniyet teşkilatını güçlendirin." :
+                (securityPerception < 40 ? "Halk kendini güvende hissetmiyor. Güvenlik algısını artıracak adımlar atın." : "İç güvenlik durumu stabil."));
+
+            justiceAdviceText.textContent = cabinet.justice.name === 'Boş' ? "Atanmadı." :
+                (politicalStability < 40 && crimeRate > 8 ? "Adalet sistemi işlemiyor, kaos kapıda! Acil reform ve caydırıcılık." :
+                (crimeRate > 8 ? "Hukukun üstünlüğü zayıf. Yargı reformu ve polis desteği gerekli." : "Adalet sistemi görevini yapıyor."));
+            
+            defenseAdviceText.textContent = cabinet.defense.name === 'Boş' ? "Atanmadı." :
+                (militaryStrengthIndex < 35 ? "Ordumuz zayıf! Modernizasyon ve personel takviyesi acil ihtiyaç." :
+                (armyLoyalty < 50 ? "Ordu içinde huzursuzluk var! Sadakati artıracak önlemler alınmalı." :
+                (foreignRelationsScore < 30 && Object.values(countries).some(c => c.relation < 15 && c.militaryPower > militaryStrengthIndex*0.8)) ? "Sınırda gerginlik yüksek, olası bir saldırıya karşı hazırlıklı olunmalı!" :
+                 "Savunma kapasitemiz yeterli. Ordunun moralini yüksek tutun."));
+        }
+
+        function updateMinisterReports() { /* ... Öncekiyle aynı ... */ 
+            if(!inflationAnalysisEl || !gdpAnalysisEl || !economyRecommendationsEl || !educationQualityReportEl || !healthQualityReportEl || !holidayCountReportEl || !socialRecommendationsEl || !governmentSupportReportEl || !parliamentSupportReportEl || !politicalStabilityReportEl || !mediaFreedomReportEl || !politicalRecommendationsEl || !armyReadinessReportEl || !armyLoyaltyReportEl || !militaryAssessmentReportEl || !gdpChangeReportDisplayEl || !inflationChangeReportDisplayEl) return;
+             // Ekonomi Raporu
+            inflationAnalysisEl.textContent = cabinet.economy.name === 'Boş' ? "Atanmadı." : 
+                (inflation > 15 ? "Aşırı yüksek enflasyon, hiperenflasyon riski! Acil müdahale gerekli." : 
+                 inflation > 8 ? "Çift haneli enflasyon, alım gücü düşüyor, sosyal huzursuzluk artabilir." : 
+                 inflation > 4 ? "Enflasyon hedefin üzerinde, dikkatli olunmalı." : 
+                 inflation < 1 ? "Deflasyon riski, ekonomik durgunluğa yol açabilir." : "Enflasyon kontrol altında.");
+            gdpAnalysisEl.textContent = cabinet.economy.name === 'Boş' ? "Atanmadı." :
+                (gdp < population * 80 ? "Ciddi ekonomik kriz. GSYİH çok düşük." :
+                 (gdp < population * 120 && weeklyGdpChangeFactor < 1) ? "Ekonomik durgunluk veya hafif daralma." :
+                 (weeklyGdpChangeFactor > 1.01) ? "Güçlü ekonomik büyüme kaydediliyor." : "Ekonomi stabil veya yavaş büyüyor.");
+            economyRecommendationsEl.textContent = cabinet.economy.name === 'Boş' ? "Atanmadı." : 
+                (inflation > 10 && budget < 0 ? "Mali disiplin şart, vergileri artırıp harcamaları kısın." : 
+                 gdp < population*100 && inflation < 3 ? "Ekonomiyi canlandırmak için teşvikler ve yatırımlar düşünülebilir." : "Dengeli politikalar sürdürülmeli.");
+
+            // Sosyal Politikalar
+            educationQualityReportEl.textContent = educationSpending > population * 0.8 ? 'Çok İyi' : educationSpending > population * 0.4 ? 'İyi' : educationSpending > population * 0.1 ? 'Orta' : 'Yetersiz';
+            healthQualityReportEl.textContent = healthSpending > population * 1 ? 'Çok İyi' : healthSpending > population * 0.5 ? 'İyi' : healthSpending > population * 0.2 ? 'Orta' : 'Yetersiz';
+            holidayCountReportEl.textContent = nationalHolidays;
+            socialRecommendationsEl.textContent = (educationQualityReportEl.textContent === 'Yetersiz' || healthQualityReportEl.textContent === 'Yetersiz') ? "Sosyal harcamalar artırılmalı." : "Sosyal denge gözetiliyor.";
+            
+            // Siyasi Rapor
+            governmentSupportReportEl.textContent = `${satisfaction.toFixed(1)}%`;
+            parliamentSupportReportEl.textContent = `${governmentType === 'Demokrasi' ? parliamentSupport.toFixed(1) : 'N/A'}%`;
+            politicalStabilityReportEl.textContent = `${politicalStability.toFixed(1)}%`;
+            mediaFreedomReportEl.textContent = `${mediaFreedom.toFixed(1)}/10`; 
+            politicalRecommendationsEl.textContent = politicalStability < 40 ? "Siyasi istikrarsızlık had safhada, acil uzlaşı ve reform gerekli." : "Siyasi ortam göreceli sakin.";
+            
+            // Askeri Rapor
+            armyReadinessReportEl.textContent = militaryStrengthIndex > 70 ? "Çok Yüksek" : militaryStrengthIndex > 50 ? "Yüksek" : militaryStrengthIndex > 30 ? "Orta" : "Düşük";
+            armyLoyaltyReportEl.textContent = getArmyLoyaltyStatus();
+            militaryAssessmentReportEl.textContent = cabinet.defense.name === 'Boş' ? "Atanmadı." : "Genelkurmay, durumu değerlendiriyor. Detaylar için Askeri Şura toplantısı talep edin.";
+
+            gdpChangeReportDisplayEl.textContent = `${((gdpGrowthFactorGlobalForReport || 1) -1 * 100).toFixed(2)}%`; 
+            inflationChangeReportDisplayEl.textContent = `${(inflationChangeGlobalForReport || 0).toFixed(2)}%`;
+        }
+         let gdpGrowthFactorGlobalForReport = 1; 
+         let inflationChangeGlobalForReport = 0;
+
+        function isGameOver() { // Oyun sonu durumunu kontrol et
+            return gameOverScreen && gameOverScreen.style.display !== 'none';
+        }
+
+        function enableAllActionButtons() {
+            const allActionButtons = document.querySelectorAll('.actions-panel button, .cabinet-actions button, .parliament-propose button, .security-actions button, .foreign-actions button, .opposition-actions button, .policy-slider button, .reports-actions button');
+            const gameIsOver = isGameOver();
+
+            allActionButtons.forEach(button => {
+                if (button.id === 'restart-game-btn' || button.id === 'theme-toggle') return; // Bu butonlar her zaman aktif veya kendi logiği var
+                button.disabled = gameIsOver || isAtWar || gamePausedForWar;
+            });
+
+            if (gameIsOver || isAtWar || gamePausedForWar) {
+                if(endWeekBtn) endWeekBtn.disabled = true;
+                if(advanceDayBtn) advanceDayBtn.disabled = true;
+                if(completeWeekReportsBtn) completeWeekReportsBtn.disabled = true;
+                return; // Oyun bittiyse veya savaş varsa başka kurala bakma
+            }
+
+            // Normal oyun durumu
+            const isDemocracy = (governmentType === 'Demokrasi');
+            const isAuthoritarian = (governmentType === 'Otoriter Demokrasi' || governmentType === 'Diktatörlük');
+            const isDictatorship = (governmentType === 'Diktatörlük');
+
+            if(declareDictatorshipBtn) declareDictatorshipBtn.disabled = !isDemocracy || satisfaction < 25 || armyLoyalty < 40 || politicalStability < 25;
+            if(crackdownDissentBtn) crackdownDissentBtn.disabled = isDemocracy;
+            if(callElectionsBtn) callElectionsBtn.disabled = !isDemocracy && governmentType !== 'Otoriter Demokrasi';
+            if(dissolveParliamentBtn) dissolveParliamentBtn.disabled = isDictatorship || (isDemocracy && (parliamentSupport > 35 || politicalStability > 45));
+            if(meetOppositionClosedBtn) meetOppositionClosedBtn.disabled = isDictatorship;
+            if(meetOppositionOpenBtn) meetOppositionOpenBtn.disabled = isDictatorship;
+            if(proposeLawBtn) proposeLawBtn.disabled = isDictatorship;
+            if(applyCensorshipBtn) applyCensorshipBtn.disabled = isDemocracy && mediaFreedom > 5;
+            if(startPropagandaBtn) startPropagandaBtn.disabled = isDictatorship && mediaFreedom < 2;
+            
+            if(sendSummitInvitationsBtn) sendSummitInvitationsBtn.disabled = !summitPlanned || summitInvitationsSent || getSelectedSummitInvitees().length === 0;
+            if(createSummitBtn) createSummitBtn.disabled = summitPlanned; 
+
+            // Zaman kontrol butonları (sadece ilgili ekranda görünür olacakları için showScreen'de de yönetiliyor)
+            const currentScreenId = document.querySelector('.game-screen[style*="block"], .game-screen[style*="grid"]')?.id;
+            if(endWeekBtn) endWeekBtn.disabled = (currentScreenId !== 'main-screen') || isAtWar;
+            if(advanceDayBtn) advanceDayBtn.disabled = (currentScreenId !== 'reports-screen') || isAtWar || (dayOfWeek > 7);
+            if(completeWeekReportsBtn) completeWeekReportsBtn.disabled = (currentScreenId !== 'reports-screen') || isAtWar || (dayOfWeek <= 7);
+        }
+
+
+        function gameOver(reason, type = 'normal') { /* ... Öncekiyle aynı ... */
+            addLog(`Oyun Bitti! ${reason}`, 'danger');
+            isAtWar = false; 
+            enableAllActionButtons(); // Bu fonksiyon artık gameIsOver durumunu kontrol edecek
+            
+            if(gameOverReasonEl) gameOverReasonEl.textContent = reason;
+            if(finalWeekEl) finalWeekEl.textContent = week;
+            if(finalPopulationEl) finalPopulationEl.textContent = population.toLocaleString();
+            if(finalGdpEl) finalGdpEl.textContent = gdp.toLocaleString();
+
+            if (type === 'coup' && gameOverReasonEl) gameOverReasonEl.innerHTML += "<br>Ordu yönetime el koydu!";
+            else if (type === 'civil_war' && gameOverReasonEl) gameOverReasonEl.innerHTML += "<br>Ülke iç savaşa sürüklendi ve bölündü!";
+            else if (type === 'retirement' && gameOverReasonEl) gameOverReasonEl.innerHTML += "<br>Huzurlu bir emeklilik sizi bekliyor.";
+            else if (type === 'dictator_win' && gameOverReasonEl) gameOverReasonEl.innerHTML += "<br>Mutlak gücünüzü ilan ettiniz.";
+            
+            showScreen('game-over-screen');
+         }
+        
+        function applyDailyChanges() { /* ... Öncekiyle aynı ... */
+            budget += weeklyBudgetChange; 
+            satisfaction += weeklySatisfactionChange;
+            gdp *= weeklyGdpChangeFactor;
+            inflation += weeklyInflationChange;
+            population = Math.round(population * weeklyPopulationChangeFactor);
+            foreignRelationsScore += weeklyForeignRelationsChange;
+            crimeRate += weeklyCrimeRateChange;
+            securityPerception += weeklySecurityPerceptionChange;
+            militaryStrengthIndex += weeklyMilitaryStrengthChange;
+            politicalStability += weeklyPoliticalStabilityChange;
+            armyLoyalty += weeklyArmyLoyaltyChange;
+            mediaFreedom += weeklyMediaFreedomChange;
+
+
+            satisfaction = Math.max(0, Math.min(100, satisfaction));
+            inflation = Math.max(0.05, Math.min(50, inflation));
+            population = Math.max(10000, population); 
+            foreignRelationsScore = Math.max(0, Math.min(100, foreignRelationsScore));
+            crimeRate = Math.max(0.1, Math.min(30, crimeRate));
+            securityPerception = Math.max(0, Math.min(100, securityPerception));
+            militaryStrengthIndex = Math.max(5, Math.min(100, militaryStrengthIndex));
+            politicalStability = Math.max(0, Math.min(100, politicalStability));
+            armyLoyalty = Math.max(0, Math.min(100, armyLoyalty));
+            mediaFreedom = Math.max(0, Math.min(10, mediaFreedom));
+            gdp = Math.max(population * 10, gdp); 
+
+            weeklyBudgetChange = 0; weeklySatisfactionChange = 0; weeklyGdpChangeFactor = 1;
+            weeklyInflationChange = 0; weeklyPopulationChangeFactor = 1; weeklyForeignRelationsChange = 0;
+            weeklyCrimeRateChange = 0; weeklySecurityPerceptionChange = 0; weeklyMilitaryStrengthChange = 0;
+            weeklyPoliticalStabilityChange = 0; weeklyArmyLoyaltyChange = 0; weeklyMediaFreedomChange = 0;
+        }
+
+        function advanceOneDay() {
+            if (isAtWar || gamePausedForWar || isGameOver()) {
+                addLog("Oyun duraklatılmışken veya bitmişken günü ilerletemezsiniz!", "warning", true);
+                return;
+            }
+            
+            addLog("Yeni bir gün başladı...", "info", true);
+            
+            const dailyFactor = 1/7;
+            let currentDailyBudgetChange = 0;
+            let dailyRevenue = (population * gdp * (taxes / (52*7)) * (1 - cabinet.economy.corruption*0.5)); // Günlük vergi geliri
+            currentDailyBudgetChange += dailyRevenue;
+            
+            let dailyTotalSpending = 0;
+            dailyTotalSpending += (educationSpending / 7 * (1 + cabinet.education.corruption*0.8)) ;
+            dailyTotalSpending += (healthSpending / 7 * (1 + cabinet.health.corruption*0.8)) ;
+            dailyTotalSpending += (cultureSpending / 7 * (1 + (cabinet.economy.corruption || 0.1)*0.8)) ;
+            dailyTotalSpending += (socialPolicyLevel * 500000 / 7 * (1 + socialPolicyLevel/20)) ;
+            const dailyArmyMaintenance = armySize * armyUpkeepCostPerSoldier / 7 * (1 + (militaryStrengthIndex - 50) / 150) * (1 - cabinet.defense.efficiency*0.1 + cabinet.defense.corruption*0.3) ;
+            dailyTotalSpending += dailyArmyMaintenance;
+            currentDailyBudgetChange -= dailyTotalSpending;
+            weeklyBudgetChange += currentDailyBudgetChange;
+
+            let dailyGdpGrowth = ( (Math.random() - 0.45) * 0.004 * cabinet.economy.efficiency + (economicPolicyLevel - 5) * 0.0015 - inflation/500 ) * dailyFactor;
+            weeklyGdpChangeFactor *= (1 + dailyGdpGrowth);
+
+            let dailyInfChange = ( (currentDailyBudgetChange / (gdp +1) * 100) * 0.0003 + (Math.random() - 0.5) * 0.08 ) * dailyFactor;
+            if (economicPolicyLevel > 6) dailyInfChange += (economicPolicyLevel - 6) * 0.15 * dailyFactor;
+            else if (economicPolicyLevel < 4) dailyInfChange -= (4 - economicPolicyLevel) * 0.08 * dailyFactor;
+            weeklyInflationChange += dailyInfChange;
+
+            let dailyPopGrowth = ( (satisfaction / 150000) - (inflation / 70000) + (healthSpending / (gdp+1) * 0.0002) ) * dailyFactor;
+            weeklyPopulationChangeFactor *= (1 + dailyPopGrowth);
+            
+            let dailySatDelta = 0;
+            dailySatDelta -= (taxes / 60) * dailyFactor;
+            dailySatDelta += ((educationSpending / (600000*7) * cabinet.education.efficiency) + (healthSpending / (600000*7) * cabinet.health.efficiency) + (cultureSpending / (400000*7))) ; // Harcamalar artık haftalık etki, günlük için bölündü
+            dailySatDelta += (socialPolicyLevel - 5) * 0.6 * dailyFactor;
+            if (inflation > 6) dailySatDelta -= (inflation - 6) * 0.25 * dailyFactor;
+            if (crimeRate > 6) dailySatDelta -= crimeRate * 0.6 * dailyFactor;
+            if (securityLevel > 7 && governmentType === 'Demokrasi') dailySatDelta -= (securityLevel - 7) * 0.4 * dailyFactor;
+            if (governmentType === 'Diktatörlük') dailySatDelta -= 0.8 * dailyFactor;
+            if (propagandaEffectWeeks > 0) dailySatDelta += (2 + mediaInfluence/30) * dailyFactor; 
+            if (mediaFreedom < 3 && governmentType === 'Demokrasi') dailySatDelta -= (3 - mediaFreedom) * 0.2 * dailyFactor; 
+            weeklySatisfactionChange += dailySatDelta;
+
+            let dailyStabDelta = 0;
+            dailyStabDelta += (satisfaction - 60) / 20 * dailyFactor;
+            if (governmentType === 'Demokrasi') dailyStabDelta -= Math.abs(parliamentSupport - 50) / 25 * dailyFactor;
+            if (governmentType === 'Demokrasi' && parliamentSupport < 30) dailyStabDelta -= 2 * dailyFactor;
+            if (governmentType === 'Diktatörlük') dailyStabDelta += (armyLoyalty - 60) / 15 * dailyFactor;
+            else if (governmentType === 'Demokrasi') dailyStabDelta += (armyLoyalty - 70) / 25 * dailyFactor;
+            if (crimeRate > 10) dailyStabDelta -= (crimeRate - 10) * 0.3 * dailyFactor;
+            if (mediaFreedom < 4) dailyStabDelta -= (4 - mediaFreedom) * 0.15 * dailyFactor; 
+            weeklyPoliticalStabilityChange += dailyStabDelta;
+            
+            weeklyCrimeRateChange += ( (-(securityLevel - 4) * 0.12 - (militaryStrengthIndex / 1200) + (100 - politicalStability) / 300) * dailyFactor );
+            weeklySecurityPerceptionChange += ( ((securityLevel - 5) * 0.6 + (militaryStrengthIndex / 600) - crimeRate / 3) * dailyFactor);
+            
+            // Medya özgürlüğü hedefi varsa ona doğru ilerlet (günlük küçük adımlarla)
+            let targetMediaFreedom = parseFloat(mediaFreedomSlider.value);
+            if (mediaFreedom !== targetMediaFreedom) {
+                 weeklyMediaFreedomChange += (targetMediaFreedom - mediaFreedom) * 0.2 * dailyFactor; // Çok yavaş değişim
+            }
+
+
+            applyDailyChanges(); 
+
+            addLog("Gün sona erdi, gelişmeler yaşandı.", "info", true);
+            dayOfWeek++;
+
+            if (dayOfWeek > 7) {
+                // Haftayı bitirme işlemi endWeek() fonksiyonuna devredildi.
+                // advanceDayBtn pasifleşecek, completeWeekReportsBtn aktifleşecek (eğer rapor ekranındaysa)
+                endWeek(); // 7 gün dolunca otomatik olarak haftayı bitir.
+            }
+            updateGameStats(); 
+            enableAllActionButtons();
+        }
+
+
+        function endWeek() {
+            if (isAtWar || gamePausedForWar || isGameOver()) {
+                addLog("Oyun duraklatılmışken veya bitmişken hafta bitirilemez.", "danger");
+                if(endWeekBtn) endWeekBtn.disabled = true; 
+                return;
+            }
+            
+            // Haftalık biriktirilen tüm değişimler zaten applyDailyChanges ile her gün sonunda ana değişkenlere uygulandı.
+            // Bu yüzden burada tekrar uygulamaya gerek yok. Sadece haftalık özel olayları ve kontrolleri yap.
+            
+            // Haftalık Medya Özgürlüğü Değişimi (Eğer bir hedef varsa ona doğru yavaşça ilerler)
+            // Bu artık advanceOneDay içinde günlük olarak yapılıyor.
+            // weeklyMediaFreedomChange haftalık toplamı tutuyor ve applyDailyChanges'te uygulanıyor.
+
+            // Propaganda etkisi
+            if (propagandaEffectWeeks > 0) {
+                propagandaEffectWeeks--;
+                if (propagandaEffectWeeks === 0) {
+                    addLog("Devlet propaganda kampanyasının yoğun etkisi sona erdi.", "info");
+                }
+            }
+
+            historicalData.weeks.push(week);
+            historicalData.gdp.push(gdp);
+            historicalData.satisfaction.push(satisfaction);
+            historicalData.inflation.push(inflation);
+            historicalData.politicalStability.push(politicalStability);
+            gdpGrowthFactorGlobalForReport = weeklyGdpChangeFactor; 
+            inflationChangeGlobalForReport = weeklyInflationChange;
+
+            // HAFTALIK OLAYLAR
+            if (week > 1 && Math.random() < 0.30) { 
+                triggerRandomEvent(); 
+            }
+            if ((governmentType === 'Demokrasi' || governmentType === 'Otoriter Demokrasi') && week > 10 && week % (48 + Math.floor(Math.random()*9)) === 0 ) { 
+                addLog('SEÇİM ZAMANI!', 'event');
+                conductElections();
+            }
+             if (summitPlanned && summitInvitationsSent && !isAtWar) { /* ... Önceki zirve sonuç mantığı ... */
+                let participatingCount = 0; let totalRelationBoostFromSummit = 0;
+                getSelectedSummitInvitees().forEach(cN => {
+                     if (countries[cN].summitAccepted) { participatingCount++; countries[cN].relation = Math.min(100, countries[cN].relation + 5 + Math.floor(diplomaticApproachLevel/2)); totalRelationBoostFromSummit += (2 + Math.floor(diplomaticApproachLevel/3)); }
+                     else { countries[cN].relation = Math.max(0, countries[cN].relation - 2); }
+                });
+                if (participatingCount >= Math.max(1, getSelectedSummitInvitees().length / 2)) { addLog(`Düzenlediğiniz zirve ${participatingCount} ülkenin katılımıyla başarılı oldu!`, "success"); foreignRelationsScore = Math.min(100, foreignRelationsScore + 5 + totalRelationBoostFromSummit); satisfaction += 3; politicalStability += 2; }
+                else if (participatingCount > 0) { addLog(`Zirveye sadece ${participatingCount} ülke katıldı. Sınırlı etki.`, "info"); foreignRelationsScore = Math.min(100, foreignRelationsScore + 2 + totalRelationBoostFromSummit/2); satisfaction += 1;}
+                else { addLog("Zirveye katılım olmadı! Diplomatik fiyasko.", "danger"); foreignRelationsScore = Math.max(0, foreignRelationsScore - 5 - getSelectedSummitInvitees().length); satisfaction -= 2; politicalStability -=3; }
+                summitPlanned = false; summitInvitationsSent = false; for (const cN in countries) { countries[cN].summitInvited = false; countries[cN].summitAccepted = false; }
+                updateSummitInvitationList(); if(createSummitBtn) createSummitBtn.disabled = false; if(sendSummitInvitationsBtn) sendSummitInvitationsBtn.disabled = true;
+             }
+
+            // OYUN SONU KONTROLLERİ (Haftalık)
+            if (satisfaction < 5 && politicalStability < 10 && week > 15) { gameOver('Halk isyan etti ve hükümet devrildi! Ülkede kaos hakim.', 'normal'); return; }
+            if (budget < -2000000000 && week > 25) { gameOver('Ülke iflas etti! Uluslararası kuruluşlar yönetime el koydu.', 'normal'); return; } 
+            if (population < 100000 && week > 20) { gameOver('Nüfus kritik seviyenin altına düştü. Ülke hayalet bir diyara döndü!', 'normal'); return; }
+            if (governmentType === 'Diktatörlük' && armyLoyalty < 15 && politicalStability < 25 && week > 20) {
+                 if (Math.random() < 0.7) { gameOver('Ordu yönetime el koydu! Diktatörlüğünüz sona erdi.', 'coup'); return; }
+                 else { addLog("Ordu içinde büyük bir huzursuzluk var, darbe açıkça konuşuluyor!", "danger"); armyLoyalty = Math.max(0, armyLoyalty -15); }
+            }
+            if (politicalStability < 5 && satisfaction < 10 && week > 20) { 
+                if (Math.random() < 0.5) { gameOver('Ülke iç savaşa sürüklendi! Farklı gruplar kontrolü ele geçirmeye çalışıyor.', 'civil_war'); return; }
+                else { addLog("Ülkede büyük çaplı protestolar ve çatışmalar yaşanıyor. İç savaş an meselesi!", "danger"); population -= Math.floor(population * 0.015); gdp *= 0.93; }
+            }
+
+
+            addLog(`----- HAFTA ${week} BİTTİ / HAFTA ${week+1} BAŞLIYOR -----`, 'event');
+            week++; 
+            dayOfWeek = 1; 
+            
+            updateGameStats();
+            updateMinisterAdvice();
+            updateReports(); 
+            enableAllActionButtons(); 
+        }
+        
+        function triggerRandomEvent() { /* ... Öncekiyle aynı ... */ 
+             const currentEvents = [
+                { id:1, desc: 'Büyük bir deprem ülkeyi sarstı. Altyapı hasar gördü, can kayıpları var.', type: 'danger', effect: () => { budget -= population * 3 * (1-cabinet.interior.efficiency*0.3); weeklySatisfactionChange -= 10; weeklyGdpChangeFactor *= 0.97; population -= Math.floor(population*0.001); weeklyPoliticalStabilityChange -= 5;} },
+                { id:2, desc: 'Bilim insanlarımız çığır açan bir buluş yaptı! Uluslararası patent gelirleri bekleniyor.', type: 'success', effect: () => { weeklyGdpChangeFactor *= 1.01; weeklySatisfactionChange += 5; budget += 25000000; foreignRelationsScore +=2; } },
+                { id:3, desc: `Kritik bir bakanlıkta (${Object.keys(cabinet)[Math.floor(Math.random()*Object.keys(cabinet).length)]}) büyük bir yolsuzluk skandalı patlak verdi! Halk öfkeli.`, type: 'danger', effect: () => { weeklySatisfactionChange -= 15; weeklyPoliticalStabilityChange -= 10; budget -= 15000000; foreignRelationsScore -=5; parliamentSupport = Math.max(10, parliamentSupport-10); } },
+                { id:4, desc: 'Komşu bir ülkeyle yapılan ortak tatbikat ilişkileri güçlendirdi.', type: 'success', effect: () => { let friendlyNeighbor = Object.keys(countries).find(c => countries[c].relation > 60); if(friendlyNeighbor) {countries[friendlyNeighbor].relation = Math.min(100, countries[friendlyNeighbor].relation + 10); addLog(`${friendlyNeighbor} ile ortak tatbikat başarılı geçti.`);} weeklyForeignRelationsChange += 5; weeklyMilitaryStrengthChange +=1; } },
+                { id:5, desc: 'Turizm sezonu beklenenden iyi geçti, döviz girdisi arttı.', type: 'success', effect: () => { budget += gdp * 0.005; weeklyGdpChangeFactor *= 1.003; weeklySatisfactionChange += 2;} },
+                { id:6, desc: 'Küresel bir resesyon kapıda. İhracat gelirleri düşebilir.', type: 'warning', effect: () => { weeklyGdpChangeFactor *= 0.985; weeklyInflationChange -= 0.2; weeklySatisfactionChange -=3;} },
+                { id:7, desc: 'Önemli bir ticaret yolu üzerinde tansiyon yükseldi, ithalat maliyetleri arttı.', type: 'warning', effect: () => { weeklyInflationChange += 0.8; budget -= population * 0.5; } },
+                { id:8, desc: 'Ünlü bir sanatçınız uluslararası ödül kazandı, ülke tanıtımına katkı sağladı.', type: 'success', effect: () => { weeklySatisfactionChange += 4; /* cultureSpending += 500000; // Bu doğrudan harcama olmamalı, etki yaratmalı */ foreignRelationsScore +=3;} },
+                { id:9, desc: 'Hackerlar devlet sırlarını sızdırdı! Güvenlik açığı ve uluslararası kriz.', type: 'danger', effect: () => { weeklySecurityPerceptionChange -= 15; weeklyForeignRelationsChange -= 10; weeklyPoliticalStabilityChange -= 8; if(cabinet.interior.efficiency < 0.5) budget -= 10000000;} },
+                { id:10, desc: 'Gençler arasında popüler olan yeni bir sosyal medya akımı, toplumsal bilinci artırdı.', type: 'info', effect: () => { weeklySatisfactionChange += 2; /* educationSpending += 300000; */} },
+                { id:11, desc: 'Nadir bir maden yatağı keşfedildi! İşlenmesi zaman alacak ama potansiyel büyük.', type: 'event', effect: () => { addLog("Yeni maden yatağı için yatırım seçenekleri değerlendiriliyor.", "info"); weeklyGdpChangeFactor *=1.001; } },
+                { id:12, desc: 'Bir grup ayrılıkçı terör saldırısı düzenledi. Halk paniğe kapıldı.', type: 'danger', effect: () => { weeklySatisfactionChange -=12; weeklySecurityPerceptionChange -=10; weeklyCrimeRateChange +=3; weeklyPoliticalStabilityChange -=7; weeklyArmyLoyaltyChange -=2; } },
+
+            ];
+            const randomEvent = currentEvents[Math.floor(Math.random() * currentEvents.length)];
+            randomEvent.effect(); // Bu etkiler `weekly...` değişkenlerine yazmalı
+            addLog(`[OLAY] ${randomEvent.desc}`, randomEvent.type);
+        }
+        function conductElections() { /* ... Öncekiyle aynı ... */ 
+             if (governmentType !== 'Demokrasi' && governmentType !== 'Otoriter Demokrasi') return;
+            addLog('Seçimler yapılıyor... Oy verme işlemi tamamlandı, sonuçlar bekleniyor.', 'info');
+            let electionOutcomeModifier = (politicalStability - 50) / 5; 
+            if (cabinet.justice.efficiency < 0.4) electionOutcomeModifier -= 10; // Adaletsiz seçim algısı
+            
+            const effectiveSatisfaction = satisfaction + electionOutcomeModifier;
+
+            if (effectiveSatisfaction >= 50 + Math.random()*10) { 
+                addLog('Halkın büyük çoğunluğunun desteğiyle seçimleri kazandınız! Güven tazelediniz.', 'success');
+                parliamentSupport = Math.min(100, Math.max(50, parliamentSupport + 10 + Math.floor(Math.random()*15))); 
+                satisfaction = Math.min(100, satisfaction + Math.floor(Math.random()*5)+2); 
+                politicalStability = Math.min(100, politicalStability + 10 + Math.floor(Math.random()*10));
+            } else if (effectiveSatisfaction >= 30 + Math.random()*10) {
+                addLog('Seçim sonuçları belirsiz. Koalisyon görüşmeleri başladı veya az farkla kazandınız. Meclis aritmetiği zorlu olacak.', 'warning');
+                parliamentSupport = Math.max(25, Math.min(75, parliamentSupport - 5 - Math.floor(Math.random()*10))); 
+                 politicalStability = Math.max(0, politicalStability - 5 - Math.floor(Math.random()*5));
+            } else {
+                addLog('Ağır bir seçim yenilgisi aldınız. Halk değişim istedi ve iktidardan düştünüz!', 'danger');
+                gameOver('Seçimleri kaybettiniz!');
+                return;
+            }
+            updateGameStats();
+        }
+        function updateCabinetDisplay() { /* ... Öncekiyle aynı ... */ 
+            if(!cabinetListEl) return; cabinetListEl.innerHTML = '';
+            for (const type in cabinet) {
+                const minister = cabinet[type];
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<strong>${capitalizeFirstLetter(type)} Bakanı:</strong> ${minister.name} (V: ${minister.efficiency.toFixed(1)}, Y: ${minister.corruption.toFixed(1)})`;
+                cabinetListEl.appendChild(listItem);
+            }
+        }
+        function capitalizeFirstLetter(string) { /* ... Öncekiyle aynı ... */ return string.charAt(0).toUpperCase() + string.slice(1); }
+        function updateParliamentDisplay() { /* ... governmentType kontrolü eklendi ... */
+            if(!parliamentSupportEl || !oppositionStrengthDisplayEl || !parliamentAgendaList) return;
+            parliamentSupportEl.textContent = `${governmentType === 'Demokrasi' || governmentType === 'Otoriter Demokrasi' ? parliamentSupport.toFixed(0)+'%' : 'N/A'}`;
+            oppositionStrengthDisplayEl.textContent = `${(governmentType === 'Demokrasi' ? (100 - parliamentSupport) : 'N/A').toFixed(0)}%`;
+            parliamentAgendaList.innerHTML = '';
+
+            if (parliamentAgenda.length === 0 && (governmentType === 'Demokrasi' || governmentType === 'Otoriter Demokrasi')) {
+                parliamentAgendaList.innerHTML = '<li>Gündemde yeni bir yasa teklifi yok.</li>';
+            } else if (governmentType === 'Diktatörlük') {
+                parliamentAgendaList.innerHTML = '<li>Meclis etkisizleştirildi. Yasalar kararname ile çıkarılır.</li>';
+            }
+            else {
+                parliamentAgenda.forEach((item, index) => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `<p>${item.description} (Red: <span class="math-inline">\{item\.rejectionCount \|\| 0\}/2\)</p\>
+<div\>
+<button class\="parliament\-action\-btn" data\-action\="approve" data\-index\="</span>{index}">Onayla</button>
+                                          <button class="parliament-action-btn" data-action="reject" data-index="${index}">Reddet</button>
+                                        </div>`;
+                    parliamentAgendaList.appendChild(listItem);
+                });
+            }
+
+            document.querySelectorAll('.parliament-action-btn').forEach(btn => {
+                btn.onclick = handleParliamentAction;
+            });
+         }
+        function handleParliamentAction(event) { /* ... Öncekiyle aynı ... */ 
+            const index = parseInt(event.target.dataset.index);
+            const action = event.target.dataset.action;
+            const proposal = parliamentAgenda[index];
+
+            if (!proposal || governmentType === 'Diktatörlük') return;
+
+            let logMsg = "";
+            if (action === 'approve') {
+                const siyasiIrade = parliamentSupport + (politicalStability - 50)/5 - (proposal.rejectionCount * 15); 
+                const roll = Math.random() * 100;
+                if (roll < siyasiIrade) {
+                    proposal.onApprove();
+                    logMsg = `Meclis, "${proposal.description}" yasasını onayladı.`; addLog(logMsg, 'success');
+                    parliamentSupport = Math.min(100, parliamentSupport + 5); 
+                    politicalStability = Math.min(100, politicalStability + 3);
+                    parliamentAgenda.splice(index, 1); 
+                } else {
+                    logMsg = `Meclis, "${proposal.description}" yasasını onaylamadı.`; addLog(logMsg, 'warning');
+                    parliamentSupport = Math.max(0, parliamentSupport - 7); 
+                    politicalStability = Math.max(0, politicalStability - 5);
+                    proposal.rejectionCount = (proposal.rejectionCount || 0) + 1;
+                    if (proposal.rejectionCount >= 2) {
+                        addLog(`"${proposal.description}" yasası ikinci kez reddedildiği için kesin olarak gündemden düştü!`, 'danger');
+                        parliamentAgenda.splice(index, 1);
+                        weeklySatisfactionChange -=3; weeklyPoliticalStabilityChange -=5; 
+                    }
+                }
+            } else { // Reject
+                proposal.rejectionCount = (proposal.rejectionCount || 0) + 1;
+                proposal.onReject();
+                logMsg = `"${proposal.description}" yasası meclis tarafından reddedildi. Red Sayısı: ${proposal.rejectionCount}.`; addLog(logMsg, 'info');
+                parliamentSupport = Math.max(0, parliamentSupport - 4); 
+                 politicalStability = Math.max(0, politicalStability - 2);
+                if (proposal.rejectionCount >= 2) {
+                     addLog(`"${proposal.description}" yasası ikinci kez reddedildiği için kesin olarak gündemden düştü!`, 'danger');
+                     parliamentAgenda.splice(index, 1); 
+                     weeklySatisfactionChange -=2; weeklyPoliticalStabilityChange -=4;
+                }
+            }
+            updateParliamentDisplay();
+            updateGameStats();
+        }
+        function handleOppositionMeeting(isPlayerInitiated, isClosed) { /* ... Öncekiyle aynı ... */ 
+            if (governmentType === 'Diktatörlük') { addLog("Diktatörlükte muhalefetle görüşme söz konusu olamaz.", "danger"); return; }
+            const cost = isClosed ? 500000 : 200000;
+            if(budget < cost && isPlayerInitiated) { addLog("Muhalefetle görüşme için yeterli bütçe yok.", "warning"); return;}
+            if(isPlayerInitiated) { budget -= cost; } // Anlık maliyet
+
+            let outcomeLog = `Muhalefet liderleriyle ${isClosed ? 'kapalı kapılar ardında' : 'kamuoyuna açık bir şekilde'} bir görüşme gerçekleştirdiniz. `;
+            let satisfactionChange = 0; let supportChange = 0; let stabilityChange = 0;
+            const rand = Math.random();
+            if (politicalStability < 30 || satisfaction < 30) { 
+                if (rand < 0.6) { outcomeLog += "Ancak kriz ortamında görüşmeden bir sonuç çıkmadı, tansiyon daha da yükseldi."; satisfactionChange = isClosed ? -3 : -5; supportChange = isClosed ? -4 : -6; stabilityChange = -7;}
+                else { outcomeLog += "Zorlu koşullara rağmen, bazı konularda geçici bir ateşkes sağlandı."; satisfactionChange = isClosed ? 1 : 0; supportChange = isClosed ? 2 : 1; stabilityChange = 2;}
+            } else { 
+                 if (rand < 0.2) { outcomeLog += "Görüşme beklenmedik bir şekilde çok sert geçti."; satisfactionChange = isClosed ? -2 : -3; supportChange = isClosed ? -3 : -5; stabilityChange = -4;}
+                 else if (rand < 0.7) { outcomeLog += "Yapıcı bir diyalog kuruldu, ancak somut bir ilerleme kaydedilemedi."; satisfactionChange = isClosed ? 1 : 0; supportChange = isClosed ? 2 : 1; stabilityChange = isClosed ? 2 : 1;}
+                 else { outcomeLog += "Görüşme son derece olumlu geçti! Bazı konularda uzlaşı sağlandı."; satisfactionChange = isClosed ? 3 : 5; supportChange = isClosed ? 6 : 8; stabilityChange = isClosed ? 4 : 6;}
+            }
+            if (isClosed) { outcomeLog += " Detaylar gizli tutuldu."; satisfactionChange -=1; } else { outcomeLog += " Ortak bir basın toplantısı düzenlendi.";}
+            addLog(outcomeLog, satisfactionChange > 1 ? 'success' : (satisfactionChange < -1 ? 'danger' : 'info'));
+            weeklySatisfactionChange += satisfactionChange; weeklyPoliticalStabilityChange += stabilityChange;
+            parliamentSupport = Math.min(100, Math.max(0, parliamentSupport + supportChange));
+            updateGameStats();
+        }
+        function updateForeignRelationsDisplay() { /* ... Öncekiyle aynı ... */ 
+            if(!foreignRelationsDisplayEl || !countryRelationsList) return;
+            foreignRelationsDisplayEl.textContent = foreignRelationsScore.toFixed(0);
+            countryRelationsList.innerHTML = '';
+            for (const countryName in countries) {
+                const country = countries[countryName];
+                const listItem = document.createElement('li');
+                let status = ''; let color = '';
+                if (country.relation >= 75) { status = 'Müttefik'; color = 'var(--success-color)'; }
+                else if (country.relation >= 50) { status = 'Dostane'; color = 'var(--primary-color)'; }
+                else if (country.relation >= 25) { status = 'Nötr'; color = 'var(--warning-color)'; }
+                else { status = 'Gergin'; color = 'var(--danger-color)'; }
+
+                listItem.innerHTML = `
+                    <span title="Askeri Güç: <span class="math-inline">\{country\.militaryPower\}"\></span>{countryName}: <span class="math-inline">\{status\} \(<span style\="color\:</span>{color};">${country.relation.toFixed(0)}</span>) <span class="math-inline">\{country\.tradeDeal ? '\[Tic\.Anl\.\]' \: ''\}</span\>
+<div\>
+<button class\="foreign\-action\-btn" data\-country\="</span>{countryName}" data-action="trade">Tic.Anl.</button>
+                        <button class="foreign-action-btn" data-country="${countryName}" data-action="improve_specific" title="İlişki Geliştir (<span class="math-inline">1M\)"\>İyi Niyet</button\>
+<button class\="foreign\-action\-btn" data\-country\="</span>{countryName}" data-action="harm_specific" title="İlişki Boz ($500K)">Nota Ver</button>
+                        ${country.relation < 20 || (country.relation < 30 && militaryStrengthIndex > country.militaryPower + 20 && diplomaticApproachLevel < 4) ? `<button class="foreign-action-btn" style="background-color:var(--danger-color);" data-country="${countryName}" data-action="declare-war-specific">Savaş İlan Et</button>` : ''}
+                    </div>`;
+                countryRelationsList.appendChild(listItem);
+            }
+            document.querySelectorAll('.foreign-action-btn').forEach(btn => { btn.onclick = handleForeignAction; });
+        }
+        function handleForeignAction(event) { /* ... Öncekiyle aynı, anlık maliyet ve haftalık etki ... */
+            const countryName = event.target.dataset.country;
+            const action = event.target.dataset.action;
+            const country = countries[countryName];
+            if (!country) return;
+            let cost = 0; let successChance = 0;
+
+            if (action === 'trade') {
+                if (country.tradeDeal) { addLog(`${countryName} ile zaten bir ticaret anlaşmanız var.`, 'warning'); return; }
+                cost = 3000000;
+                if (country.relation < 25 && diplomaticApproachLevel < 5) { addLog(`${countryName} ile ilişkileriniz çok kötü. Ticaret anlaşması mümkün değil.`, 'danger'); return; }
+                successChance = country.relation + diplomaticApproachLevel * 5 + (cabinet.foreign.efficiency - 0.5)*20 - 20;
+                if (budget >= cost) { budget -= cost; 
+                    if (Math.random() * 100 < successChance) { country.relation = Math.min(100, country.relation + 10 + Math.floor(diplomaticApproachLevel/2)); country.tradeDeal = true; weeklyGdpChangeFactor *= 1.002; weeklyForeignRelationsChange += 3; addLog(`${countryName} ile yeni bir ticaret anlaşması imzalandı!`, 'success');}
+                    else { addLog(`${countryName} ile ticaret anlaşması müzakereleri başarısız oldu.`, 'warning'); weeklyForeignRelationsChange -=1; country.relation = Math.max(0, country.relation -3); }
+                } else { addLog(`Ticaret anlaşması için yeterli bütçe yok! ($${cost.toLocaleString()})`, 'warning'); }
+            } else if (action === 'improve_specific') {
+                cost = 1000000; if (budget >= cost) { budget -= cost; let improvement = Math.floor(Math.random()*3) + 3 + Math.floor(diplomaticApproachLevel/2) + Math.floor((cabinet.foreign.efficiency-0.5)*5); country.relation = Math.min(100, country.relation + improvement); weeklyForeignRelationsChange += Math.floor(improvement/3); addLog(`${countryName} ile ilişkileri geliştirmek için diplomatik jest yapıldı.`, 'info');}
+                else { addLog('İyi niyet jesti için yetersiz bütçe.', 'warning'); }
+            } else if (action === 'harm_specific') { 
+                 cost = 500000; if (budget >= cost) { budget -= cost; let harm = Math.floor(Math.random()*4) + 4 + Math.floor((10-diplomaticApproachLevel)/2) - Math.floor((cabinet.foreign.efficiency-0.5)*3); country.relation = Math.max(0, country.relation - harm); weeklyForeignRelationsChange -= Math.floor(harm/4); addLog(`${countryName}'ye sert bir diplomatik nota verdiniz.`, 'warning'); if(country.relation < 15 && country.tradeDeal){ country.tradeDeal = false; addLog(`${countryName} ile ticaret anlaşmanız askıya alındı!`, 'danger'); weeklyGdpChangeFactor *= 0.998;}}
+                 else { addLog('Diplomatik nota için yetersiz bütçe.', 'warning'); }
+            } else if (action === 'declare-war-specific') { handleDeclareWar(countryName); }
+            updateForeignRelationsDisplay(); updateGameStats();
+         }
+        function handleDeclareWar(targetCountryName) { /* ... Öncekiyle aynı ... */ 
+            const target = countries[targetCountryName];
+            addLog(`Savaş Konseyi: ${targetCountryName}'e savaş ilan etme kararı değerlendiriliyor...`, "event");
+            let militaryAssessment = "Genelkurmay Başkanı: ";
+            const powerRatio = militaryStrengthIndex / target.militaryPower;
+            if (powerRatio > 1.5 && armyLoyalty > 70) militaryAssessment += `"${targetCountryName} karşısında net üstünlüğümüz var. Hızlı zafer muhtemel!"`;
+            else if (powerRatio > 1.1 && armyLoyalty > 50) militaryAssessment += `"${targetCountryName} ile denk güçteyiz. İyi stratejiyle kazanabiliriz."`;
+            else if (armyLoyalty < 40) militaryAssessment += `"Ordu içinde moral bozukluğu var. Savaşa girmek büyük risk!"`;
+            else militaryAssessment += `"${targetCountryName} güçlü bir rakip. Uzun ve yıpratıcı olabilir."`;
+            addLog(militaryAssessment, armyLoyalty < 40 || powerRatio < 1.1 ? 'warning' : 'info');
+            addLog(`Savunma Bakanı: "${cabinet.defense.efficiency > 0.6 ? 'Ordu emirlerinizi bekliyor!' : 'Savaş için ek kaynak gerekebilir...'}"`, 'info');
+            addLog(`Dışişleri Bakanı: "${cabinet.foreign.efficiency > 0.6 && diplomaticApproachLevel > 5 ? 'Diplomatik sonuçları iyi hesaplamalıyız.' : 'Bu savaşın uluslararası yankıları ağır olabilir!'}"`, 'info');
+            addLog(`Ekonomi Bakanı: "Savaş ekonomisi için ek bütçe planlanmalı."`, 'warning');
+            let initialPublicReaction = "Halk arasında savaş söylentileri endişe yaratıyor. ";
+            if (target.relation < 10 && satisfaction > 60) initialPublicReaction += "Ancak bir kesim, bu ülkeye karşı sert duruşu destekliyor.";
+            else if (satisfaction < 40) initialPublicReaction += "Halk, yeni bir maceraya karşı.";
+            else initialPublicReaction += "Kamuoyu kararsız.";
+            addLog(initialPublicReaction, 'info');
+            if (!confirm(`${targetCountryName}'e savaş ilan etmek istediğinize emin misiniz?`)) { addLog("Savaş ilanından vazgeçildi.", "info"); return; }
+            const cost = 50000000 + (armySize * 120) + (target.militaryPower * 100000); 
+            if (budget < cost) { addLog(`Savaş başlatmak için bütçe yok! ($${cost.toLocaleString()})`, 'danger'); return; }
+            budget -= cost; 
+            addLog(`${targetCountryName} ülkesine resmen savaş ilan edildi!`, 'danger');
+            weeklySatisfactionChange -= (15 - Math.floor(satisfaction/10) + (diplomaticApproachLevel > 7 ? 5: 0)); 
+            weeklyPoliticalStabilityChange -= (10 + Math.floor(Math.random()*10));
+            weeklyForeignRelationsChange -= 25;
+            weeklyArmyLoyaltyChange += 5; 
+            Object.keys(countries).forEach(oCN => { if(oCN !== targetCountryName){ if(countries[oCN].relation > 60 && countries[targetCountryName].relation < 30){ countries[oCN].relation = Math.min(100, countries[oCN].relation + 5); addLog(`${oCN} kararınızı destekledi.`, 'success'); } else if (countries[oCN].relation < 30 || countries[oCN].relation < countries[targetCountryName].relation + 20) { countries[oCN].relation = Math.max(0, countries[oCN].relation - 10); addLog(`${oCN} kararınızı kınadı.`, 'danger'); if(Math.random() < 0.2 && countries[oCN].militaryPower > 30) { countries[targetCountryName].militaryPower += Math.floor(countries[oCN].militaryPower * 0.1); addLog(`${oCN}, ${targetCountryName}'e askeri malzeme gönderdi!`, 'danger');}} else { countries[oCN].relation = Math.max(0, countries[oCN].relation - 3); addLog(`${oCN} kararınızdan endişe duydu.`, 'warning');}}});
+            updateForeignRelationsDisplay();
+            isAtWar = true; // Savaş başladı
+            gamePausedForWar = true; // Diğer zaman ilerlemesini durdur
+            enableAllActionButtons(); // Butonları savaş durumuna göre ayarla
+            simulateWar(targetCountryName, true, false); 
+        }
+        function simulateWar(targetCountry, isPlayerInitiated, isSurpriseAttack = false) { /* ... gamePausedForWar ve enableAllActionButtons eklendi ... */
+            addLog(`${targetCountry} ile ${isSurpriseAttack ? 'ani bir saldırı sonucu ' : ''}savaş tüm şiddetiyle devam ediyor...`, 'danger');
+            gamePausedForWar = true; // Diğer işlemler duraklatıldı
+            enableAllActionButtons(); // Savaş sırasında çoğu butonu devre dışı bırak
+
+            let playerEffectivePower = militaryStrengthIndex * (armySize / 10000) * (cabinet.defense.efficiency || 0.6) * (armyLoyalty/100);
+            if(isSurpriseAttack && !isPlayerInitiated) playerEffectivePower *= 0.8; 
+            if(isSurpriseAttack && isPlayerInitiated) playerEffectivePower *= 1.1; 
+
+            let enemyMilitaryPower = countries[targetCountry].militaryPower * (Math.random() * 0.4 + 0.8); 
+            Object.keys(countries).forEach(allyCand => { if (allyCand !== targetCountry && countries[allyCand].relation > 70 && countries[targetCountry].relation < 30 && countries[allyCand].relation > countries[targetCountry].relation + 30) { if(Math.random() < 0.3) { addLog(`${allyCand}, ${targetCountry} safında savaşa katıldı!`, "danger"); enemyMilitaryPower += countries[allyCand].militaryPower * 0.5; countries[allyCand].relation = Math.max(0, countries[allyCand].relation - 50); }}});
+
+            const outcomeRoll = Math.random() * (isPlayerInitiated ? 1.05 : 0.95); 
+            let resultDescription = "";
+            let warDuration = Math.floor(Math.random() * 5) + 3; 
+            addLog(`Savaşın ${warDuration} hafta sürmesi bekleniyor.`, "event");
+
+            let currentWarWeek = 0;
+            const warInterval = setInterval(() => {
+                if (isGameOver()) { clearInterval(warInterval); gamePausedForWar = false; enableAllActionButtons(); return; } // Oyun bittiyse intervali durdur
+
+                currentWarWeek++;
+                let weeklyPlayerCasualties = Math.floor(armySize * (0.005 + Math.random()*0.015) * (enemyMilitaryPower / (playerEffectivePower*2+1)));
+                let weeklyEnemyCasualtiesReported = Math.floor(countries[targetCountry].militaryPower * (0.005 + Math.random()*0.015) * (playerEffectivePower / (enemyMilitaryPower*2+1))); 
+                
+                armySize = Math.max(5000, armySize - weeklyPlayerCasualties);
+                playerEffectivePower *= (0.98 - weeklyPlayerCasualties / (armySize + weeklyPlayerCasualties + 1)); 
+                enemyMilitaryPower *= (0.985 - weeklyEnemyCasualtiesReported / (countries[targetCountry].militaryPower + 1));
+                budget -= armySize * 20; // Haftalık savaş maliyeti (günlük bütçeden düşer gibi)
+                satisfaction = Math.max(0, satisfaction - 0.5); 
+                militaryStrengthIndex = Math.max(10, militaryStrengthIndex * 0.99); 
+                addLog(`Savaşın ${currentWarWeek}. haftası: ${weeklyPlayerCasualties.toLocaleString()} kayıp. Düşman ${weeklyEnemyCasualtiesReported.toLocaleString()} kayıp verdi.`, "warning");
+                updateGameStats(); 
+
+                if(currentWarWeek >= warDuration || budget < -50000000 || armySize < 5000 ) { 
+                    clearInterval(warInterval);
+                    isAtWar = false; 
+                    gamePausedForWar = false;
+                    if (playerEffectivePower * (outcomeRoll + 0.1) > enemyMilitaryPower * (1 - outcomeRoll + 0.1) ) { 
+                        resultDescription = `ZAFER! ${targetCountry} dize getirildi.`;
+                        gdp *= 1.01; satisfaction += (isPlayerInitiated ? 5 : 10) + Math.floor(armyLoyalty/20); budget += 50000000 + Math.floor(Math.random() * 80000000); 
+                        countries[targetCountry].relation = Math.max(0, countries[targetCountry].relation - 40); countries[targetCountry].militaryPower = Math.max(10, countries[targetCountry].militaryPower * 0.6); 
+                        if(isPlayerInitiated) foreignRelationsScore = Math.max(0, foreignRelationsScore -5); else foreignRelationsScore = Math.min(100, foreignRelationsScore + 8); 
+                        militaryStrengthIndex = Math.max(10, militaryStrengthIndex - (5 + Math.floor(Math.random()*5))); armySize = Math.max(10000, armySize - Math.floor(armySize * (0.03 + Math.random()*0.08))); 
+                        politicalStability = Math.min(100, politicalStability + 5); addLog(resultDescription, 'success');
+                    } else if (playerEffectivePower * (outcomeRoll + 0.3) < enemyMilitaryPower * (1-outcomeRoll + 0.3) && (outcomeRoll < 0.4 || armyLoyalty < 30) ) { 
+                        resultDescription = `YENİLGİ! ${targetCountry} orduları başkente dayandı. Ağır şartlarda ateşkes.`;
+                        gdp *= 0.92; satisfaction -= (isPlayerInitiated ? 30 : 20) - Math.floor(armyLoyalty/10); budget -= (30000000 + Math.floor(Math.random() * 40000000));
+                        countries[targetCountry].relation = Math.min(100, countries[targetCountry].relation + 30); foreignRelationsScore = Math.max(0, foreignRelationsScore - (isPlayerInitiated ? 20 : 10));
+                        militaryStrengthIndex = Math.max(5, militaryStrengthIndex - (15 + Math.floor(Math.random()*10))); armySize = Math.max(5000, armySize - Math.floor(armySize * (0.1 + Math.random()*0.15)));
+                        politicalStability = Math.max(0, politicalStability - 20 - Math.floor(Math.random()*10));
+                        if(politicalStability < 10 && !isGameOver()) { gameOver("Savaş yenilgisi sonrası iç karışıklıklar nedeniyle hükümet devrildi!", "civil_war");}
+                        else {addLog(resultDescription, 'danger');}
+                    } else { 
+                        resultDescription = `Savaş ${targetCountry} ile kanlı bir çıkmaza girdi. İki taraf da ağır kayıplar verdi. Ateşkes.`;
+                        gdp *= 0.96; satisfaction -= (10 + Math.floor(Math.random()*5)); militaryStrengthIndex = Math.max(10, militaryStrengthIndex - (10 + Math.floor(Math.random()*8)));
+                        armySize = Math.max(8000, armySize - Math.floor(armySize * (0.05 + Math.random()*0.1))); politicalStability = Math.max(0, politicalStability - 10);
+                        addLog(resultDescription, 'warning');
+                    }
+                    updateGameStats(); updateForeignRelationsDisplay(); 
+                    if (!isGameOver()) enableAllActionButtons(); // Oyun bitmediyse butonları aç
+                    return;
+                }
+            }, 3000); 
+        }
+
+        function updateSummitInvitationList() { /* ... Öncekiyle aynı ... */
+            if(!summitInvitationListEl || !sendSummitInvitationsBtn) return;
+            summitInvitationListEl.innerHTML = ''; let selectedCount = 0;
+            for (const cN in countries) { if(countries[cN].summitInvited) selectedCount++;}
+            for (const cN in countries) {
+                const country = countries[cN]; const listItem = document.createElement('li');
+                listItem.innerHTML = `<span>${cN} (İlişki: <span class="math-inline">\{country\.relation\.toFixed\(0\)\}\)</span\> <input type\="checkbox" data\-country\="</span>{cN}" class="summit-invite-checkbox" ${country.summitInvited ? 'checked' : ''} ${summitInvitationsSent ? 'disabled' : ''} ${selectedCount >=5 && !country.summitInvited && summitPlanned ? 'disabled' : ''}> ${country.summitInvited && summitInvitationsSent ? (country.summitAccepted ? ' (Katılacak)' : ' (Reddetti)') : ''}`;
+                summitInvitationListEl.appendChild(listItem);
+            }
+            document.querySelectorAll('.summit-invite-checkbox').forEach(cb => { cb.onchange = handleSummitInviteCheckbox; });
+            sendSummitInvitationsBtn.disabled = !summitPlanned || summitInvitationsSent || getSelectedSummitInvitees().length === 0;
+         }
+        function handleSummitInviteCheckbox(event) { /* ... Öncekiyle aynı ... */
+            if (summitInvitationsSent) return; 
+            const countryName = event.target.dataset.country;
+            countries[countryName].summitInvited = event.target.checked;
+            updateSummitInvitationList(); 
+         }
+        function getSelectedSummitInvitees() { /* ... Öncekiyle aynı ... */
+            const invitees = [];
+            for (const cN in countries) { if (countries[cN].summitInvited) invitees.push(cN); }
+            return invitees;
+         }
+        function updateReports() { /* ... Öncekiyle aynı ... */ 
+            if(!educationQualityReportEl) return; // Rapor ekranı DOM elementleri hazır mı kontrolü
+            updateMinisterReports(); 
+            drawReportChart();
+        }
+
+
+        // --- EVENT LISTENERS (setupAllEventListeners içinde toplanacak) ---
+        function setupAllEventListeners() {
+            if(themeToggleBtn) themeToggleBtn.addEventListener('click', () => { 
+                if (document.documentElement.classList.contains('dark')) { document.documentElement.classList.remove('dark'); themeToggleBtn.textContent = '🌙'; localStorage.setItem('theme', 'light'); }
+                else { document.documentElement.classList.add('dark'); themeToggleBtn.textContent = '☀️'; localStorage.setItem('theme', 'dark'); }
+                drawCanvasStats(); drawReportChart();
+            }); 
+
+            if(tabButtons) tabButtons.forEach(button => { button.addEventListener('click', () => { showScreen(button.dataset.tab); }); });
+            
+            if(taxSlider) taxSlider.addEventListener('input', () => { if(taxSliderValue) taxSliderValue.textContent = taxSlider.value; });
+            if(applyTaxBtn) applyTaxBtn.addEventListener('click', () => {
+                const newTaxRate = parseFloat(taxSlider.value); const oldTaxes = taxes; taxes = newTaxRate; const change = newTaxRate - oldTaxes;
+                if(taxRateEl) taxRateEl.textContent = taxes.toFixed(1); let taxMessage = "";
+                if (change > 0) { taxMessage = `Vergileri %${taxes.toFixed(1)} oranına yükselttiniz.`; weeklySatisfactionChange -= change * 2.8; weeklyPoliticalStabilityChange -= change * 0.5; if (taxes > 20) taxMessage += " Halk arasında büyük hoşnutsuzluk var!"; addLog(taxMessage, 'warning');}
+                else if (change < 0) { taxMessage = `Vergileri %${taxes.toFixed(1)} oranına düşürdünüz.`; weeklySatisfactionChange -= change * 2.0; weeklyPoliticalStabilityChange -= change * 0.2; if (taxes < 8) taxMessage += " Bütçe gelirlerinde ciddi düşüş bekleniyor."; addLog(taxMessage, 'info');}
+                updateGameStats();
+            });
+
+            setupInvestmentButtons('economy-investment', 'decrease-economy-investment', 'increase-economy-investment', 1, 100);
+            setupInvestmentButtons('education-investment', 'decrease-education-investment', 'increase-education-investment', 1, 50);
+            setupInvestmentButtons('health-investment', 'decrease-health-investment', 'increase-health-investment', 1, 50);
+            setupInvestmentButtons('culture-investment', 'decrease-culture-investment', 'increase-culture-investment', 1, 30);
+            setupInvestmentButtons('police-budget', 'decrease-police-budget', 'increase-police-budget', 1, 20);
+            setupInvestmentButtons('recruit-soldiers-input', 'decrease-recruits', 'increase-recruits', 1, 50);
+
+            if(investEconomyBtn) investEconomyBtn.addEventListener('click', () => { const amount = parseInt(economyInvestmentInput.value); makeInvestment('Ekonomi', amount, 0.12, 0.06, 0.15, cabinet.economy); updateGameStats(); });
+            if(investEducationBtn) investEducationBtn.addEventListener('click', () => { const amount = parseInt(educationInvestmentInput.value); if(makeInvestment('Eğitim', amount, 0.01, 0.005, 0.6, cabinet.education)) educationSpending += amount * 1000000 * cabinet.education.efficiency; updateGameStats(); });
+            if(investHealthBtn) investHealthBtn.addEventListener('click', () => { const amount = parseInt(healthInvestmentInput.value); if(makeInvestment('Sağlık', amount, 0.015, 0.007, 0.75, cabinet.health)) healthSpending += amount*1000000*cabinet.health.efficiency; updateGameStats(); });
+            if(promoteCultureBtn) promoteCultureBtn.addEventListener('click', () => { const amount = parseInt(cultureInvestmentInput.value); if(makeInvestment('Kültür', amount, 0.005, 0.002, 0.35, cabinet.economy)) cultureSpending += amount*1000000; updateGameStats(); });
+            if(increasePoliceBudgetBtnApply) increasePoliceBudgetBtnApply.addEventListener('click', () => { const amount = parseInt(policeBudgetInput.value) * 1000000; if(budget >= amount) { budget -= amount; weeklyCrimeRateChange -= 0.3 * (amount / 3000000) * cabinet.interior.efficiency; weeklySecurityPerceptionChange += 1.5 * (amount / 3000000) * cabinet.interior.efficiency; addLog(`Polis bütçesine $${(amount/1000000).toLocaleString()}M yatırım yapıldı.`, 'info');} else { addLog(`Polis bütçesi için yeterli kaynak yok!`, 'warning');} updateGameStats();});
+
+
+            if(investGreenEnergyBtn) investGreenEnergyBtn.addEventListener('click', () => { const cost = 20000000; if (budget >= cost) { budget -= cost; addLog("Yeşil enerji için 20M$ yatırım paketi açıklandı.", "success"); weeklySatisfactionChange += 3; weeklyForeignRelationsChange += 2; weeklyInflationChange -= 0.15; weeklyPoliticalStabilityChange +=1; if(Math.random() < cabinet.economy.efficiency - 0.3) { addLog("Yeşil enerji yatırımı uluslararası takdir topladı!", "success"); weeklyGdpChangeFactor *= 1.002;}} else { addLog("Yeşil enerji için bütçe yok.", "warning"); } updateGameStats(); });
+            if(developDefenseIndustryBtn) developDefenseIndustryBtn.addEventListener('click', () => { const cost = 50000000; if (budget >= cost) { budget -= cost; addLog("Savunma sanayii geliştirme projesi başlatıldı (50M$).", "info"); let strGain = Math.max(1, 5 + Math.floor(cabinet.defense.efficiency * 5 - cabinet.defense.corruption * 8)); weeklyMilitaryStrengthChange += strGain; weeklyGdpChangeFactor *= (1 + 0.001 * cabinet.defense.efficiency); weeklyForeignRelationsChange -= (2 - diplomaticApproachLevel * 0.2); weeklyArmyLoyaltyChange += Math.max(0, Math.floor((cabinet.defense.efficiency - cabinet.defense.corruption - 0.3)*5)); if(strGain < 2) addLog("Ancak, yolsuzluk projeden beklenen faydayı azalttı.", "danger");} else { addLog("Savunma sanayii için bütçe yok.", "warning"); } updateGameStats(); });
+
+            if(socialPolicySlider) socialPolicySlider.addEventListener('input', () => { if(socialPolicyValue) socialPolicyValue.textContent = socialPolicySlider.value; });
+            if(applySocialPolicyBtn) applySocialPolicyBtn.addEventListener('click', () => { const newL = parseInt(socialPolicySlider.value); const chg = newL - socialPolicyLevel; socialPolicyLevel = newL; if (chg > 0) { addLog(`Sosyal politikalar ${newL}. seviyeye genişletildi.`, 'info'); weeklySatisfactionChange += chg * 0.8; weeklyBudgetChange -= chg * 700000; weeklyPoliticalStabilityChange += chg * 0.2;} else if (chg < 0) { addLog(`Sosyal politikalar ${newL}. seviyeye daraltıldı.`, 'warning'); weeklySatisfactionChange += chg * 1.5; weeklyBudgetChange -= chg * 700000; weeklyPoliticalStabilityChange += chg * 0.3;} updateGameStats(); });
+            
+            if(economicPolicySlider) economicPolicySlider.addEventListener('input', () => { if(economicPolicyValue) economicPolicyValue.textContent = economicPolicySlider.value; });
+            if(applyEconomicPolicyBtn) applyEconomicPolicyBtn.addEventListener('click', () => { const newL = parseInt(economicPolicySlider.value); const chg = newL - economicPolicyLevel; economicPolicyLevel = newL; if (chg > 0) { addLog(`Ekonomi politikaları ${newL}. seviyeye getirildi (Genişlemeci).`, 'info'); weeklyGdpChangeFactor *= (1 + (chg * 0.003 * cabinet.economy.efficiency)); weeklyInflationChange += chg * 0.15 * (1.5 - cabinet.economy.efficiency);} else if (chg < 0) { addLog(`Ekonomi politikaları ${newL}. seviyeye getirildi (Daraltıcı).`, 'warning'); weeklyGdpChangeFactor *= (1 + (chg * 0.002 / (cabinet.economy.efficiency || 0.1) )); weeklyInflationChange += chg * 0.12 * cabinet.economy.efficiency;} updateGameStats(); });
+
+            if(diplomaticApproachSlider) diplomaticApproachSlider.addEventListener('input', () => { if(diplomaticApproachValue) diplomaticApproachValue.textContent = diplomaticApproachSlider.value; });
+            if(applyDiplomaticApproachBtn) applyDiplomaticApproachBtn.addEventListener('click', () => { const newL = parseInt(diplomaticApproachSlider.value); const chg = newL - diplomaticApproachLevel; diplomaticApproachLevel = newL; let msg = `Diplomatik yaklaşım ${newL}. seviyeye ayarlandı. `; if (chg > 0) { msg += "İlişkilerde iyileşme bekleniyor."; weeklyForeignRelationsChange += chg * 0.8; for (const cN in countries) { countries[cN].relation = Math.min(100, countries[cN].relation + (chg * (0.3 + Math.random()*0.4)));}} else if (chg < 0) { msg += "Gerginlikler artabilir."; weeklyForeignRelationsChange += chg * 1.2; for (const cN in countries) { countries[cN].relation = Math.max(0, countries[cN].relation + (chg * (0.4 + Math.random()*0.5)));} if(newL < 3 && Math.random() < 0.3) { let rC = Object.keys(countries)[Math.floor(Math.random()*Object.keys(countries).length)]; countries[rC].relation = Math.max(0, countries[rC].relation - 15); msg += ` ${rC} sert tutumunuzdan dolayı büyükelçisini geri çağırdı!`; weeklyForeignRelationsChange -=5;}} addLog(msg, chg > 0 ? 'info' : 'warning'); updateForeignRelationsDisplay(); updateGameStats(); });
+            
+            if(securityLevelSlider) securityLevelSlider.addEventListener('input', () => { if(securityLevelValue) securityLevelValue.textContent = securityLevelSlider.value; });
+            if(applySecurityLevelBtn) applySecurityLevelBtn.addEventListener('click', () => { const newL = parseInt(securityLevelSlider.value); const chg = newL - securityLevel; securityLevel = newL; let slMsg = `İç güvenlik (polisaj) seviyesi ${newL}. seviyeye ayarlandı. `; if (chg > 0) { slMsg += "Suçlarda düşüş bekleniyor."; weeklyCrimeRateChange -= chg * 0.3; weeklySecurityPerceptionChange += chg * 0.7; if (securityLevel > 8 && governmentType === 'Demokrasi') { slMsg += " Ancak bu durum özgürlükleri kısıtladığı için tepki çekebilir."; weeklySatisfactionChange -= (securityLevel - 8) * 0.6; weeklyPoliticalStabilityChange -= (securityLevel-8) * 0.3;}} else if (chg < 0) { slMsg += "Özgürlükler genişleyebilir ancak suçlar artabilir."; weeklyCrimeRateChange -= chg * 0.4; weeklySecurityPerceptionChange += chg * 0.9; } addLog(slMsg, 'info'); updateGameStats(); });
+
+            if(mediaFreedomSlider) mediaFreedomSlider.addEventListener('input', () => { if(mediaFreedomTargetValueEl) mediaFreedomTargetValueEl.textContent = mediaFreedomSlider.value; });
+            if(applyMediaPolicyBtn) applyMediaPolicyBtn.addEventListener('click', () => { const targetF = parseFloat(mediaFreedomSlider.value); let chgDir = (targetF > mediaFreedom) ? "artırma" : "azaltma"; addLog(`Medya özgürlüğü politikasını ${targetF}/10 seviyesine ${chgDir} yönünde değiştirdiniz.`, 'info'); weeklyMediaFreedomChange += (targetF - mediaFreedom) * 0.3; if(governmentType === 'Diktatörlük' && targetF > 3) { addLog("Diktatörlükte medya özgürlüğünü artırmak riskli olabilir!", "warning"); weeklyPoliticalStabilityChange -=2;} });
+            if(startPropagandaBtn) startPropagandaBtn.addEventListener('click', () => { const cost = 5000000; if (budget < cost) { addLog("Propaganda için bütçe yetersiz.", "warning"); return; } if (propagandaEffectWeeks > 0) { addLog("Aktif propaganda kampanyası var.", "warning"); return; } budget -= cost; propagandaEffectWeeks = 4; mediaInfluence = Math.min(100, mediaInfluence + 5); addLog("Devlet propaganda kampanyası başlatıldı (4 Hafta Etkili).", "success"); if (mediaFreedom > 6 && governmentType === 'Demokrasi'){ addLog("Özgür basın kampanyayı eleştiriyor.", "warning"); weeklySatisfactionChange -=1; } updateGameStats(); });
+            if(applyCensorshipBtn) applyCensorshipBtn.addEventListener('click', () => { let freedomRed = 0; if (governmentType === 'Demokrasi' && mediaFreedom > 4) { addLog("Demokratik ülkede ağır sansür anayasal krize yol açabilir!", "danger"); weeklyPoliticalStabilityChange -= 5; weeklySatisfactionChange -= 3; freedomRed = (Math.random() < 0.2) ? 0.5 : (1 + Math.random());} else { freedomRed = 1.5 + Math.random()*1.5;} weeklyMediaFreedomChange -= freedomRed; addLog(`Medya üzerinde sansür artırıldı.`, "danger"); weeklySatisfactionChange -= 2; weeklyForeignRelationsChange -= 1; weeklyPoliticalStabilityChange += (governmentType === 'Diktatörlük' ? 2 : 0.5); mediaInfluence = Math.max(30, mediaInfluence - 5); });
+
+            if(declareHolidayBtn) declareHolidayBtn.addEventListener('click', () => { const cost = 2000000; if (budget >= cost) { budget -= cost; nationalHolidays++; weeklySatisfactionChange += (5 - nationalHolidays*0.5); weeklyGdpChangeFactor *= 0.998; addLog(`Yeni bir resmi tatil ilan edildi (${nationalHolidays}. tatil)!`, 'success');} else { addLog(`Tatil için bütçe yok!`, 'warning'); } updateGameStats();});
+            if(callElectionsBtn) callElectionsBtn.addEventListener('click', () => { if (governmentType === 'Demokrasi' || governmentType === 'Otoriter Demokrasi') { if (politicalStability < 40 && satisfaction < 40 && governmentType === 'Demokrasi') { addLog('Erken seçim için ortam gergin!', 'danger'); weeklyPoliticalStabilityChange -=10; weeklySatisfactionChange -=5; if(Math.random() < 0.3) { gameOver("Erken seçim kaos yarattı.", "civil_war"); return;}} const cost = 10000000; if (budget < cost) { addLog("Erken seçim için bütçe yok!", "warning"); return;} budget -= cost; addLog('Erken seçim kararı aldınız!', 'event'); politicalStability = Math.max(0, politicalStability - 5 - Math.floor(Math.random()*5)); setTimeout(() => conductElections(), 2000 ); } else { addLog(`${governmentType} tipinde erken seçim olmaz!`, 'danger'); }});
+            if(proposeLawBtn) proposeLawBtn.addEventListener('click', () => { const pText = proposalInput.value.trim(); if (pText === '') { addLog('Geçerli yasa teklifi girin.', 'warning'); return; } if (governmentType === 'Diktatörlük') { addLog(`Kararname: "${pText}".`, 'info'); weeklySatisfactionChange += (Math.random()-0.5)*4; proposalInput.value = ''; updateGameStats(); return;} let pop = (Math.random() - 0.3) * 10; parliamentAgenda.push({ description: pText, rejectionCount: 0, onApprove: () => { addLog(`"${pText}" yasası onaylandı!`, 'success'); weeklySatisfactionChange += 2 + pop/2; parliamentSupport = Math.min(100, parliamentSupport + 4 + pop/3); weeklyPoliticalStabilityChange += 1 + pop/5; }, onReject: () => { weeklySatisfactionChange -= (1 - pop/3); weeklyPoliticalStabilityChange -= (1 - pop/4); }}); addLog(`"${pText}" yasa teklifi meclise sunuldu.`, 'info'); proposalInput.value = ''; updateParliamentDisplay();});
+            if(declareDictatorshipBtn) declareDictatorshipBtn.addEventListener('click', () => { if (governmentType === 'Demokrasi' || governmentType === 'Otoriter Demokrasi') { addLog("Diktatörlük ilan etme girişimi...", "event"); if (armyLoyalty < 60 && politicalStability > 40 && governmentType === 'Demokrasi') { addLog('Ordu emre uymadı! Girişim başarısız oldu!', 'danger'); weeklySatisfactionChange -= 25; parliamentSupport = Math.max(0, parliamentSupport - 30); politicalStability = Math.max(0, politicalStability - 40); if(politicalStability < 10) gameOver("Başarısız diktatörlük girişimi sonrası kaos.", "civil_war"); return;} if (satisfaction > 50 && politicalStability > 50 && governmentType === 'Demokrasi') { addLog('Halk demokrasiye bağlı. Girişim tepki çekti!', 'danger'); weeklySatisfactionChange -= 20; weeklyPoliticalStabilityChange -= 30; return;} addLog('Diktatörlüğünüzü ilan ettiniz!', 'danger'); governmentType = 'Diktatörlük'; weeklySatisfactionChange -= 35; weeklyForeignRelationsChange -= 50; parliamentSupport = 100; politicalStability = Math.min(60, politicalStability + 10); weeklyCrimeRateChange -= crimeRate * 0.6; weeklySecurityPerceptionChange += 30; weeklyArmyLoyaltyChange += 15; Object.keys(countries).forEach(cn => { if(countries[cn].relation > 40) countries[cn].relation = Math.max(0, countries[cn].relation - 20 - Math.floor(Math.random()*15)); }); updateForeignRelationsDisplay();} else { addLog('Zaten diktatörsünüz!', 'warning'); } updateGameStats(); enableAllActionButtons(); });
+            if(dissolveParliamentBtn) dissolveParliamentBtn.addEventListener('click', () => { if (governmentType === 'Demokrasi' || governmentType === 'Otoriter Demokrasi') { addLog("Meclisi feshetme kararı...", "event"); if (parliamentSupport > 30 && politicalStability > 40 && armyLoyalty > 50 && governmentType === 'Demokrasi') { addLog('Girişim ordu ve yargı tarafından engellendi!', 'danger'); weeklySatisfactionChange -= 15; parliamentSupport = Math.max(0, parliamentSupport - 20); politicalStability = Math.max(0, politicalStability - 25); if(politicalStability < 15) gameOver("Anayasal kriz.", "civil_war"); return;} addLog('Meclisi feshettiniz! Ülke otoriter yönetime kayıyor.', 'danger'); weeklySatisfactionChange -= 30; governmentType = 'Diktatörlük'; parliamentSupport = 0; politicalStability = Math.max(10, politicalStability - 20 + (armyLoyalty > 70 ? 10 : -5)); parliamentAgenda.length = 0; updateParliamentDisplay();} else { addLog('Mevcut rejimde meclis feshedilemez.', 'warning'); } updateGameStats(); enableAllActionButtons();});
+            if(meetOppositionClosedBtn) meetOppositionClosedBtn.addEventListener('click', () => { handleOppositionMeeting(true, true); });
+            if(meetOppositionOpenBtn) meetOppositionOpenBtn.addEventListener('click', () => { handleOppositionMeeting(true, false); });
+            
+            if(recruitSoldiersBtn) recruitSoldiersBtn.addEventListener('click', () => { const numR = parseInt(recruitSoldiersInput.value) * 1000; const costPT = 1000000 + (population - armySize*100 < 5000000 ? 200000 : 0) ; const totalC = (numR / 1000) * costPT; if (population < armySize + numR + 2000000) { addLog("Yeterli genç nüfus yok!", "warning"); return;} if (budget >= totalC) { budget -= totalC; armySize += numR; weeklyMilitaryStrengthChange += numR / 25000 * (cabinet.defense.efficiency*1.2); addLog(`${numR.toLocaleString()} asker orduya katıldı.`, 'info'); weeklySatisfactionChange -= numR / population * 60; weeklyArmyLoyaltyChange -= numR / population * 30; } else { addLog(`Asker alımı için bütçe yok.`, 'warning'); } updateGameStats(); });
+            if(planWarBtn) planWarBtn.addEventListener('click', () => { const cost = 5000000; if (budget >= cost) { budget -= cost; let planQ = Math.floor(cabinet.defense.efficiency * 5) - Math.floor(cabinet.defense.corruption*3) + Math.floor(Math.random()*3); addLog(`Genelkurmay ${planQ} kalite puanında operasyon planları hazırladı.`, "info"); weeklyMilitaryStrengthChange += Math.max(0, planQ/2); if (planQ < 2) addLog("Planların kalitesi düşük!", "danger");} else { addLog("Savaş planlaması için bütçe yok.", "warning");} updateGameStats(); });
+            if(militaryExerciseBtn) militaryExerciseBtn.addEventListener('click', () => { const cost = 10000000 + Math.floor(armySize / 8000 * 700000); if (budget >= cost) { budget -= cost; let exSuccess = Math.random() < (cabinet.defense.efficiency - cabinet.defense.corruption*1.5 + 0.2); if(exSuccess){ addLog("Askeri tatbikat başarıyla tamamlandı.", "success"); weeklyMilitaryStrengthChange += (4 + Math.floor(cabinet.defense.efficiency * 3)); weeklyArmyLoyaltyChange += (5 + Math.floor(cabinet.defense.efficiency * 5));} else { addLog("Tatbikatta kaza! Ekipman hasar gördü.", "danger"); weeklyMilitaryStrengthChange -= 2; weeklyArmyLoyaltyChange -= 8; budget -= cost * 0.2;} Object.keys(countries).forEach(cN => { if(countries[cN].relation < 40 && diplomaticApproachLevel < 5 && Math.random() < 0.4){ countries[cN].relation = Math.max(0, countries[cN].relation - (6 - diplomaticApproachLevel)); addLog(`${cN}, tatbikatı tehdit olarak algıladı!`, 'warning'); weeklyForeignRelationsChange -=1;}}); updateForeignRelationsDisplay();} else { addLog("Askeri tatbikat için bütçe yok.", "warning");} updateGameStats(); });
+            if(militaryCouncilMeetingBtn) militaryCouncilMeetingBtn.addEventListener('click', () => { const cost = 1000000; if (budget >= cost) { budget -= cost; let adv = "Askeri Şura toplandı: "; let advT = 'info'; if (armyLoyalty < 30) { adv += "Ordu içinde huzursuzluk büyük! ACİL ÖNLEM ALINMAZSA DARBE KAÇINILMAZ!"; advT = 'danger'; weeklyPoliticalStabilityChange -=5;} else if (militaryStrengthIndex < 30 && foreignRelationsScore < 30) { adv += "Savunma kapasitemiz zayıf ve dış tehditler artıyor!"; advT = 'danger';} else if (politicalStability < 30 && armyLoyalty < 50) { adv += "Siyasi istikrarsızlık orduya yansıyor!"; advT = 'danger';} else if (cabinet.defense.corruption > 0.25) { adv += `Savunma Bakanlığı'ndaki yolsuzluklar moral bozuyor!`; advT = 'warning'; weeklyArmyLoyaltyChange -=3;} else { adv += "Durum kontrol altında."; weeklyMilitaryStrengthChange +=1; weeklyArmyLoyaltyChange +=1;} addLog(adv, advT);} else { addLog("Askeri Şura için bütçe yok.", "warning");} updateGameStats(); });
+            
+            if(reformJusticeBtn) reformJusticeBtn.addEventListener('click', () => { const cost = 5000000; if (budget >= cost) { budget -= cost; let reformImp = (cabinet.justice.efficiency - cabinet.justice.corruption - 0.2) * 10; if (reformImp > 0) { addLog(`Adalet reformları başlatıldı (${reformImp.toFixed(1)} etki).`, 'success'); weeklyCrimeRateChange -= reformImp * 0.05; weeklySecurityPerceptionChange += reformImp * 0.15; weeklySatisfactionChange += reformImp * 0.1; weeklyPoliticalStabilityChange += reformImp * 0.08;} else { addLog(`Adalet reformu girişimi etki yaratamadı.`, 'warning'); weeklySatisfactionChange -=1;}} else { addLog(`Adalet reformu için bütçe yok!`, 'warning'); } updateGameStats(); });
+            if(surveillanceProgramBtn) surveillanceProgramBtn.addEventListener('click', () => { const cost = 4000000; if (budget >= cost) { budget -= cost; addLog(`Geniş çaplı gözetim programı devrede.`, 'info'); weeklyCrimeRateChange -= 1.5; weeklySecurityPerceptionChange += 2; if(governmentType === 'Demokrasi'){ addLog("Ancak özel hayatın gizliliği tartışmaları alevlendi.", "warning"); weeklySatisfactionChange -= 7; weeklyPoliticalStabilityChange -=4; weeklyForeignRelationsChange -=2;} else { addLog("Rejimin kontrolü arttı.", "info"); politicalStability = Math.min(100, politicalStability + 3);}} else { addLog(`Gözetim için bütçe yok!`, 'warning'); } updateGameStats(); });
+            if(crackdownDissentBtn) crackdownDissentBtn.addEventListener('click', () => { if (governmentType === 'Diktatörlük') { const cost = 2000000 + Math.floor(population * 0.00002 * (100-politicalStability)/20); if (budget >= cost) { budget -= cost; addLog(`Muhalif sesler sertçe bastırıldı.`, 'danger'); weeklySatisfactionChange -= (15 - armyLoyalty/10); weeklySecurityPerceptionChange += (10 - satisfaction/20); weeklyForeignRelationsChange -= (10 - diplomaticApproachLevel); politicalStability = Math.min(100, politicalStability + 5 + armyLoyalty/15); weeklyCrimeRateChange -= crimeRate * 0.3; weeklyArmyLoyaltyChange +=2;} else { addLog(`Bastırma için kaynak yok.`, 'warning');}} else { addLog(`Demokratik ülkede muhalefet bastırılamaz!`, 'danger'); weeklySatisfactionChange -= 15; parliamentSupport = Math.max(0, parliamentSupport - 20); politicalStability = Math.max(0, politicalStability - 25); if(politicalStability < 20) { gameOver("Anayasayı çiğnediniz.", "civil_war");}} updateGameStats(); });
+            
+            if(globalSummitBtn) globalSummitBtn.addEventListener('click', () => { const cost = 10000000; if (budget >= cost) { budget -= cost; let success = Math.random() < (diplomaticApproachLevel/10 + foreignRelationsScore/150 + cabinet.foreign.efficiency/2 - 0.2); if(success){ addLog(`Uluslararası zirvede önemli anlaşmalar imzaladınız.`, 'success'); weeklyForeignRelationsChange += (10 + Math.floor(diplomaticApproachLevel*1.5)); weeklySatisfactionChange += 4; weeklyGdpChangeFactor *= 1.001; weeklyPoliticalStabilityChange +=2;} else { addLog("Zirve beklenen etkiyi yaratmadı.", "warning"); weeklyForeignRelationsChange +=2; weeklySatisfactionChange +=1;}} else { addLog(`Zirve için bütçe yetersiz!`, 'warning'); } updateGameStats(); });
+            if(createSummitBtn) createSummitBtn.addEventListener('click', () => { if (summitPlanned) { addLog("Zaten zirve planlıyorsunuz.", "warning"); return; } const cost = 15000000; if (budget >= cost) { budget -= cost; summitPlanned = true; summitInvitationsSent = false; for(const cN in countries) { countries[cN].summitInvited = false; countries[cN].summitAccepted = false; } addLog(`Ev sahipliğinizde zirve düzenlemeye karar verdiniz.`, 'info'); updateSummitInvitationList(); createSummitBtn.disabled = true; sendSummitInvitationsBtn.disabled = false; } else { addLog("Zirve için bütçe yok.", "warning"); } updateGameStats(); });
+            if(sendSummitInvitationsBtn) sendSummitInvitationsBtn.addEventListener('click', () => { if (!summitPlanned || summitInvitationsSent) return; const selected = getSelectedSummitInvitees(); if (selected.length === 0) { addLog("Davet için ülke seçin.", "warning"); return; } addLog(`${selected.join(', ')} ülkelerine davet gönderildi.`, "info"); summitInvitationsSent = true; sendSummitInvitationsBtn.disabled = true; selected.forEach(cN => { const c = countries[cN]; const chance = c.relation + (diplomaticApproachLevel * 6) + foreignRelationsScore/4 - (25 - cabinet.foreign.efficiency*10) - (governmentType === 'Diktatörlük' ? 15 : 0) ; c.summitAccepted = Math.random() * 100 < chance; }); updateSummitInvitationList(); });
+            if(signTradeDealBtn) signTradeDealBtn.addEventListener('click', () => { const cost = 3000000; if (budget >= cost) { budget -= cost; let bestC = null; let bestP = -1; for (const cN in countries) { const c = countries[cN]; if (!c.tradeDeal && c.relation > 30 && c.relation + foreignRelationsScore > 80) { const pot = c.relation + Math.random() * 40 +
