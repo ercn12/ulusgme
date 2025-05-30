@@ -72,6 +72,52 @@
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
+        /* Modal stil */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: var(--container-bg);
+            margin: 15% auto;
+            padding: 30px;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .modal input {
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            margin: 10px;
+            width: 200px;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        .modal button {
+            padding: 12px 24px;
+            font-size: 16px;
+            background: linear-gradient(135deg, var(--accent-color), #4c4cb8);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
         /* Sekme Navigasyonu */
         .tabs {
             display: flex;
@@ -330,6 +376,17 @@
             padding-left: 10px;
         }
 
+        .critical-alert {
+            animation: pulse 2s infinite;
+            background: linear-gradient(135deg, var(--danger-color), #c0392b) !important;
+            color: white !important;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
         #gameCanvas {
             grid-area: canvas;
             background-color: var(--panel-bg);
@@ -423,149 +480,6 @@
             outline: none;
         }
 
-        .game-screen .parliament-note,
-        .game-screen .security-note {
-            font-style: italic;
-            font-size: 0.9em;
-            color: #bdc3c7;
-            margin-top: 10px;
-            text-align: center;
-        }
-
-        /* Oyun Sonu Ekranı */
-        #game-over-screen {
-            display: none; 
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            min-height: 500px;
-            background: linear-gradient(135deg, var(--danger-color), #c0392b);
-            color: white;
-            border-radius: 12px;
-        }
-
-        #game-over-screen h1 {
-            color: white;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-
-        #game-over-screen p {
-            font-size: 1.2em;
-            margin-bottom: 10px;
-        }
-
-        #game-over-screen button {
-            background: linear-gradient(135deg, #fff, #ecf0f1);
-            color: var(--danger-color);
-            padding: 15px 30px;
-            font-size: 1.2em;
-            margin-top: 30px;
-            font-weight: bold;
-        }
-
-        /* Meclis Action butonları */
-        .parliament-action-btn {
-            padding: 8px 12px;
-            margin-left: 5px;
-            font-size: 0.85em;
-        }
-
-        .parliament-action-btn[data-action="approve"] {
-            background: linear-gradient(135deg, var(--success-color), #27ae60);
-        }
-
-        .parliament-action-btn[data-action="reject"] {
-            background: linear-gradient(135deg, var(--danger-color), #c0392b);
-        }
-
-        /* Dış İlişkiler listesi */
-        #country-relations-list button, #summit-invitation-list button {
-            padding: 6px 10px;
-            font-size: 0.8em;
-            margin-left: 5px;
-        }
-
-        #country-relations-list li, #summit-invitation-list li {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap; 
-        }
-
-        /* Dark Mode Toggle */
-        .theme-toggle {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: linear-gradient(135deg, var(--accent-color), #4c4cb8);
-            border: none;
-            cursor: pointer;
-            font-size: 1.5rem;
-            color: white;
-            z-index: 100;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .theme-toggle:hover {
-            transform: rotate(180deg) scale(1.1);
-            box-shadow: 0 4px 12px rgba(93, 92, 222, 0.4);
-        }
-
-        /* Chart styles */
-        #reportChartCanvas {
-            background-color: var(--panel-bg);
-            border-radius: 8px;
-            max-width: 100%;
-            height: auto;
-            margin-top: 20px;
-            border: 2px solid var(--border-color);
-        }
-
-        /* Yeni özellikler için stiller */
-        .slider-container {
-            margin: 15px 0;
-        }
-
-        .slider-container label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .slider-container input[type="range"] {
-            width: 100%;
-            height: 8px;
-            border-radius: 4px;
-            background: var(--panel-bg);
-            outline: none;
-            -webkit-appearance: none;
-            transition: all 0.3s ease;
-        }
-
-        .slider-container input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-color), #4c4cb8);
-            cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-        }
-
-        .slider-container input[type="range"]::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-            box-shadow: 0 4px 12px rgba(93, 92, 222, 0.4);
-        }
-
         .flex-row {
             display: flex;
             gap: 10px;
@@ -621,82 +535,81 @@
             color: var(--accent-color);
         }
 
-        /* Tooltip styles */
-        .tooltip {
-            position: relative;
-            display: inline-block;
-            margin-left: 5px;
-            cursor: help;
+        .slider-container {
+            margin: 15px 0;
         }
 
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 200px;
-            background-color: rgba(0, 0, 0, 0.9);
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 8px;
-            position: absolute;
-            z-index: 1000;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-size: 0.9em;
+        .slider-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
         }
 
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        /* Yeni eklenen teknoloji ve araştırma stilleri */
-        .research-tree {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .research-item {
-            background: linear-gradient(135deg, var(--panel-bg), rgba(255,255,255,0.05));
-            padding: 15px;
-            border-radius: 8px;
-            border: 2px solid var(--border-color);
+        .slider-container input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: var(--panel-bg);
+            outline: none;
+            -webkit-appearance: none;
             transition: all 0.3s ease;
         }
 
-        .research-item:hover {
-            border-color: var(--accent-color);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        .slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-color), #4c4cb8);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
         }
 
-        .research-item.completed {
-            border-color: var(--success-color);
-            background: linear-gradient(135deg, var(--success-color), rgba(46, 204, 113, 0.1));
+        .slider-container input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 4px 12px rgba(93, 92, 222, 0.4);
         }
 
-        .research-item.in-progress {
-            border-color: var(--warning-color);
-            background: linear-gradient(135deg, var(--warning-color), rgba(243, 156, 18, 0.1));
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, var(--accent-color), #4c4cb8);
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: white;
+            z-index: 100;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: var(--border-color);
-            border-radius: 3px;
-            overflow: hidden;
+        .theme-toggle:hover {
+            transform: rotate(180deg) scale(1.1);
+            box-shadow: 0 4px 12px rgba(93, 92, 222, 0.4);
+        }
+
+        /* Protesto stilleri */
+        .protest-alert {
+            background: linear-gradient(135deg, var(--warning-color), #e67e22);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
             margin: 10px 0;
+            animation: shake 0.5s ease-in-out;
         }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
-            transition: width 0.3s ease;
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
 
         @media (max-width: 480px) {
@@ -712,10 +625,6 @@
 
             .game-screen li div {
                 justify-content: flex-start; 
-            }
-
-            .research-tree {
-                grid-template-columns: 1fr;
             }
         }
 
@@ -734,27 +643,23 @@
         .game-screen.active {
             animation: slideIn 0.3s ease;
         }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        .critical-alert {
-            animation: pulse 2s infinite;
-            background: linear-gradient(135deg, var(--danger-color), #c0392b) !important;
-            color: white !important;
-        }
     </style>
 </head>
 <body>
+    <!-- İsim Sorma Modal -->
+    <div id="nameModal" class="modal">
+        <div class="modal-content">
+            <h2>🏛️ Ulus Simülatörü'ne Hoş Geldiniz!</h2>
+            <p>Yeni bir ülkeyi yönetmek üzeresiniz. Liderliğiniz tarihe nasıl geçecek?</p>
+            <input type="text" id="leaderNameInput" placeholder="Lider adınızı girin" maxlength="20">
+            <br>
+            <button id="startGameBtn">Ülkeyi Yönetmeye Başla!</button>
+        </div>
+    </div>
+
     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark/light mode">🌓</button>
     <div class="game-container">
-        <h1>🏛️ Ulus Simülatörü</h1>
+        <h1 id="gameTitle">🏛️ Ulus Simülatörü</h1>
 
         <div class="tabs">
             <button class="tab-btn active" data-tab="main-screen">🏠 Ana Ekran</button>
@@ -762,13 +667,13 @@
             <button class="tab-btn" data-tab="parliament-screen">🏛️ Meclis & Siyaset</button>
             <button class="tab-btn" data-tab="foreign-affairs-screen">🌍 Dış İlişkiler</button>
             <button class="tab-btn" data-tab="security-screen">🛡️ Güvenlik & Ordu</button>
-            <button class="tab-btn" data-tab="technology-screen">🔬 Teknoloji & Araştırma</button>
             <button class="tab-btn" data-tab="reports-screen">📊 Raporlar & Zaman</button>
         </div>
 
         <div id="main-screen" class="game-screen active">
             <div class="stats-panel">
                 <p>📅 Hafta: <span id="current-week">1</span> (Gün: <span id="current-day-of-week">1</span>)</p>
+                <p>👤 Lider: <span id="leader-name">-</span></p>
                 <p>👥 Nüfus: <span id="population">10,000,000</span></p>
                 <p>💰 GSYİH: $<span id="gdp">1,000,000,000</span></p>
                 <p>📈 Enflasyon: <span id="inflation">2</span>%</p>
@@ -781,7 +686,6 @@
                 <p>🌍 Dış İlişkiler Skoru: <span id="foreign-relations-score">50</span></p>
                 <p>⚔️ Ordu Büyüklüğü: <span id="army-size-display">50000</span></p>
                 <p>📺 Medya Özgürlüğü: <span id="media-freedom-display">7</span>/10</p>
-                <p>🔬 Teknoloji Seviyesi: <span id="technology-level-display">25</span>/100</p>
             </div>
 
             <div class="actions-panel">
@@ -837,7 +741,26 @@
                         </div>
                         <button id="promote-culture">Yatırım Yap</button>
                     </div>
+                    <div class="flex-row">
+                        <label for="social-security-investment">Sosyal Güvenlik ($M):</label>
+                        <div class="input-with-buttons">
+                            <button id="decrease-social-security">-</button>
+                            <input type="number" id="social-security-investment" value="5" min="1" max="40">
+                            <button id="increase-social-security">+</button>
+                        </div>
+                        <button id="invest-social-security">Yatırım Yap</button>
+                    </div>
+                    <div class="flex-row">
+                        <label for="unemployment-support">İşsizlik Yardımı ($M):</label>
+                        <div class="input-with-buttons">
+                            <button id="decrease-unemployment">-</button>
+                            <input type="number" id="unemployment-support" value="3" min="1" max="25">
+                            <button id="increase-unemployment">+</button>
+                        </div>
+                        <button id="invest-unemployment">Yatırım Yap</button>
+                    </div>
                     <button id="declare-holiday">🎉 Yeni Tatil İlan Et ($2M)</button>
+                    <button id="public-works-program">🔨 Kamu İşleri Programı ($15M)</button>
                 </div>
 
                  <div class="action-category">
@@ -855,6 +778,7 @@
                     <button id="invest-green-energy">♻️ Yeşil Enerjiye Yatırım ($20M)</button>
                     <button id="develop-defense-industry">🔧 Savunma Sanayii Geliştir ($50M)</button>
                     <button id="disaster-preparation-btn">🌪️ Afet Hazırlığı ($15M)</button>
+                    <button id="anti-corruption-campaign">⚖️ Yolsuzlukla Mücadele ($8M)</button>
                 </div>
                 <button id="end-week-btn">⏭️ Haftayı Bitir</button>
             </div>
@@ -894,6 +818,17 @@
                 </select>
                 <input type="text" id="minister-name-input" placeholder="Yeni Bakan Adı">
                 <button id="appoint-minister-btn">Bakan Ata / Değiştir ($500K)</button>
+            </div>
+            
+            <div id="protest-management" style="display: none;">
+                <h3>🚨 Protesto Yönetimi</h3>
+                <div id="current-protests"></div>
+                <div class="opposition-actions">
+                    <button id="negotiate-protesters">🤝 Protestocularla Müzakere Et</button>
+                    <button id="ignore-protests">🙄 Protestoları Görmezden Gel</button>
+                    <button id="disperse-protests-peaceful">👮 Barışçıl Müdahale</button>
+                    <button id="disperse-protests-force">⚡ Güçle Dağıt</button>
+                </div>
             </div>
         </div>
 
@@ -1051,80 +986,6 @@
             </div>
         </div>
 
-        <div id="technology-screen" class="game-screen">
-            <h2>🔬 Teknoloji & Araştırma</h2>
-            <p>🧪 Genel Teknoloji Seviyesi: <span id="tech-level-display">25</span>/100</p>
-            <p>💰 Ar-Ge Bütçesi: $<span id="research-budget-display">0</span>M</p>
-            <p>⏳ Aktif Proje: <span id="active-research-display">Yok</span></p>
-            
-            <div class="flex-row">
-                <label for="research-budget-input">Ar-Ge Bütçesi ($M):</label>
-                <div class="input-with-buttons">
-                    <button id="decrease-research-budget">-</button>
-                    <input type="number" id="research-budget-input" value="5" min="0" max="100">
-                    <button id="increase-research-budget">+</button>
-                </div>
-                <button id="set-research-budget-btn">Bütçeyi Ayarla</button>
-            </div>
-            
-            <h3>🔬 Araştırma Ağacı</h3>
-            <div class="research-tree" id="research-tree">
-                <div class="research-item" data-tech="agriculture">
-                    <h4>🌾 Gelişmiş Tarım</h4>
-                    <p>Tarım verimini artırır</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 0%"></div>
-                    </div>
-                    <button class="research-btn" data-tech="agriculture">Araştır ($10M)</button>
-                </div>
-                
-                <div class="research-item" data-tech="medicine">
-                    <h4>💊 Modern Tıp</h4>
-                    <p>Sağlık hizmetlerini geliştirir</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 0%"></div>
-                    </div>
-                    <button class="research-btn" data-tech="medicine">Araştır ($15M)</button>
-                </div>
-                
-                <div class="research-item" data-tech="industry">
-                    <h4>🏭 Endüstriyel Otomasyon</h4>
-                    <p>Üretim verimliliğini artırır</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 0%"></div>
-                    </div>
-                    <button class="research-btn" data-tech="industry">Araştır ($20M)</button>
-                </div>
-                
-                <div class="research-item" data-tech="military">
-                    <h4>⚔️ Askeri Teknoloji</h4>
-                    <p>Askeri güçü artırır</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 0%"></div>
-                    </div>
-                    <button class="research-btn" data-tech="military">Araştır ($25M)</button>
-                </div>
-                
-                <div class="research-item" data-tech="renewable">
-                    <h4>♻️ Yenilenebilir Enerji</h4>
-                    <p>Çevre dostu enerji üretimi</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 0%"></div>
-                    </div>
-                    <button class="research-btn" data-tech="renewable">Araştır ($30M)</button>
-                </div>
-                
-                <div class="research-item" data-tech="space">
-                    <h4>🚀 Uzay Teknolojisi</h4>
-                    <p>Prestij ve bilimsel gelişim</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 0%"></div>
-                    </div>
-                    <button class="research-btn" data-tech="space">Araştır ($50M)</button>
-                </div>
-            </div>
-        </div>
-
         <div id="reports-screen" class="game-screen">
             <h2>📊 Raporlar & Zaman Yönetimi</h2>
             <p>📅 Mevcut Tarih: Hafta <span id="report-current-week">1</span>, Gün <span id="report-current-day">1</span></p>
@@ -1166,9 +1027,6 @@
                 <p>🎯 Ordu Sadakati: <span id="army-loyalty-report">...</span></p> 
                 <p>📋 Genelkurmay Değerlendirmesi: <span id="military-assessment-report">...</span></p> 
             </div>
-            
-            <h3>📈 Ekonomi Verileri (Son 10 Hafta)</h3>
-            <canvas id="reportChartCanvas" width="600" height="300"></canvas>
         </div>
 
         <div id="game-over-screen" class="game-screen">
@@ -1184,6 +1042,7 @@
 
     <script>
         // --- Oyun Değişkenleri ---
+        let leaderName = '';
         let week = 1;
         let dayOfWeek = 1; 
         let isAtWar = false;
@@ -1194,12 +1053,9 @@
         let infrastructureLevel = 50; 
         let transportationInvestmentWeeks = 0; 
         let energyInvestmentWeeks = 0;
-        let technologyLevel = 25;
-        let researchBudget = 0;
-        let activeResearch = null;
-        let currentResearchProgress = 0;
-        let hasNuclearProgram = false;
         let naturalDisasterPreparedness = 30;
+        let currentProtests = [];
+        let protestIntensity = 0;
 
         let population = 10000000;
         let gdp = 1000000000;
@@ -1210,6 +1066,8 @@
         let educationSpending = 0; 
         let healthSpending = 0; 
         let cultureSpending = 0; 
+        let socialSecuritySpending = 0;
+        let unemploymentSupport = 0;
         let crimeRate = 5; 
         let securityPerception = 75; 
         let politicalStability = 70; 
@@ -1243,16 +1101,22 @@
         let weeklyArmyLoyaltyChange = 0;
         let weeklyMediaFreedomChange = 0;
         let weeklyInfrastructureChange = 0; 
-        let weeklyTechnologyChange = 0;
+
+        // Rastgele Türk isimleri
+        const turkishNames = {
+            male: ['Ahmet', 'Mehmet', 'Mustafa', 'Ali', 'Hasan', 'Hüseyin', 'İbrahim', 'İsmail', 'Ömer', 'Yusuf', 'Murat', 'Kemal', 'Erdoğan', 'Recep', 'Serkan', 'Emre', 'Burak', 'Cem', 'Deniz', 'Efe'],
+            female: ['Fatma', 'Ayşe', 'Emine', 'Hatice', 'Zeynep', 'Elif', 'Sema', 'Dilek', 'Sevil', 'Gülay', 'Pınar', 'Sibel', 'Tülay', 'Filiz', 'Serpil', 'Gülsün', 'Aylin', 'Nesrin', 'Şule', 'Özlem'],
+            surname: ['Yılmaz', 'Kaya', 'Demir', 'Şahin', 'Çelik', 'Şahin', 'Öztürk', 'Kılıç', 'Arslan', 'Taş', 'Aksoy', 'Barış', 'Dalkıran', 'Erdoğan', 'Güngör', 'Korkmaz', 'Özkan', 'Doğan', 'Aslan', 'Polat']
+        };
 
         const cabinet = {
-            economy: { name: 'Boş', efficiency: 0.5, corruption: 0.1 }, 
-            education: { name: 'Boş', efficiency: 0.5, corruption: 0.1 },
-            health: { name: 'Boş', efficiency: 0.5, corruption: 0.1 }, 
-            foreign: { name: 'Boş', efficiency: 0.5, corruption: 0.1 },
-            interior: { name: 'Boş', efficiency: 0.5, corruption: 0.1 }, 
-            justice: { name: 'Boş', efficiency: 0.5, corruption: 0.1 },
-            defense: { name: 'Boş', efficiency: 0.5, corruption: 0.1 } 
+            economy: { name: '', efficiency: 0.5, corruption: 0.1, satisfactionRating: 70 }, 
+            education: { name: '', efficiency: 0.5, corruption: 0.1, satisfactionRating: 70 },
+            health: { name: '', efficiency: 0.5, corruption: 0.1, satisfactionRating: 70 }, 
+            foreign: { name: '', efficiency: 0.5, corruption: 0.1, satisfactionRating: 70 },
+            interior: { name: '', efficiency: 0.5, corruption: 0.1, satisfactionRating: 70 }, 
+            justice: { name: '', efficiency: 0.5, corruption: 0.1, satisfactionRating: 70 },
+            defense: { name: '', efficiency: 0.5, corruption: 0.1, satisfactionRating: 70 } 
         };
 
         const countries = { 
@@ -1268,64 +1132,29 @@
             'Ukrayna': { relation: 50, tradeDeal: false, summitInvited: false, summitAccepted: false, militaryPower: 60 }
         };
 
-        const researchTechs = {
-            agriculture: { name: 'Gelişmiş Tarım', cost: 10, progress: 0, completed: false, duration: 4 },
-            medicine: { name: 'Modern Tıp', cost: 15, progress: 0, completed: false, duration: 5 },
-            industry: { name: 'Endüstriyel Otomasyon', cost: 20, progress: 0, completed: false, duration: 6 },
-            military: { name: 'Askeri Teknoloji', cost: 25, progress: 0, completed: false, duration: 8 },
-            renewable: { name: 'Yenilenebilir Enerji', cost: 30, progress: 0, completed: false, duration: 10 },
-            space: { name: 'Uzay Teknolojisi', cost: 50, progress: 0, completed: false, duration: 15 }
-        };
-
         const parliamentAgenda = []; 
         let summitPlanned = false;
         let summitInvitationsSent = false;
 
         // DOM Elementleri
+        const nameModal = document.getElementById('nameModal');
+        const leaderNameInput = document.getElementById('leaderNameInput');
+        const startGameBtn = document.getElementById('startGameBtn');
+        const gameTitle = document.getElementById('gameTitle');
+        const leaderNameDisplay = document.getElementById('leader-name');
         const themeToggleBtn = document.getElementById('theme-toggle');
         const tabButtons = document.querySelectorAll('.tab-btn');
         const gameScreens = document.querySelectorAll('.game-screen');
-        const currentWeekEl = document.getElementById('current-week');
-        const currentDayOfWeekEl = document.getElementById('current-day-of-week');
-        const populationEl = document.getElementById('population');
-        const gdpEl = document.getElementById('gdp');
-        const inflationEl = document.getElementById('inflation');
-        const satisfactionEl = document.getElementById('satisfaction');
-        const budgetEl = document.getElementById('budget');
-        const taxRateEl = document.getElementById('tax-rate');
-        const governmentTypeDisplayEl = document.getElementById('government-type-display');
-        const mediaFreedomDisplayEl = document.getElementById('media-freedom-display');
-        const politicalStabilityEl = document.getElementById('political-stability');
-        const infrastructureLevelDisplayEl = document.getElementById('infrastructure-level-display');
-        const foreignRelationsScoreEl = document.getElementById('foreign-relations-score');
-        const armySizeDisplayEl = document.getElementById('army-size-display');
-        const technologyLevelDisplayEl = document.getElementById('technology-level-display');
         const gameLogEl = document.getElementById('game-log');
         const gameCanvas = document.getElementById('gameCanvas');
         const ctx = gameCanvas ? gameCanvas.getContext('2d') : null;
-        
-        // Input elementleri
-        const taxSlider = document.getElementById('tax-slider');
-        const taxSliderValue = document.getElementById('tax-slider-value');
-        const applyTaxBtn = document.getElementById('apply-tax');
-        const economyInvestmentInput = document.getElementById('economy-investment');
-        const investEconomyBtn = document.getElementById('invest-economy');
-        const educationInvestmentInput = document.getElementById('education-investment');
-        const investEducationBtn = document.getElementById('invest-education');
-        const healthInvestmentInput = document.getElementById('health-investment');
-        const investHealthBtn = document.getElementById('invest-health');
-        const cultureInvestmentInput = document.getElementById('culture-investment');
-        const promoteCultureBtn = document.getElementById('promote-culture');
-        const declareHolidayBtn = document.getElementById('declare-holiday');
-        const endWeekBtn = document.getElementById('end-week-btn');
-        const restartGameBtn = document.getElementById('restart-game-btn');
-        
-        // Teknoloji elementleri
-        const techLevelDisplayEl = document.getElementById('tech-level-display');
-        const researchBudgetDisplayEl = document.getElementById('research-budget-display');
-        const activeResearchDisplayEl = document.getElementById('active-research-display');
-        const researchBudgetInput = document.getElementById('research-budget-input');
-        const setResearchBudgetBtn = document.getElementById('set-research-budget-btn');
+
+        function generateRandomName() {
+            const gender = Math.random() > 0.5 ? 'male' : 'female';
+            const firstName = turkishNames[gender][Math.floor(Math.random() * turkishNames[gender].length)];
+            const lastName = turkishNames.surname[Math.floor(Math.random() * turkishNames.surname.length)];
+            return `${firstName} ${lastName}`;
+        }
 
         function initTheme() {
             if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -1346,6 +1175,38 @@
                 }
                 drawCanvasStats();
             });
+        }
+
+        function showNameModal() {
+            nameModal.style.display = 'block';
+            leaderNameInput.focus();
+        }
+
+        function startGame() {
+            const name = leaderNameInput.value.trim();
+            if (name.length < 2) {
+                alert('Lütfen en az 2 karakterlik bir isim girin!');
+                return;
+            }
+            
+            leaderName = name;
+            nameModal.style.display = 'none';
+            gameTitle.textContent = `🏛️ ${leaderName}'in Ülkesi`;
+            if(leaderNameDisplay) leaderNameDisplay.textContent = leaderName;
+            
+            addLog(`🎉 ${leaderName}, ülkenizin yönetimini devraldınız! Tarih sizi nasıl hatırlayacak?`, 'event');
+            addLog('📋 Kabine üyeleriniz atanıyor...', 'info');
+            
+            // Rastgele bakan isimleri ata
+            for (const type in cabinet) {
+                cabinet[type].name = generateRandomName();
+                cabinet[type].efficiency = 0.4 + Math.random() * 0.4;
+                cabinet[type].corruption = 0.05 + Math.random() * 0.25;
+                cabinet[type].satisfactionRating = 60 + Math.random() * 30;
+            }
+            
+            updateCabinetDisplay();
+            updateGameStats();
         }
         
         function showScreen(screenId) {
@@ -1368,11 +1229,10 @@
             }
 
             // Ekran geçişlerinde güncelleme
-            if (screenId === 'technology-screen') {
-                updateTechnologyDisplay();
-            } else if (screenId === 'cabinet-screen') {
+            if (screenId === 'cabinet-screen') {
                 updateCabinetDisplay();
                 updateMinisterAdvice();
+                checkProtests();
             } else if (screenId === 'foreign-affairs-screen') {
                 updateForeignRelationsDisplay();
                 updateSummitInvitationList();
@@ -1400,7 +1260,7 @@
             }
             
             // Kritik durumlar için özel stil
-            if (message.includes('KRİTİK') || message.includes('UYARI') || message.includes('TEHLİKE')) {
+            if (message.includes('KRİTİK') || message.includes('UYARI') || message.includes('TEHLİKE') || message.includes('PROTESTO')) {
                 li.classList.add('critical-alert');
             }
             
@@ -1413,6 +1273,21 @@
         }
 
         function updateGameStats() {
+            const currentWeekEl = document.getElementById('current-week');
+            const currentDayOfWeekEl = document.getElementById('current-day-of-week');
+            const populationEl = document.getElementById('population');
+            const gdpEl = document.getElementById('gdp');
+            const inflationEl = document.getElementById('inflation');
+            const satisfactionEl = document.getElementById('satisfaction');
+            const budgetEl = document.getElementById('budget');
+            const taxRateEl = document.getElementById('tax-rate');
+            const governmentTypeDisplayEl = document.getElementById('government-type-display');
+            const mediaFreedomDisplayEl = document.getElementById('media-freedom-display');
+            const politicalStabilityEl = document.getElementById('political-stability');
+            const infrastructureLevelDisplayEl = document.getElementById('infrastructure-level-display');
+            const foreignRelationsScoreEl = document.getElementById('foreign-relations-score');
+            const armySizeDisplayEl = document.getElementById('army-size-display');
+            
             if(currentWeekEl) currentWeekEl.textContent = week;
             if(currentDayOfWeekEl) currentDayOfWeekEl.textContent = dayOfWeek; 
             if(populationEl) populationEl.textContent = population.toLocaleString();
@@ -1427,7 +1302,6 @@
             if(infrastructureLevelDisplayEl) infrastructureLevelDisplayEl.textContent = `${infrastructureLevel.toFixed(0)}/100`; 
             if(foreignRelationsScoreEl) foreignRelationsScoreEl.textContent = foreignRelationsScore.toFixed(0);
             if(armySizeDisplayEl) armySizeDisplayEl.textContent = armySize.toLocaleString(); 
-            if(technologyLevelDisplayEl) technologyLevelDisplayEl.textContent = `${technologyLevel.toFixed(0)}/100`;
             
             // Güvenlik ekranı güncellemeleri
             const crimeRateEl = document.getElementById('crime-rate');
@@ -1443,40 +1317,6 @@
             if(armyLoyaltyDisplayEl) armyLoyaltyDisplayEl.textContent = getArmyLoyaltyStatus();
             
             drawCanvasStats();
-        }
-
-        function updateTechnologyDisplay() {
-            if(techLevelDisplayEl) techLevelDisplayEl.textContent = `${technologyLevel.toFixed(0)}/100`;
-            if(researchBudgetDisplayEl) researchBudgetDisplayEl.textContent = researchBudget;
-            if(activeResearchDisplayEl) {
-                activeResearchDisplayEl.textContent = activeResearch ? researchTechs[activeResearch].name : 'Yok';
-            }
-            
-            // Araştırma ağacını güncelle
-            const researchItems = document.querySelectorAll('.research-item');
-            researchItems.forEach(item => {
-                const techId = item.dataset.tech;
-                const tech = researchTechs[techId];
-                const progressBar = item.querySelector('.progress-fill');
-                const button = item.querySelector('.research-btn');
-                
-                if (tech.completed) {
-                    item.classList.add('completed');
-                    button.textContent = 'Tamamlandı';
-                    button.disabled = true;
-                    progressBar.style.width = '100%';
-                } else if (activeResearch === techId) {
-                    item.classList.add('in-progress');
-                    const progress = (tech.progress / tech.duration) * 100;
-                    progressBar.style.width = `${progress}%`;
-                    button.textContent = 'Devam Ediyor...';
-                    button.disabled = true;
-                } else {
-                    progressBar.style.width = '0%';
-                    button.textContent = `Araştır ($${tech.cost}M)`;
-                    button.disabled = false;
-                }
-            });
         }
 
         function getArmyLoyaltyStatus() {
@@ -1524,7 +1364,6 @@
             drawBar('🚨 Suç Orn.:', Math.min(crimeRate, 25), 25, (val, max) => `rgb(${(val/max) * 255}, ${150 - ((val/max) * 150)}, 0)`); 
             drawBar('⚖️ İstikrar:', politicalStability, 100, (val) => `rgb(${val*0.5}, ${val * 2}, ${255 - val * 2})`);
             drawBar('🏗️ Altyapı:', infrastructureLevel, 100, (val) => `rgb(${val * 1.2}, ${val*1.2}, ${val*1.2})`);
-            drawBar('🔬 Teknoloji:', technologyLevel, 100, (val) => `rgb(${val * 2}, ${100 + val}, ${150 + val})`);
         }
 
         function makeInvestment(name, amount, gdpFactorEffect, inflationEffect, satisfactionEffect, minister) {
@@ -1572,6 +1411,7 @@
                 const li = document.createElement('li');
                 const efficiency = (minister.efficiency * 100).toFixed(0);
                 const corruption = (minister.corruption * 100).toFixed(0);
+                const satisfaction = (minister.satisfactionRating || 70).toFixed(0);
                 const emoji = {
                     economy: '💼', education: '🎓', health: '🏥', 
                     foreign: '🌍', interior: '🏛️', justice: '⚖️', defense: '⚔️'
@@ -1579,10 +1419,113 @@
                 
                 li.innerHTML = `
                     <span>${emoji} ${type.charAt(0).toUpperCase() + type.slice(1)} Bakanı: ${minister.name}</span>
-                    <span>Verimlilik: ${efficiency}% | Yolsuzluk: ${corruption}%</span>
+                    <span>Verimlilik: ${efficiency}% | Yolsuzluk: ${corruption}% | Halk Desteği: ${satisfaction}%</span>
                 `;
                 cabinetListEl.appendChild(li);
             }
+        }
+
+        function checkProtests() {
+            // Halk memnuniyetsizliklerini kontrol et
+            for (const [type, minister] of Object.entries(cabinet)) {
+                if (minister.satisfactionRating < 30 && Math.random() < 0.3) {
+                    triggerProtest(type, minister);
+                }
+            }
+        }
+
+        function triggerProtest(ministerType, minister) {
+            const protestTypes = {
+                economy: "💰 Ekonomi politikalarına karşı protesto",
+                education: "🎓 Eğitim sistemine karşı protesto",
+                health: "🏥 Sağlık hizmetlerine karşı protesto",
+                foreign: "🌍 Dış politikaya karşı protesto",
+                interior: "🏛️ İç güvenlik politikalarına karşı protesto",
+                justice: "⚖️ Adalet sistemine karşı protesto",
+                defense: "⚔️ Askeri politikalara karşı protesto"
+            };
+
+            const protest = {
+                type: ministerType,
+                minister: minister.name,
+                intensity: Math.floor(Math.random() * 5) + 1,
+                title: protestTypes[ministerType],
+                duration: 3
+            };
+
+            currentProtests.push(protest);
+            updateProtestDisplay();
+            
+            addLog(`🚨 PROTESTO: ${protest.title}! Bakan ${minister.name} istifa etmeli diyor halk!`, 'danger');
+            addLog(`📢 Protesto yoğunluğu: ${protest.intensity}/5. Müdahale seçeneklerinizi değerlendirin.`, 'warning');
+            
+            // Protesto etkilerini uygula
+            weeklySatisfactionChange -= protest.intensity * 2;
+            weeklyPoliticalStabilityChange -= protest.intensity;
+        }
+
+        function updateProtestDisplay() {
+            const protestManagement = document.getElementById('protest-management');
+            const currentProtestsEl = document.getElementById('current-protests');
+            
+            if (currentProtests.length > 0) {
+                protestManagement.style.display = 'block';
+                currentProtestsEl.innerHTML = '';
+                
+                currentProtests.forEach((protest, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'protest-alert';
+                    div.innerHTML = `
+                        <h4>${protest.title}</h4>
+                        <p>Hedef: Bakan ${protest.minister} | Yoğunluk: ${protest.intensity}/5 | Süre: ${protest.duration} gün</p>
+                    `;
+                    currentProtestsEl.appendChild(div);
+                });
+            } else {
+                protestManagement.style.display = 'none';
+            }
+        }
+
+        function handleProtestAction(action) {
+            if (currentProtests.length === 0) return;
+            
+            const protest = currentProtests[0]; // İlk protesto ile müdahale
+            
+            switch(action) {
+                case 'negotiate':
+                    addLog(`🤝 ${protest.title} ile müzakere başlatıldınız.`, 'info');
+                    weeklySatisfactionChange += 3;
+                    weeklyPoliticalStabilityChange += 2;
+                    budget -= 1000000; // Müzakere maliyeti
+                    currentProtests.shift();
+                    break;
+                    
+                case 'ignore':
+                    addLog(`🙄 ${protest.title} görmezden gelindi.`, 'warning');
+                    weeklySatisfactionChange -= protest.intensity * 3;
+                    weeklyPoliticalStabilityChange -= protest.intensity * 2;
+                    protest.intensity += 1;
+                    break;
+                    
+                case 'peaceful':
+                    addLog(`👮 ${protest.title} barışçıl şekilde dağıtıldı.`, 'info');
+                    weeklySatisfactionChange -= protest.intensity;
+                    weeklyPoliticalStabilityChange += 1;
+                    budget -= 500000; // Polis maliyeti
+                    currentProtests.shift();
+                    break;
+                    
+                case 'force':
+                    addLog(`⚡ ${protest.title} güç kullanılarak dağıtıldı!`, 'danger');
+                    weeklySatisfactionChange -= protest.intensity * 5;
+                    weeklyPoliticalStabilityChange -= protest.intensity * 3;
+                    weeklyForeignRelationsChange -= 2;
+                    currentProtests.shift();
+                    break;
+            }
+            
+            updateProtestDisplay();
+            updateGameStats();
         }
 
         function updateMinisterAdvice() {
@@ -1724,9 +1667,166 @@
             }
         }
 
-        function resetGame() {
-            addLog('🔄 Oyun yeniden başlatılıyor...', 'event');
+        function triggerRandomEvent() {
+            const events = [
+                {
+                    title: "🌾 Rekor Hasat",
+                    description: "Bu yılki hasat rekor seviyede! Ekonomi güçleniyor.",
+                    effects: () => {
+                        weeklyGdpChangeFactor *= 1.02;
+                        weeklySatisfactionChange += 3;
+                        weeklyInflationChange -= 0.1;
+                    }
+                },
+                {
+                    title: "🎭 Uluslararası Kültür Festivali",
+                    description: "Şehrinizde düzenlenen festival büyük ilgi gördü!",
+                    effects: () => {
+                        weeklySatisfactionChange += 5;
+                        weeklyForeignRelationsChange += 4;
+                        weeklyBudgetChange += 8000000;
+                    }
+                },
+                {
+                    title: "🏭 Yabancı Yatırım",
+                    description: "Büyük bir yabancı şirket ülkenizde fabrika kurmak istiyor.",
+                    effects: () => {
+                        weeklyGdpChangeFactor *= 1.03;
+                        weeklyBudgetChange += 50000000;
+                        weeklyForeignRelationsChange += 5;
+                    }
+                },
+                {
+                    title: "🦠 Salgın Tehdidi",
+                    description: "Yeni bir salgın hastalık tehdidi ortaya çıktı.",
+                    effects: () => {
+                        weeklySatisfactionChange -= 5;
+                        weeklyBudgetChange -= 20000000;
+                        weeklyPopulationChangeFactor *= 0.99;
+                    }
+                },
+                {
+                    title: "💰 Vergi Kaçırma Skandalı",
+                    description: "Büyük bir vergi kaçırma skandalı ortaya çıktı.",
+                    effects: () => {
+                        weeklyBudgetChange -= 30000000;
+                        weeklySatisfactionChange -= 8;
+                        weeklyPoliticalStabilityChange -= 5;
+                    }
+                },
+                {
+                    title: "🎵 Popüler Müzik Festivali",
+                    description: "Ülke çapında müzik festivali düzenlendi!",
+                    effects: () => {
+                        weeklySatisfactionChange += 4;
+                        weeklyBudgetChange += 5000000;
+                    }
+                },
+                {
+                    title: "🏆 Spor Başarısı",
+                    description: "Milli takımınız uluslararası turnuvada şampiyon oldu!",
+                    effects: () => {
+                        weeklySatisfactionChange += 8;
+                        weeklyPoliticalStabilityChange += 3;
+                        weeklyForeignRelationsChange += 6;
+                    }
+                },
+                {
+                    title: "🌡️ Aşırı Sıcaklık Dalgası",
+                    description: "Ülkede rekor seviyede sıcaklık yaşanıyor.",
+                    effects: () => {
+                        weeklySatisfactionChange -= 3;
+                        weeklyBudgetChange -= 15000000; // Klimatizasyon ve su maliyetleri
+                        weeklyInfrastructureChange -= 2;
+                    }
+                },
+                {
+                    title: "💎 Doğal Kaynak Keşfi",
+                    description: "Ülkede değerli maden yatakları keşfedildi!",
+                    effects: () => {
+                        weeklyGdpChangeFactor *= 1.05;
+                        weeklyBudgetChange += 100000000;
+                        weeklyForeignRelationsChange += 3;
+                    }
+                },
+                {
+                    title: "🚨 Siber Saldırı",
+                    description: "Devlet kurumlarına siber saldırı düzenlendi.",
+                    effects: () => {
+                        weeklyBudgetChange -= 25000000;
+                        weeklySatisfactionChange -= 6;
+                        weeklyPoliticalStabilityChange -= 4;
+                    }
+                }
+            ];
             
+            const event = events[Math.floor(Math.random() * events.length)];
+            addLog(`🎲 ${event.title}: ${event.description}`, 'event');
+            event.effects();
+        }
+
+        function triggerNaturalDisaster() {
+            const disasters = [
+                {
+                    name: "🌪️ Tornado",
+                    damage: 15000000,
+                    satisfactionLoss: 8,
+                    infrastructureDamage: 5
+                },
+                {
+                    name: "🌊 Sel",
+                    damage: 25000000,
+                    satisfactionLoss: 12,
+                    infrastructureDamage: 8
+                },
+                {
+                    name: "🔥 Orman Yangını",
+                    damage: 10000000,
+                    satisfactionLoss: 6,
+                    infrastructureDamage: 3
+                },
+                {
+                    name: "🌋 Deprem",
+                    damage: 80000000,
+                    satisfactionLoss: 20,
+                    infrastructureDamage: 15
+                },
+                {
+                    name: "❄️ Kar Fırtınası",
+                    damage: 12000000,
+                    satisfactionLoss: 4,
+                    infrastructureDamage: 2
+                },
+                {
+                    name: "🌪️ Kasırga",
+                    damage: 60000000,
+                    satisfactionLoss: 15,
+                    infrastructureDamage: 12
+                }
+            ];
+            
+            const disaster = disasters[Math.floor(Math.random() * disasters.length)];
+            
+            // Afet hazırlığı etkisi
+            const preparednessReduction = naturalDisasterPreparedness / 100;
+            const actualDamage = disaster.damage * (1 - preparednessReduction * 0.5);
+            const actualSatisfactionLoss = disaster.satisfactionLoss * (1 - preparednessReduction * 0.3);
+            const actualInfrastructureDamage = disaster.infrastructureDamage * (1 - preparednessReduction * 0.4);
+            
+            addLog(`🚨 DOĞAL AFET: ${disaster.name} meydana geldi!`, 'danger');
+            addLog(`💸 Hasar: $${(actualDamage/1000000).toFixed(1)}M, Altyapı hasarı: ${actualInfrastructureDamage.toFixed(1)}`, 'warning');
+            
+            weeklyBudgetChange -= actualDamage;
+            weeklySatisfactionChange -= actualSatisfactionLoss;
+            weeklyInfrastructureChange -= actualInfrastructureDamage;
+            
+            if (naturalDisasterPreparedness > 50) {
+                addLog("🛡️ İyi afet hazırlığımız sayesinde hasarlar azaltıldı.", 'info');
+            }
+        }
+
+        function resetGame() {
+            // Tüm değişkenleri sıfırla
             week = 1; 
             dayOfWeek = 1; 
             isAtWar = false;
@@ -1737,12 +1837,9 @@
             infrastructureLevel = 50; 
             transportationInvestmentWeeks = 0; 
             energyInvestmentWeeks = 0;
-            technologyLevel = 25;
-            researchBudget = 0;
-            activeResearch = null;
-            currentResearchProgress = 0;
-            hasNuclearProgram = false;
             naturalDisasterPreparedness = 30;
+            currentProtests = [];
+            protestIntensity = 0;
 
             population = 10000000; 
             gdp = 1000000000; 
@@ -1753,6 +1850,8 @@
             educationSpending = 0; 
             healthSpending = 0; 
             cultureSpending = 0;
+            socialSecuritySpending = 0;
+            unemploymentSupport = 0;
             crimeRate = 5; 
             securityPerception = 75; 
             politicalStability = 70;
@@ -1770,10 +1869,6 @@
             diplomaticApproachLevel = 5; 
             securityLevel = 5;
             
-            // Slider değerlerini sıfırla
-            if(taxSlider) taxSlider.value = taxes; 
-            if(taxSliderValue) taxSliderValue.textContent = taxes;
-            
             // Haftalık değişken sıfırlamaları
             weeklyBudgetChange = 0; 
             weeklySatisfactionChange = 0; 
@@ -1788,7 +1883,6 @@
             weeklyArmyLoyaltyChange = 0;
             weeklyMediaFreedomChange = 0;
             weeklyInfrastructureChange = 0; 
-            weeklyTechnologyChange = 0;
 
             historicalData.weeks = []; 
             historicalData.gdp = []; 
@@ -1796,21 +1890,6 @@
             historicalData.inflation = []; 
             historicalData.politicalStability = [];
 
-            // Kabineyi sıfırla
-            for (const type in cabinet) {
-                cabinet[type] = { 
-                    name: 'Boş', 
-                    efficiency: 0.4 + Math.random() * 0.3, 
-                    corruption: 0.05 + Math.random() * 0.2 
-                };
-            }
-            
-            // Araştırmaları sıfırla
-            for (const tech in researchTechs) {
-                researchTechs[tech].progress = 0;
-                researchTechs[tech].completed = false;
-            }
-            
             // Ülke ilişkilerini sıfırla
             for (const country in countries) {
                 countries[country].summitInvited = false;
@@ -1824,10 +1903,7 @@
             const gameOverScreen = document.getElementById('game-over-screen');
             if(gameOverScreen) gameOverScreen.style.display = 'none';
             
-            addLog('🎮 Ulus Simülatörü Başladı! Yeni bir oyun başlıyor...', 'event');
-            updateGameStats(); 
-            updateCabinetDisplay();
-            updateTechnologyDisplay();
+            showNameModal();
             showScreen('main-screen'); 
         }
 
@@ -1841,6 +1917,15 @@
             
             const dailyFactor = 1/7;
 
+            // Protestoları azalt
+            currentProtests.forEach(protest => {
+                protest.duration--;
+                if (protest.duration <= 0) {
+                    currentProtests.splice(currentProtests.indexOf(protest), 1);
+                    addLog(`📢 ${protest.title} doğal olarak sona erdi.`, 'info');
+                }
+            });
+
             // Günlük gelir hesaplamaları
             let currentDailyBudgetChange = 0;
             let dailyRevenue = (population * gdp * (taxes / 520000) * (1 - cabinet.economy.corruption*0.5)) * dailyFactor;
@@ -1852,7 +1937,8 @@
             dailyTotalSpending += (healthSpending * (1 + cabinet.health.corruption*0.8)) * dailyFactor;
             dailyTotalSpending += (cultureSpending * (1 + (cabinet.economy.corruption || 0.1)*0.8)) * dailyFactor; 
             dailyTotalSpending += (socialPolicyLevel * 500000 * (1 + socialPolicyLevel/20)) * dailyFactor;
-            dailyTotalSpending += (researchBudget * 1000000) * dailyFactor; // Ar-Ge harcaması
+            dailyTotalSpending += (socialSecuritySpending * 1000000) * dailyFactor;
+            dailyTotalSpending += (unemploymentSupport * 1000000) * dailyFactor;
             
             const dailyArmyMaintenance = armySize * armyUpkeepCostPerSoldier * (1 + (militaryStrengthIndex - 50) / 150) * (1 - cabinet.defense.efficiency*0.1 + cabinet.defense.corruption*0.3) * dailyFactor;
             dailyTotalSpending += dailyArmyMaintenance;
@@ -1860,23 +1946,12 @@
             currentDailyBudgetChange -= dailyTotalSpending;
             weeklyBudgetChange += currentDailyBudgetChange;
 
-            // Araştırma ilerlemesi
-            if (activeResearch && researchBudget > 0) {
-                const researchProgress = researchBudget / researchTechs[activeResearch].cost * dailyFactor;
-                researchTechs[activeResearch].progress += researchProgress;
-                
-                if (researchTechs[activeResearch].progress >= researchTechs[activeResearch].duration) {
-                    completeResearch(activeResearch);
-                }
-            }
-
-            // GSYİH büyümesi (teknoloji etkisi dahil)
+            // GSYİH büyümesi
             let dailyGdpGrowth = ( 
                 (Math.random() - 0.45) * 0.004 * cabinet.economy.efficiency + 
                 (economicPolicyLevel - 5) * 0.0015 - 
                 inflation/500 + 
-                infrastructureLevel/10000 + 
-                technologyLevel/20000  // Teknoloji etkisi
+                infrastructureLevel/10000
             ) * dailyFactor; 
             weeklyGdpChangeFactor *= (1 + dailyGdpGrowth);
 
@@ -1888,7 +1963,8 @@
                              (cultureSpending / 400000)) * dailyFactor;
             dailySatDelta += (socialPolicyLevel - 5) * 0.6 * dailyFactor;
             dailySatDelta += (infrastructureLevel - 50) * 0.005 * dailyFactor; 
-            dailySatDelta += (technologyLevel - 25) * 0.003 * dailyFactor; // Teknoloji memnuniyet etkisi
+            dailySatDelta += (socialSecuritySpending / 5000000) * dailyFactor;
+            dailySatDelta += (unemploymentSupport / 3000000) * dailyFactor;
             
             if (inflation > 6) dailySatDelta -= (inflation - 6) * 0.25 * dailyFactor;
             if (crimeRate > 6) dailySatDelta -= crimeRate * 0.6 * dailyFactor;
@@ -1896,6 +1972,9 @@
             if (governmentType === 'Diktatörlük') dailySatDelta -= 0.8 * dailyFactor;
             if (propagandaEffectWeeks > 0) dailySatDelta += (2 + mediaInfluence/30) * dailyFactor; 
             if (mediaFreedom < 3 && governmentType === 'Demokrasi') dailySatDelta -= (3 - mediaFreedom) * 0.2 * dailyFactor; 
+            
+            // Protesto etkisi
+            dailySatDelta -= currentProtests.length * 2 * dailyFactor;
             
             weeklySatisfactionChange += dailySatDelta;
 
@@ -1907,55 +1986,7 @@
             }
             
             updateGameStats(); 
-        }
-
-        function completeResearch(techId) {
-            const tech = researchTechs[techId];
-            tech.completed = true;
-            activeResearch = null;
-            
-            addLog(`🔬 ${tech.name} araştırması tamamlandı!`, 'success');
-            
-            // Teknoloji bonusları
-            switch(techId) {
-                case 'agriculture':
-                    weeklyGdpChangeFactor *= 1.02;
-                    weeklySatisfactionChange += 2;
-                    weeklyTechnologyChange += 5;
-                    addLog("🌾 Tarım verimliliği arttı!", 'success');
-                    break;
-                case 'medicine':
-                    weeklySatisfactionChange += 3;
-                    weeklyPopulationChangeFactor *= 1.005;
-                    weeklyTechnologyChange += 6;
-                    addLog("💊 Sağlık hizmetleri gelişti!", 'success');
-                    break;
-                case 'industry':
-                    weeklyGdpChangeFactor *= 1.03;
-                    weeklyInflationChange -= 0.1;
-                    weeklyTechnologyChange += 8;
-                    addLog("🏭 Endüstriyel üretim arttı!", 'success');
-                    break;
-                case 'military':
-                    weeklyMilitaryStrengthChange += 15;
-                    weeklyTechnologyChange += 10;
-                    addLog("⚔️ Askeri güç arttı!", 'success');
-                    break;
-                case 'renewable':
-                    weeklyInflationChange -= 0.2;
-                    weeklySatisfactionChange += 4;
-                    weeklyTechnologyChange += 12;
-                    addLog("♻️ Yenilenebilir enerji sistemi kuruldu!", 'success');
-                    break;
-                case 'space':
-                    weeklyForeignRelationsChange += 10;
-                    weeklySatisfactionChange += 5;
-                    weeklyTechnologyChange += 20;
-                    addLog("🚀 Uzay programı başarıyla tamamlandı!", 'success');
-                    break;
-            }
-            
-            updateTechnologyDisplay();
+            updateProtestDisplay();
         }
 
         function endWeek() {
@@ -2009,20 +2040,13 @@
             applyAccumulatedWeeklyChanges(); 
 
             // Rastgele olaylar
-            if (week > 1 && Math.random() < 0.30) { 
+            if (week > 1 && Math.random() < 0.35) { 
                 triggerRandomEvent(); 
             }
             
             // Doğal afet kontrolü
-            if (Math.random() < 0.05) { // %5 şans
+            if (Math.random() < 0.08) { // %8 şans
                 triggerNaturalDisaster();
-            }
-            
-            // Seçim kontrolü
-            if ((governmentType === 'Demokrasi' || governmentType === 'Otoriter Demokrasi') && 
-                week > 10 && week % (48 + Math.floor(Math.random()*9)) === 0 ) { 
-                addLog('🗳️ SEÇİM ZAMANI!', 'event'); 
-                conductElections();
             }
 
             historicalData.weeks.push(week); 
@@ -2053,7 +2077,6 @@
             armyLoyalty += weeklyArmyLoyaltyChange;
             mediaFreedom += weeklyMediaFreedomChange;
             infrastructureLevel += weeklyInfrastructureChange;
-            technologyLevel += weeklyTechnologyChange;
 
             // Sınırlamaları uygula
             satisfaction = Math.max(0, Math.min(100, satisfaction));
@@ -2067,7 +2090,6 @@
             armyLoyalty = Math.max(0, Math.min(100, armyLoyalty));
             mediaFreedom = Math.max(0, Math.min(10, mediaFreedom));
             infrastructureLevel = Math.max(0, Math.min(100, infrastructureLevel)); 
-            technologyLevel = Math.max(0, Math.min(100, technologyLevel));
             gdp = Math.max(population * 10, gdp); 
 
             // Haftalık değişkenleri sıfırla
@@ -2084,127 +2106,6 @@
             weeklyArmyLoyaltyChange = 0;
             weeklyMediaFreedomChange = 0;
             weeklyInfrastructureChange = 0; 
-            weeklyTechnologyChange = 0;
-        }
-
-        function triggerRandomEvent() {
-            const events = [
-                {
-                    title: "🌾 Rekor Hasat",
-                    description: "Bu yılki hasat rekor seviyede! Ekonomi güçleniyor.",
-                    effects: () => {
-                        weeklyGdpChangeFactor *= 1.02;
-                        weeklySatisfactionChange += 3;
-                        weeklyInflationChange -= 0.1;
-                    }
-                },
-                {
-                    title: "🏭 Yabancı Yatırım",
-                    description: "Yabancı şirket büyük yatırım yapmak istiyor.",
-                    effects: () => {
-                        weeklyGdpChangeFactor *= 1.03;
-                        weeklyBudgetChange += 50000000;
-                        weeklyForeignRelationsChange += 5;
-                    }
-                },
-                {
-                    title: "🦠 Salgın Tehdidi",
-                    description: "Yeni bir salgın hastalık tehdidi ortaya çıktı.",
-                    effects: () => {
-                        weeklySatisfactionChange -= 5;
-                        weeklyBudgetChange -= 20000000;
-                        weeklyPopulationChangeFactor *= 0.99;
-                    }
-                },
-                {
-                    title: "🎭 Kültürel Festival",
-                    description: "Uluslararası kültür festivali büyük ilgi gördü.",
-                    effects: () => {
-                        weeklySatisfactionChange += 4;
-                        weeklyForeignRelationsChange += 3;
-                        weeklyBudgetChange += 5000000;
-                    }
-                },
-                {
-                    title: "💰 Vergi Kaçırma Skandalı",
-                    description: "Büyük bir vergi kaçırma skandalı ortaya çıktı.",
-                    effects: () => {
-                        weeklyBudgetChange -= 30000000;
-                        weeklySatisfactionChange -= 8;
-                        weeklyPoliticalStabilityChange -= 5;
-                    }
-                }
-            ];
-            
-            const event = events[Math.floor(Math.random() * events.length)];
-            addLog(`🎲 ${event.title}: ${event.description}`, 'event');
-            event.effects();
-        }
-
-        function triggerNaturalDisaster() {
-            const disasters = [
-                {
-                    name: "🌪️ Tornado",
-                    damage: 15000000,
-                    satisfactionLoss: 8,
-                    infrastructureDamage: 5
-                },
-                {
-                    name: "🌊 Sel",
-                    damage: 25000000,
-                    satisfactionLoss: 12,
-                    infrastructureDamage: 8
-                },
-                {
-                    name: "🔥 Orman Yangını",
-                    damage: 10000000,
-                    satisfactionLoss: 6,
-                    infrastructureDamage: 3
-                }
-            ];
-            
-            const disaster = disasters[Math.floor(Math.random() * disasters.length)];
-            
-            // Afet hazırlığı etkisi
-            const preparednessReduction = naturalDisasterPreparedness / 100;
-            const actualDamage = disaster.damage * (1 - preparednessReduction * 0.5);
-            const actualSatisfactionLoss = disaster.satisfactionLoss * (1 - preparednessReduction * 0.3);
-            const actualInfrastructureDamage = disaster.infrastructureDamage * (1 - preparednessReduction * 0.4);
-            
-            addLog(`🚨 DOĞAL AFET: ${disaster.name} meydana geldi!`, 'danger');
-            addLog(`💸 Hasar: $${(actualDamage/1000000).toFixed(1)}M, Altyapı hasarı: ${actualInfrastructureDamage.toFixed(1)}`, 'warning');
-            
-            weeklyBudgetChange -= actualDamage;
-            weeklySatisfactionChange -= actualSatisfactionLoss;
-            weeklyInfrastructureChange -= actualInfrastructureDamage;
-            
-            if (naturalDisasterPreparedness > 50) {
-                addLog("🛡️ İyi afet hazırlığımız sayesinde hasarlar azaltıldı.", 'info');
-            }
-        }
-
-        function conductElections() {
-            addLog("🗳️ Seçim kampanyaları başladı!", 'event');
-            
-            // Seçim sonuçları hükümet performansına bağlı
-            let electionScore = satisfaction * 0.4 + politicalStability * 0.3 + (100 - inflation) * 0.2 + (foreignRelationsScore * 0.1);
-            
-            if (electionScore > 60) {
-                addLog("🎉 Seçimleri kazandınız! Halk size güveniyor.", 'success');
-                parliamentSupport = Math.min(80, parliamentSupport + 15);
-                weeklySatisfactionChange += 5;
-            } else if (electionScore > 40) {
-                addLog("⚖️ Seçimlerde dar bir farkla kazandınız.", 'warning');
-                parliamentSupport = Math.max(45, parliamentSupport - 5);
-            } else {
-                addLog("❌ Seçimleri kaybettiniz! Muhalefet güçlendi.", 'danger');
-                parliamentSupport = Math.max(20, parliamentSupport - 20);
-                weeklyPoliticalStabilityChange -= 10;
-                
-                if (parliamentSupport < 30) {
-                    addLog("🚨 UYARI: Meclis desteğiniz kritik seviyede! Hükümet krizi riski var.", 'danger');
-                }
-            }
         }
 
         // Global fonksiyonlar (button onclick'ler için)
@@ -2223,6 +2124,7 @@
             
             addLog(`✅ ${countryName} ile ilişkiler geliştirildi! Yeni seviye: ${countries[countryName].relation}`, 'success');
             updateForeignRelationsDisplay();
+            updateGameStats();
         };
 
         window.declareWarOnCountry = function(countryName) {
@@ -2253,6 +2155,8 @@
                     isAtWar = false;
                     updateGameStats();
                 }, 3000);
+                
+                updateGameStats();
             }
         };
 
@@ -2277,6 +2181,17 @@
         }
 
         function setupAllEventListeners() {
+            // İsim modal
+            if(startGameBtn) {
+                startGameBtn.addEventListener('click', startGame);
+            }
+            
+            if(leaderNameInput) {
+                leaderNameInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') startGame();
+                });
+            }
+
             // Tema değiştirme
             if(themeToggleBtn) {
                 themeToggleBtn.addEventListener('click', () => {
@@ -2302,6 +2217,9 @@
             }
             
             // Vergi slider
+            const taxSlider = document.getElementById('tax-slider');
+            const taxSliderValue = document.getElementById('tax-slider-value');
+            
             if(taxSlider && taxSliderValue) {
                 taxSlider.addEventListener('input', () => {
                     taxSliderValue.textContent = taxSlider.value;
@@ -2309,6 +2227,7 @@
             }
             
             // Vergi uygulama
+            const applyTaxBtn = document.getElementById('apply-tax');
             if(applyTaxBtn) {
                 applyTaxBtn.addEventListener('click', () => {
                     addLog('🏦 Vergi politikası değerlendiriliyor...', 'info');
@@ -2318,6 +2237,7 @@
                     taxes = newTaxRate;
                     const change = newTaxRate - oldTaxes; 
                     
+                    const taxRateEl = document.getElementById('tax-rate');
                     if(taxRateEl) taxRateEl.textContent = taxes.toFixed(1);
                     
                     if (change > 0) { 
@@ -2343,11 +2263,14 @@
             setupInvestmentButtons('education-investment', 'decrease-education-investment', 'increase-education-investment', 1, 50);
             setupInvestmentButtons('health-investment', 'decrease-health-investment', 'increase-health-investment', 1, 50);
             setupInvestmentButtons('culture-investment', 'decrease-culture-investment', 'increase-culture-investment', 1, 30);
-            setupInvestmentButtons('research-budget-input', 'decrease-research-budget', 'increase-research-budget', 0, 100);
+            setupInvestmentButtons('social-security-investment', 'decrease-social-security', 'increase-social-security', 1, 40);
+            setupInvestmentButtons('unemployment-support', 'decrease-unemployment', 'increase-unemployment', 1, 25);
 
-            // Ekonomi yatırımı
+            // Tüm yatırım butonları
+            const investEconomyBtn = document.getElementById('invest-economy');
             if(investEconomyBtn) {
                 investEconomyBtn.addEventListener('click', () => {
+                    const economyInvestmentInput = document.getElementById('economy-investment');
                     const amount = economyInvestmentInput ? parseInt(economyInvestmentInput.value) : 10;
                     if(makeInvestment('Ekonomi', amount, 0.12, 0.06, 0.15, cabinet.economy)) {
                         addLog(`💼 Ekonomiye $${amount}M yatırım onaylandı.`, 'success');
@@ -2356,9 +2279,10 @@
                 });
             }
              
-            // Eğitim yatırımı
+            const investEducationBtn = document.getElementById('invest-education');
             if(investEducationBtn) {
                 investEducationBtn.addEventListener('click', () => {
+                    const educationInvestmentInput = document.getElementById('education-investment');
                     const amount = educationInvestmentInput ? parseInt(educationInvestmentInput.value) : 5; 
                     if(makeInvestment('Eğitim', amount, 0.01, 0.005, 0.6, cabinet.education)) {
                         educationSpending += amount * 1000000 * cabinet.education.efficiency;
@@ -2368,9 +2292,10 @@
                 });
             }
             
-            // Sağlık yatırımı
+            const investHealthBtn = document.getElementById('invest-health');
             if(investHealthBtn) {
                 investHealthBtn.addEventListener('click', () => {
+                    const healthInvestmentInput = document.getElementById('health-investment');
                     const amount = healthInvestmentInput ? parseInt(healthInvestmentInput.value) : 7; 
                     if(makeInvestment('Sağlık', amount, 0.015, 0.007, 0.75, cabinet.health)) {
                         healthSpending += amount * 1000000 * cabinet.health.efficiency;
@@ -2380,9 +2305,10 @@
                 });
             }
             
-            // Kültür yatırımı
+            const promoteCultureBtn = document.getElementById('promote-culture');
             if(promoteCultureBtn) {
                 promoteCultureBtn.addEventListener('click', () => {
+                    const cultureInvestmentInput = document.getElementById('culture-investment');
                     const amount = cultureInvestmentInput ? parseInt(cultureInvestmentInput.value) : 3; 
                     if(makeInvestment('Kültür', amount, 0.005, 0.002, 0.35, cabinet.economy)) {
                         cultureSpending += amount * 1000000;
@@ -2391,8 +2317,56 @@
                     updateGameStats();
                 });
             }
-            
-            // Tatil ilan etme
+
+            // Yeni sosyal yatırımlar
+            const investSocialSecurityBtn = document.getElementById('invest-social-security');
+            if(investSocialSecurityBtn) {
+                investSocialSecurityBtn.addEventListener('click', () => {
+                    const socialSecurityInput = document.getElementById('social-security-investment');
+                    const amount = socialSecurityInput ? parseInt(socialSecurityInput.value) : 5;
+                    addLog(`🛡️ Sosyal güvenlik sistemini güçlendirme planı hazırlanıyor...`, 'info');
+                    
+                    const cost = amount * 1000000;
+                    if (budget < cost) {
+                        addLog(`❌ Sosyal güvenlik için yeterli bütçe yok! Maliyet: $${cost.toLocaleString()}`, 'warning');
+                        return;
+                    }
+                    
+                    budget -= cost;
+                    socialSecuritySpending += amount;
+                    weeklySatisfactionChange += amount * 0.8;
+                    weeklyPoliticalStabilityChange += amount * 0.3;
+                    
+                    addLog(`✅ Sosyal güvenlik sistemine $${amount}M yatırım yapıldı.`, 'success');
+                    updateGameStats();
+                });
+            }
+
+            const investUnemploymentBtn = document.getElementById('invest-unemployment');
+            if(investUnemploymentBtn) {
+                investUnemploymentBtn.addEventListener('click', () => {
+                    const unemploymentInput = document.getElementById('unemployment-support');
+                    const amount = unemploymentInput ? parseInt(unemploymentInput.value) : 3;
+                    addLog(`💰 İşsizlik yardımı sistemi geliştiriliyor...`, 'info');
+                    
+                    const cost = amount * 1000000;
+                    if (budget < cost) {
+                        addLog(`❌ İşsizlik yardımı için yeterli bütçe yok! Maliyet: $${cost.toLocaleString()}`, 'warning');
+                        return;
+                    }
+                    
+                    budget -= cost;
+                    unemploymentSupport += amount;
+                    weeklySatisfactionChange += amount * 1.2;
+                    weeklyInflationChange += amount * 0.02; // Enflasyonist etki
+                    
+                    addLog(`✅ İşsizlik yardımlarına $${amount}M destek sağlandı.`, 'success');
+                    updateGameStats();
+                });
+            }
+
+            // Diğer sosyal politika butonları
+            const declareHolidayBtn = document.getElementById('declare-holiday');
             if(declareHolidayBtn) {
                 declareHolidayBtn.addEventListener('click', () => {
                     addLog('🎉 Yeni ulusal tatil planlanıyor...', 'info');
@@ -2413,43 +2387,243 @@
                 });
             }
 
-            // Ar-Ge bütçesi
-            if(setResearchBudgetBtn) {
-                setResearchBudgetBtn.addEventListener('click', () => {
-                    const newBudget = researchBudgetInput ? parseInt(researchBudgetInput.value) : 0;
-                    researchBudget = newBudget;
+            const publicWorksProgramBtn = document.getElementById('public-works-program');
+            if(publicWorksProgramBtn) {
+                publicWorksProgramBtn.addEventListener('click', () => {
+                    addLog('🔨 Kamu işleri programı başlatılıyor...', 'info');
                     
-                    addLog(`🔬 Ar-Ge bütçesi $${newBudget}M olarak ayarlandı.`, 'info');
-                    updateTechnologyDisplay();
-                });
-            }
-
-            // Araştırma butonları
-            document.addEventListener('click', (e) => {
-                if (e.target.classList.contains('research-btn')) {
-                    const techId = e.target.dataset.tech;
-                    const tech = researchTechs[techId];
-                    
-                    if (activeResearch) {
-                        addLog("❌ Zaten devam eden bir araştırma var!", 'warning');
-                        return;
-                    }
-                    
-                    const cost = tech.cost * 1000000;
+                    const cost = 15000000;
                     if (budget < cost) {
-                        addLog(`❌ ${tech.name} araştırması için yeterli bütçe yok! Maliyet: $${tech.cost}M`, 'warning');
+                        addLog("❌ Kamu işleri programı için yeterli bütçe yok!", 'warning');
                         return;
                     }
                     
                     budget -= cost;
-                    activeResearch = techId;
-                    tech.progress = 0;
+                    weeklySatisfactionChange += 6;
+                    weeklyGdpChangeFactor *= 1.01;
+                    weeklyInfrastructureChange += 3;
                     
-                    addLog(`🧪 ${tech.name} araştırması başlatıldı!`, 'success');
-                    updateTechnologyDisplay();
+                    addLog(`🏗️ Kamu işleri programı başlatıldı! İşsizlik azalacak ve altyapı gelişecek.`, 'success');
                     updateGameStats();
-                }
-            });
+                });
+            }
+
+            // Altyapı butonları
+            const investTransportationBtn = document.getElementById('invest-transportation-btn');
+            if(investTransportationBtn) {
+                investTransportationBtn.addEventListener('click', () => {
+                    addLog('🚗 Ulaşım ağı geliştirme projesi değerlendiriliyor...', 'info');
+                    
+                    const cost = 30000000; 
+                    const duration = 4;
+                    if (transportationInvestmentWeeks > 0) { 
+                        addLog("❌ Devam eden bir ulaşım ağı projesi zaten var.", "warning"); 
+                        return; 
+                    }
+                    if (isAtWar) { 
+                        addLog("❌ Savaş sırasında altyapı yatırımı yapılamaz.", "warning"); 
+                        return; 
+                    }
+                    if (budget >= cost) {
+                        budget -= cost; 
+                        transportationInvestmentWeeks = duration;
+                        addLog(`✅ Ulaşım ağına yatırım projesi başlatıldı ($${(cost/1000000).toFixed(0)}M). ${duration} hafta sürecek.`, "success");
+                        updateGameStats();
+                    } else { 
+                        addLog("❌ Ulaşım ağı yatırımı için bütçe yetersiz.", "warning");
+                    }
+                });
+            }
+
+            const investEnergyBtn = document.getElementById('invest-energy-btn');
+            if(investEnergyBtn) {
+                investEnergyBtn.addEventListener('click', () => {
+                    addLog('⚡ Enerji şebekesi güçlendirme projesi değerlendiriliyor...', 'info');
+                    
+                    const cost = 40000000; 
+                    const duration = 6;
+                    if (energyInvestmentWeeks > 0) { 
+                        addLog("❌ Devam eden bir enerji şebekesi projesi zaten var.", "warning"); 
+                        return; 
+                    }
+                    if (isAtWar) { 
+                        addLog("❌ Savaş sırasında altyapı yatırımı yapılamaz.", "warning"); 
+                        return; 
+                    }
+                    if (budget >= cost) {
+                        budget -= cost; 
+                        energyInvestmentWeeks = duration;
+                        addLog(`✅ Enerji şebekesini güçlendirme projesi başlatıldı ($${(cost/1000000).toFixed(0)}M). ${duration} hafta sürecek.`, "success");
+                        updateGameStats();
+                    } else { 
+                        addLog("❌ Enerji şebekesi yatırımı için bütçe yetersiz.", "warning");
+                    }
+                });
+            }
+
+            const buildHospitalsBtn = document.getElementById('build-hospitals-btn');
+            if(buildHospitalsBtn) {
+                buildHospitalsBtn.addEventListener('click', () => {
+                    addLog('🏥 Hastane inşaat projesi değerlendiriliyor...', 'info');
+                    
+                    const cost = 25000000;
+                    if (budget < cost) {
+                        addLog("❌ Hastane inşaatı için yeterli bütçe yok!", 'warning');
+                        return;
+                    }
+                    
+                    budget -= cost;
+                    healthSpending += cost * 0.1; // Sürekli işletme maliyeti
+                    weeklySatisfactionChange += 5;
+                    weeklyInfrastructureChange += 2;
+                    
+                    addLog(`🏥 Yeni hastaneler inşa edildi! Sağlık hizmetleri gelişecek.`, 'success');
+                    updateGameStats();
+                });
+            }
+
+            const buildSchoolsBtn = document.getElementById('build-schools-btn');
+            if(buildSchoolsBtn) {
+                buildSchoolsBtn.addEventListener('click', () => {
+                    addLog('🏫 Okul inşaat projesi değerlendiriliyor...', 'info');
+                    
+                    const cost = 20000000;
+                    if (budget < cost) {
+                        addLog("❌ Okul inşaatı için yeterli bütçe yok!", 'warning');
+                        return;
+                    }
+                    
+                    budget -= cost;
+                    educationSpending += cost * 0.15; // Sürekli işletme maliyeti
+                    weeklySatisfactionChange += 4;
+                    weeklyInfrastructureChange += 2;
+                    
+                    addLog(`🏫 Yeni okullar inşa edildi! Eğitim kalitesi artacak.`, 'success');
+                    updateGameStats();
+                });
+            }
+
+            // Yeni politika butonları
+            const investGreenEnergyBtn = document.getElementById('invest-green-energy');
+            if(investGreenEnergyBtn) {
+                investGreenEnergyBtn.addEventListener('click', () => {
+                    addLog('♻️ Yeşil enerji projesi değerlendiriliyor...', 'info');
+                    
+                    const cost = 20000000;
+                    if (budget < cost) {
+                        addLog("❌ Yeşil enerji yatırımı için yeterli bütçe yok!", 'warning');
+                        return;
+                    }
+                    
+                    budget -= cost;
+                    weeklyInflationChange -= 0.15; // Enerji maliyetleri düşer
+                    weeklySatisfactionChange += 6; // Çevre bilinci
+                    weeklyForeignRelationsChange += 3; // Uluslararası imaj
+                    weeklyInfrastructureChange += 3;
+                    
+                    addLog(`♻️ Yeşil enerji projesi başlatıldı! Çevre dostu enerji üretimi artacak.`, 'success');
+                    updateGameStats();
+                });
+            }
+
+            const developDefenseIndustryBtn = document.getElementById('develop-defense-industry');
+            if(developDefenseIndustryBtn) {
+                developDefenseIndustryBtn.addEventListener('click', () => {
+                    addLog('🔧 Savunma sanayi geliştirme projesi değerlendiriliyor...', 'info');
+                    
+                    const cost = 50000000;
+                    if (budget < cost) {
+                        addLog("❌ Savunma sanayi geliştirme için yeterli bütçe yok!", 'warning');
+                        return;
+                    }
+                    
+                    budget -= cost;
+                    weeklyMilitaryStrengthChange += 15;
+                    weeklyGdpChangeFactor *= 1.02; // Teknoloji transferi
+                    weeklyForeignRelationsChange += 5; // Askeri işbirliği
+                    
+                    addLog(`🔧 Savunma sanayi geliştirme projesi başlatıldı! Askeri güç ve teknoloji artacak.`, 'success');
+                    updateGameStats();
+                });
+            }
+
+            const disasterPreparationBtn = document.getElementById('disaster-preparation-btn');
+            if(disasterPreparationBtn) {
+                disasterPreparationBtn.addEventListener('click', () => {
+                    addLog('🌪️ Afet hazırlık sistemleri güçlendiriliyor...', 'info');
+                    
+                    const cost = 15000000;
+                    if (budget < cost) {
+                        addLog("❌ Afet hazırlığı için yeterli bütçe yok!", 'warning');
+                        return;
+                    }
+                    
+                    budget -= cost;
+                    naturalDisasterPreparedness = Math.min(100, naturalDisasterPreparedness + 20);
+                    weeklySatisfactionChange += 3;
+                    weeklyInfrastructureChange += 2;
+                    
+                    addLog(`🛡️ Afet hazırlık sistemi güçlendirildi! Doğal afetlere karşı daha hazırlıklıyız.`, 'success');
+                    updateGameStats();
+                });
+            }
+
+            const antiCorruptionCampaignBtn = document.getElementById('anti-corruption-campaign');
+            if(antiCorruptionCampaignBtn) {
+                antiCorruptionCampaignBtn.addEventListener('click', () => {
+                    addLog('⚖️ Yolsuzlukla mücadele kampanyası başlatılıyor...', 'info');
+                    
+                    const cost = 8000000;
+                    if (budget < cost) {
+                        addLog("❌ Yolsuzlukla mücadele için yeterli bütçe yok!", 'warning');
+                        return;
+                    }
+                    
+                    budget -= cost;
+                    
+                    // Tüm bakanların yolsuzluk seviyesini azalt
+                    for (const type in cabinet) {
+                        cabinet[type].corruption = Math.max(0.02, cabinet[type].corruption * 0.7);
+                    }
+                    
+                    weeklySatisfactionChange += 8;
+                    weeklyPoliticalStabilityChange += 5;
+                    weeklyForeignRelationsChange += 4;
+                    
+                    addLog(`⚖️ Yolsuzlukla mücadele kampanyası başarıyla uygulandı! Halk güveni arttı.`, 'success');
+                    updateCabinetDisplay();
+                    updateGameStats();
+                });
+            }
+
+            // Protesto müdahale butonları
+            const negotiateProtestersBtn = document.getElementById('negotiate-protesters');
+            if(negotiateProtestersBtn) {
+                negotiateProtestersBtn.addEventListener('click', () => {
+                    handleProtestAction('negotiate');
+                });
+            }
+
+            const ignoreProtestsBtn = document.getElementById('ignore-protests');
+            if(ignoreProtestsBtn) {
+                ignoreProtestsBtn.addEventListener('click', () => {
+                    handleProtestAction('ignore');
+                });
+            }
+
+            const disperseProtestsPeacefulBtn = document.getElementById('disperse-protests-peaceful');
+            if(disperseProtestsPeacefulBtn) {
+                disperseProtestsPeacefulBtn.addEventListener('click', () => {
+                    handleProtestAction('peaceful');
+                });
+            }
+
+            const disperseProtestsForceBtn = document.getElementById('disperse-protests-force');
+            if(disperseProtestsForceBtn) {
+                disperseProtestsForceBtn.addEventListener('click', () => {
+                    handleProtestAction('force');
+                });
+            }
             
             // Zaman yönetimi butonları
             const advanceDayBtn = document.getElementById('advance-day-btn');
@@ -2485,6 +2659,7 @@
             }
             
             // Hafta bitirme
+            const endWeekBtn = document.getElementById('end-week-btn');
             if(endWeekBtn) {
                 endWeekBtn.addEventListener('click', () => { 
                     if (!isAtWar) {
@@ -2496,6 +2671,7 @@
             }
             
             // Oyunu yeniden başlatma
+            const restartGameBtn = document.getElementById('restart-game-btn');
             if(restartGameBtn) {
                 restartGameBtn.addEventListener('click', () => { 
                     if(confirm("Oyunu yeniden başlatmak istediğinizden emin misiniz?")) {
