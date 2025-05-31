@@ -612,6 +612,16 @@
             75% { transform: translateX(5px); }
         }
 
+        /* Diplomatik davet stilleri */
+        .diplomatic-invitation {
+            background: linear-gradient(135deg, var(--primary-color), #2980b9);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            animation: slideIn 0.5s ease;
+        }
+
         @media (max-width: 480px) {
             button {
                 padding: 8px 12px;
@@ -686,6 +696,7 @@
                 <p>🌍 Dış İlişkiler Skoru: <span id="foreign-relations-score">50</span></p>
                 <p>⚔️ Ordu Büyüklüğü: <span id="army-size-display">50000</span></p>
                 <p>📺 Medya Özgürlüğü: <span id="media-freedom-display">7</span>/10</p>
+                <p>🚨 Suç Oranı: <span id="crime-rate-main">5</span>%</p>
             </div>
 
             <div class="actions-panel">
@@ -741,26 +752,7 @@
                         </div>
                         <button id="promote-culture">Yatırım Yap</button>
                     </div>
-                    <div class="flex-row">
-                        <label for="social-security-investment">Sosyal Güvenlik ($M):</label>
-                        <div class="input-with-buttons">
-                            <button id="decrease-social-security">-</button>
-                            <input type="number" id="social-security-investment" value="5" min="1" max="40">
-                            <button id="increase-social-security">+</button>
-                        </div>
-                        <button id="invest-social-security">Yatırım Yap</button>
-                    </div>
-                    <div class="flex-row">
-                        <label for="unemployment-support">İşsizlik Yardımı ($M):</label>
-                        <div class="input-with-buttons">
-                            <button id="decrease-unemployment">-</button>
-                            <input type="number" id="unemployment-support" value="3" min="1" max="25">
-                            <button id="increase-unemployment">+</button>
-                        </div>
-                        <button id="invest-unemployment">Yatırım Yap</button>
-                    </div>
                     <button id="declare-holiday">🎉 Yeni Tatil İlan Et ($2M)</button>
-                    <button id="public-works-program">🔨 Kamu İşleri Programı ($15M)</button>
                 </div>
 
                  <div class="action-category">
@@ -1056,6 +1048,7 @@
         let naturalDisasterPreparedness = 30;
         let currentProtests = [];
         let protestIntensity = 0;
+        let lastDecisionImpact = { type: '', value: 0 }; // Son kararın etkisini takip etmek için
 
         let population = 10000000;
         let gdp = 1000000000;
@@ -1085,7 +1078,7 @@
         let securityLevel = 5; 
 
         const historicalData = {
-            weeks: [], gdp: [], satisfaction: [], inflation: [], politicalStability: []
+            weeks: [], gdp: [], satisfaction: [], inflation: [], politicalStability: [], crimeRate: []
         };
         
         let weeklyBudgetChange = 0; 
@@ -1135,6 +1128,7 @@
         const parliamentAgenda = []; 
         let summitPlanned = false;
         let summitInvitationsSent = false;
+        let pendingDiplomaticInvitations = []; // Gelen diplomatik davetler
 
         // DOM Elementleri
         const nameModal = document.getElementById('nameModal');
@@ -1236,6 +1230,7 @@
             } else if (screenId === 'foreign-affairs-screen') {
                 updateForeignRelationsDisplay();
                 updateSummitInvitationList();
+                updateDiplomaticInvitations();
             } else if (screenId === 'parliament-screen') {
                 updateParliamentDisplay();
             } else if (screenId === 'reports-screen') {
@@ -1260,7 +1255,7 @@
             }
             
             // Kritik durumlar için özel stil
-            if (message.includes('KRİTİK') || message.includes('UYARI') || message.includes('TEHLİKE') || message.includes('PROTESTO')) {
+            if (message.includes('KRİTİK') || message.includes('UYARI') || message.includes('TEHLİKE') || message.includes('PROTESTO') || message.includes('SUÇ') || message.includes('SKANDAL')) {
                 li.classList.add('critical-alert');
             }
             
@@ -1287,6 +1282,7 @@
             const infrastructureLevelDisplayEl = document.getElementById('infrastructure-level-display');
             const foreignRelationsScoreEl = document.getElementById('foreign-relations-score');
             const armySizeDisplayEl = document.getElementById('army-size-display');
+            const crimeRateMainEl = document.getElementById('crime-rate-main');
             
             if(currentWeekEl) currentWeekEl.textContent = week;
             if(currentDayOfWeekEl) currentDayOfWeekEl.textContent = dayOfWeek; 
@@ -1302,6 +1298,7 @@
             if(infrastructureLevelDisplayEl) infrastructureLevelDisplayEl.textContent = `${infrastructureLevel.toFixed(0)}/100`; 
             if(foreignRelationsScoreEl) foreignRelationsScoreEl.textContent = foreignRelationsScore.toFixed(0);
             if(armySizeDisplayEl) armySizeDisplayEl.textContent = armySize.toLocaleString(); 
+            if(crimeRateMainEl) crimeRateMainEl.textContent = crimeRate.toFixed(1);
             
             // Güvenlik ekranı güncellemeleri
             const crimeRateEl = document.getElementById('crime-rate');
@@ -1340,13 +1337,21 @@
             
             ctx.font = '12px Arial';
 
-            function drawBar(label, value, maxValue, colorFunc) {
+            function drawBar(label, value, maxValue, colorFunc, showTrend = false) {
                 ctx.fillStyle = textColor;
                 ctx.fillText(label, 5, currentY + barHeight / 2 + 4);
                 
                 const fillWidth = Math.max(0, (value / maxValue) * barWidth);
-                ctx.fillStyle = colorFunc(value, maxValue);
+                const baseColor = colorFunc(value, maxValue);
+                ctx.fillStyle = baseColor;
                 ctx.fillRect(startX, currentY, fillWidth, barHeight);
+                
+                // Trend göstergesi
+                if (showTrend && lastDecisionImpact.type === label) {
+                    const trendColor = lastDecisionImpact.value > 0 ? '#2ecc71' : '#e74c3c';
+                    ctx.fillStyle = trendColor;
+                    ctx.fillRect(startX + fillWidth, currentY, 3, barHeight);
+                }
                 
                 ctx.strokeStyle = borderColor;
                 ctx.strokeRect(startX, currentY, barWidth, barHeight);
@@ -1358,12 +1363,12 @@
                 currentY += verticalSpacing; 
             }
 
-            drawBar('😊 Memnun.:', satisfaction, 100, (val) => `rgb(${255 - (val * 2.55)}, ${val * 2.55}, 0)`);
-            drawBar('📈 Enflas.:', Math.min(inflation, 25), 25, (val, max) => `rgb(${(val/max) * 255}, ${255 - ((val/max) * 255)}, 0)`); 
-            drawBar('🌍 Dış İlş.:', foreignRelationsScore, 100, (val) => `rgb(0, ${val * 1.5}, ${255 - (val * 1.5)})`); 
-            drawBar('🚨 Suç Orn.:', Math.min(crimeRate, 25), 25, (val, max) => `rgb(${(val/max) * 255}, ${150 - ((val/max) * 150)}, 0)`); 
-            drawBar('⚖️ İstikrar:', politicalStability, 100, (val) => `rgb(${val*0.5}, ${val * 2}, ${255 - val * 2})`);
-            drawBar('🏗️ Altyapı:', infrastructureLevel, 100, (val) => `rgb(${val * 1.2}, ${val*1.2}, ${val*1.2})`);
+            drawBar('😊 Memnun.:', satisfaction, 100, (val) => val > 70 ? '#2ecc71' : val > 40 ? '#f39c12' : '#e74c3c', true);
+            drawBar('📈 Enflas.:', Math.min(inflation, 25), 25, (val, max) => val < 5 ? '#2ecc71' : val < 10 ? '#f39c12' : '#e74c3c', true);
+            drawBar('🌍 Dış İlş.:', foreignRelationsScore, 100, (val) => val > 60 ? '#2ecc71' : val > 30 ? '#f39c12' : '#e74c3c', true);
+            drawBar('🚨 Suç Orn.:', Math.min(crimeRate, 25), 25, (val, max) => val < 3 ? '#2ecc71' : val < 8 ? '#f39c12' : '#e74c3c', true);
+            drawBar('⚖️ İstikrar:', politicalStability, 100, (val) => val > 60 ? '#2ecc71' : val > 30 ? '#f39c12' : '#e74c3c', true);
+            drawBar('🏗️ Altyapı:', infrastructureLevel, 100, (val) => val > 70 ? '#2ecc71' : val > 40 ? '#f39c12' : '#e74c3c', true);
         }
 
         function makeInvestment(name, amount, gdpFactorEffect, inflationEffect, satisfactionEffect, minister) {
@@ -1380,12 +1385,16 @@
             
             if(gdpFactorEffect) {
                 weeklyGdpChangeFactor *= (1 + (effectiveAmount / (gdp||1) * gdpFactorEffect * minister.efficiency));
+                lastDecisionImpact = { type: '💰 GSYİH', value: gdpFactorEffect * minister.efficiency };
             }
             if(inflationEffect) {
                 weeklyInflationChange += (effectiveAmount / (gdp||1) * inflationEffect);
+                lastDecisionImpact = { type: '📈 Enflas.:', value: -inflationEffect };
             }
             if(satisfactionEffect) {
-                weeklySatisfactionChange += satisfactionEffect * (effectiveAmount / 10000000) * minister.efficiency;
+                const satEffect = satisfactionEffect * (effectiveAmount / 10000000) * minister.efficiency;
+                weeklySatisfactionChange += satEffect;
+                lastDecisionImpact = { type: '😊 Memnun.:', value: satEffect };
             }
 
             addLog(`✅ ${name}'e $${amount}M yatırım yapıldı. Bakan: ${minister.name} (Verimlilik:${(minister.efficiency*100).toFixed(0)}%, Yolsuzluk:${(minister.corruption*100).toFixed(0)}%)`, 'success');
@@ -1393,12 +1402,67 @@
             if (minister.corruption > 0.2 && Math.random() < minister.corruption*2) {
                 let lostAmount = cost * minister.corruption * 0.5;
                 budget -= lostAmount; 
-                addLog(`🚨 Bakan ${minister.name}'in yolsuzlukları nedeniyle $${(lostAmount/1000000).toFixed(1)}M kayboldu!`, 'danger');
-                weeklySatisfactionChange -= 2; 
-                weeklyPoliticalStabilityChange -= 3;
+                addLog(`🚨 YOLSUZLUK SKANDALI: Bakan ${minister.name}'in yolsuzlukları ortaya çıktı! $${(lostAmount/1000000).toFixed(1)}M kayboldu!`, 'danger');
+                weeklySatisfactionChange -= 8; 
+                weeklyPoliticalStabilityChange -= 10;
+                weeklyInflationChange += 0.5; // Yolsuzluk enflasyonu artırır
+                weeklyForeignRelationsChange -= 3; // Uluslararası imaj zarar görür
             }
             
             return true;
+        }
+
+        function triggerCrimeEvent() {
+            const crimes = [
+                {
+                    title: "🏦 Banka Soygunu",
+                    description: "Şehir merkezinde silahlı banka soygunu!",
+                    crimeIncrease: 0.3,
+                    satisfactionLoss: 2,
+                    budgetLoss: 1000000
+                },
+                {
+                    title: "💊 Uyuşturucu Operasyonu",
+                    description: "Büyük uyuşturucu çetesi yakalandı.",
+                    crimeIncrease: -0.5,
+                    satisfactionGain: 3,
+                    budgetLoss: 2000000
+                },
+                {
+                    title: "🚗 Organize Suç",
+                    description: "Organize suç örgütü faaliyetleri arttı.",
+                    crimeIncrease: 0.8,
+                    satisfactionLoss: 4,
+                    securityLoss: 2
+                },
+                {
+                    title: "🏪 Dükkan Hırsızlığı",
+                    description: "Küçük işletmelerde hırsızlık olayları arttı.",
+                    crimeIncrease: 0.2,
+                    satisfactionLoss: 1
+                },
+                {
+                    title: "⚖️ Yargı Başarısı",
+                    description: "Önemli suç lideri tutuklandı!",
+                    crimeIncrease: -0.7,
+                    satisfactionGain: 4,
+                    stabilityGain: 2
+                }
+            ];
+            
+            const crime = crimes[Math.floor(Math.random() * crimes.length)];
+            
+            addLog(`🚨 SUÇ OLAYLARI: ${crime.title} - ${crime.description}`, 'danger');
+            
+            if (crime.crimeIncrease) {
+                weeklyCrimeRateChange += crime.crimeIncrease;
+                lastDecisionImpact = { type: '🚨 Suç Orn.:', value: -crime.crimeIncrease };
+            }
+            if (crime.satisfactionLoss) weeklySatisfactionChange -= crime.satisfactionLoss;
+            if (crime.satisfactionGain) weeklySatisfactionChange += crime.satisfactionGain;
+            if (crime.budgetLoss) weeklyBudgetChange -= crime.budgetLoss;
+            if (crime.securityLoss) weeklySecurityPerceptionChange -= crime.securityLoss;
+            if (crime.stabilityGain) weeklyPoliticalStabilityChange += crime.stabilityGain;
         }
 
         function updateCabinetDisplay() {
@@ -1462,6 +1526,7 @@
             // Protesto etkilerini uygula
             weeklySatisfactionChange -= protest.intensity * 2;
             weeklyPoliticalStabilityChange -= protest.intensity;
+            weeklyCrimeRateChange += protest.intensity * 0.1; // Protestolar suç oranını artırır
         }
 
         function updateProtestDisplay() {
@@ -1498,13 +1563,16 @@
                     weeklyPoliticalStabilityChange += 2;
                     budget -= 1000000; // Müzakere maliyeti
                     currentProtests.shift();
+                    lastDecisionImpact = { type: '😊 Memnun.:', value: 3 };
                     break;
                     
                 case 'ignore':
                     addLog(`🙄 ${protest.title} görmezden gelindi.`, 'warning');
                     weeklySatisfactionChange -= protest.intensity * 3;
                     weeklyPoliticalStabilityChange -= protest.intensity * 2;
+                    weeklyCrimeRateChange += protest.intensity * 0.2; // Görmezden gelinen protestolar suçu artırır
                     protest.intensity += 1;
+                    lastDecisionImpact = { type: '😊 Memnun.:', value: -protest.intensity * 3 };
                     break;
                     
                 case 'peaceful':
@@ -1513,6 +1581,7 @@
                     weeklyPoliticalStabilityChange += 1;
                     budget -= 500000; // Polis maliyeti
                     currentProtests.shift();
+                    lastDecisionImpact = { type: '⚖️ İstikrar:', value: 1 };
                     break;
                     
                 case 'force':
@@ -1520,13 +1589,111 @@
                     weeklySatisfactionChange -= protest.intensity * 5;
                     weeklyPoliticalStabilityChange -= protest.intensity * 3;
                     weeklyForeignRelationsChange -= 2;
+                    weeklyCrimeRateChange += protest.intensity * 0.3; // Şiddet daha fazla suça yol açar
                     currentProtests.shift();
+                    lastDecisionImpact = { type: '😊 Memnun.:', value: -protest.intensity * 5 };
                     break;
             }
             
             updateProtestDisplay();
             updateGameStats();
         }
+
+        function generateDiplomaticInvitation() {
+            const invitationTypes = [
+                {
+                    title: "🤝 Ekonomik İşbirliği Zirvesi",
+                    host: "Almanya",
+                    benefit: { gdp: 1.02, foreignRelations: 5, cost: 5000000 },
+                    description: "AB ülkeleri ekonomik işbirliği toplantısına davet ediyor."
+                },
+                {
+                    title: "🌍 İklim Değişikliği Konferansı",
+                    host: "Norveç",
+                    benefit: { satisfaction: 3, foreignRelations: 8, cost: 3000000 },
+                    description: "Çevre dostu politikalar için uluslararası konferansa katılım."
+                },
+                {
+                    title: "⚔️ Güvenlik İşbirliği Toplantısı",
+                    host: "ABD",
+                    benefit: { militaryStrength: 10, foreignRelations: 6, cost: 8000000 },
+                    description: "Bölgesel güvenlik konularında işbirliği."
+                },
+                {
+                    title: "🎭 Kültür Festivali",
+                    host: "Fransa",
+                    benefit: { satisfaction: 5, foreignRelations: 4, cost: 2000000 },
+                    description: "Uluslararası kültür ve sanat festivali."
+                }
+            ];
+            
+            const invitation = invitationTypes[Math.floor(Math.random() * invitationTypes.length)];
+            invitation.id = Date.now();
+            pendingDiplomaticInvitations.push(invitation);
+            
+            addLog(`📨 DİPLOMATİK DAVET: ${invitation.host}'dan "${invitation.title}" davetiyesi geldi!`, 'event');
+            updateDiplomaticInvitations();
+        }
+
+        function updateDiplomaticInvitations() {
+            const foreignEventsList = document.getElementById('foreign-events-list');
+            if (!foreignEventsList) return;
+            
+            foreignEventsList.innerHTML = '';
+            
+            pendingDiplomaticInvitations.forEach(invitation => {
+                const li = document.createElement('li');
+                li.className = 'diplomatic-invitation';
+                li.innerHTML = `
+                    <div>
+                        <h4>${invitation.title}</h4>
+                        <p>Ev Sahibi: ${invitation.host}</p>
+                        <p>${invitation.description}</p>
+                        <p>Maliyet: $${(invitation.benefit.cost/1000000).toFixed(1)}M</p>
+                    </div>
+                    <div>
+                        <button onclick="acceptInvitation(${invitation.id})">✅ Kabul Et</button>
+                        <button onclick="declineInvitation(${invitation.id})">❌ Reddet</button>
+                    </div>
+                `;
+                foreignEventsList.appendChild(li);
+            });
+        }
+
+        window.acceptInvitation = function(invitationId) {
+            const invitation = pendingDiplomaticInvitations.find(inv => inv.id === invitationId);
+            if (!invitation) return;
+            
+            if (budget < invitation.benefit.cost) {
+                addLog(`❌ ${invitation.title} için yeterli bütçe yok!`, 'warning');
+                return;
+            }
+            
+            budget -= invitation.benefit.cost;
+            
+            if (invitation.benefit.gdp) weeklyGdpChangeFactor *= invitation.benefit.gdp;
+            if (invitation.benefit.satisfaction) weeklySatisfactionChange += invitation.benefit.satisfaction;
+            if (invitation.benefit.foreignRelations) weeklyForeignRelationsChange += invitation.benefit.foreignRelations;
+            if (invitation.benefit.militaryStrength) weeklyMilitaryStrengthChange += invitation.benefit.militaryStrength;
+            
+            addLog(`✅ ${invitation.title} davetini kabul ettiniz! ${invitation.host} ile ilişkiler güçlendi.`, 'success');
+            
+            pendingDiplomaticInvitations = pendingDiplomaticInvitations.filter(inv => inv.id !== invitationId);
+            updateDiplomaticInvitations();
+            updateGameStats();
+        };
+
+        window.declineInvitation = function(invitationId) {
+            const invitation = pendingDiplomaticInvitations.find(inv => inv.id === invitationId);
+            if (!invitation) return;
+            
+            weeklyForeignRelationsChange -= 2;
+            addLog(`❌ ${invitation.title} davetini reddettiniz. ${invitation.host} ile ilişkiler etkilenebilir.`, 'warning');
+            
+            pendingDiplomaticInvitations = pendingDiplomaticInvitations.filter(inv => inv.id !== invitationId);
+            updateDiplomaticInvitations();
+            updateGameStats();
+        };
 
         function updateMinisterAdvice() {
             // Bakan tavsiyeleri güncelleme
@@ -1571,6 +1738,36 @@
                     foreignAdvice.textContent = "Dış ilişkilerimiz güçlü. Bu durumu korumalıyız.";
                 } else {
                     foreignAdvice.textContent = "Dış ilişkiler orta seviyede.";
+                }
+            }
+            
+            if (interiorAdvice) {
+                if (crimeRate > 8) {
+                    interiorAdvice.textContent = "Suç oranları yüksek! Polis bütçesi artırılmalı ve güvenlik önlemleri alınmalı.";
+                } else if (securityPerception < 50) {
+                    interiorAdvice.textContent = "Halkın güvenlik algısı düşük. İç güvenlik politikalarını gözden geçirmeliyiz.";
+                } else {
+                    interiorAdvice.textContent = "İç güvenlik durumu kontrol altında.";
+                }
+            }
+            
+            if (justiceAdvice) {
+                if (crimeRate > 10) {
+                    justiceAdvice.textContent = "Adalet sisteminde reform gerekli. Suçlular cezasız kalıyor.";
+                } else if (politicalStability < 40) {
+                    justiceAdvice.textContent = "Siyasi istikrarsızlık adalet sistemini etkiliyor.";
+                } else {
+                    justiceAdvice.textContent = "Adalet sistemi işliyor.";
+                }
+            }
+            
+            if (defenseAdvice) {
+                if (armyLoyalty < 50) {
+                    defenseAdvice.textContent = "UYARI: Ordu sadakati düşük! Askeri reformlar gerekli.";
+                } else if (militaryStrengthIndex < 30) {
+                    defenseAdvice.textContent = "Askeri güçmüz zayıf. Savunma yatırımları artırılmalı.";
+                } else {
+                    defenseAdvice.textContent = "Savunma durumu tatmin edici.";
                 }
             }
         }
@@ -1676,6 +1873,30 @@
                         weeklyGdpChangeFactor *= 1.02;
                         weeklySatisfactionChange += 3;
                         weeklyInflationChange -= 0.1;
+                        lastDecisionImpact = { type: '💰 GSYİH', value: 2 };
+                    }
+                },
+                {
+                    title: "🏭 Fabrika Patlaması",
+                    description: "Büyük bir kimya fabrikasında patlama! Ekonomik ve çevresel hasar.",
+                    effects: () => {
+                        weeklyGdpChangeFactor *= 0.98;
+                        weeklySatisfactionChange -= 8;
+                        weeklyInflationChange += 0.3;
+                        weeklyBudgetChange -= 20000000;
+                        lastDecisionImpact = { type: '😊 Memnun.:', value: -8 };
+                    }
+                },
+                {
+                    title: "💰 Vergi Kaçırma Skandalı",
+                    description: "Büyük şirketlerin vergi kaçırma skandalı ortaya çıktı!",
+                    effects: () => {
+                        weeklyBudgetChange -= 50000000;
+                        weeklySatisfactionChange -= 12;
+                        weeklyPoliticalStabilityChange -= 8;
+                        weeklyInflationChange += 0.4; // Ekonomik güvensizlik
+                        weeklyCrimeRateChange += 0.5; // Kanun tanımazlık artar
+                        lastDecisionImpact = { type: '😊 Memnun.:', value: -12 };
                     }
                 },
                 {
@@ -1685,15 +1906,7 @@
                         weeklySatisfactionChange += 5;
                         weeklyForeignRelationsChange += 4;
                         weeklyBudgetChange += 8000000;
-                    }
-                },
-                {
-                    title: "🏭 Yabancı Yatırım",
-                    description: "Büyük bir yabancı şirket ülkenizde fabrika kurmak istiyor.",
-                    effects: () => {
-                        weeklyGdpChangeFactor *= 1.03;
-                        weeklyBudgetChange += 50000000;
-                        weeklyForeignRelationsChange += 5;
+                        lastDecisionImpact = { type: '😊 Memnun.:', value: 5 };
                     }
                 },
                 {
@@ -1703,23 +1916,8 @@
                         weeklySatisfactionChange -= 5;
                         weeklyBudgetChange -= 20000000;
                         weeklyPopulationChangeFactor *= 0.99;
-                    }
-                },
-                {
-                    title: "💰 Vergi Kaçırma Skandalı",
-                    description: "Büyük bir vergi kaçırma skandalı ortaya çıktı.",
-                    effects: () => {
-                        weeklyBudgetChange -= 30000000;
-                        weeklySatisfactionChange -= 8;
-                        weeklyPoliticalStabilityChange -= 5;
-                    }
-                },
-                {
-                    title: "🎵 Popüler Müzik Festivali",
-                    description: "Ülke çapında müzik festivali düzenlendi!",
-                    effects: () => {
-                        weeklySatisfactionChange += 4;
-                        weeklyBudgetChange += 5000000;
+                        weeklyInflationChange += 0.2; // Sağlık harcamaları
+                        lastDecisionImpact = { type: '😊 Memnun.:', value: -5 };
                     }
                 },
                 {
@@ -1729,33 +1927,19 @@
                         weeklySatisfactionChange += 8;
                         weeklyPoliticalStabilityChange += 3;
                         weeklyForeignRelationsChange += 6;
+                        lastDecisionImpact = { type: '😊 Memnun.:', value: 8 };
                     }
                 },
                 {
-                    title: "🌡️ Aşırı Sıcaklık Dalgası",
-                    description: "Ülkede rekor seviyede sıcaklık yaşanıyor.",
+                    title: "💻 Siber Saldırı",
+                    description: "Devlet kurumlarına büyük siber saldırı düzenlendi!",
                     effects: () => {
-                        weeklySatisfactionChange -= 3;
-                        weeklyBudgetChange -= 15000000; // Klimatizasyon ve su maliyetleri
-                        weeklyInfrastructureChange -= 2;
-                    }
-                },
-                {
-                    title: "💎 Doğal Kaynak Keşfi",
-                    description: "Ülkede değerli maden yatakları keşfedildi!",
-                    effects: () => {
-                        weeklyGdpChangeFactor *= 1.05;
-                        weeklyBudgetChange += 100000000;
-                        weeklyForeignRelationsChange += 3;
-                    }
-                },
-                {
-                    title: "🚨 Siber Saldırı",
-                    description: "Devlet kurumlarına siber saldırı düzenlendi.",
-                    effects: () => {
-                        weeklyBudgetChange -= 25000000;
-                        weeklySatisfactionChange -= 6;
-                        weeklyPoliticalStabilityChange -= 4;
+                        weeklyBudgetChange -= 30000000;
+                        weeklySatisfactionChange -= 10;
+                        weeklyPoliticalStabilityChange -= 6;
+                        weeklyInflationChange += 0.3;
+                        weeklyCrimeRateChange += 0.3; // Dijital suçlar artar
+                        lastDecisionImpact = { type: '🚨 Suç Orn.:', value: 0.3 };
                     }
                 }
             ];
@@ -1768,40 +1952,32 @@
         function triggerNaturalDisaster() {
             const disasters = [
                 {
-                    name: "🌪️ Tornado",
-                    damage: 15000000,
-                    satisfactionLoss: 8,
-                    infrastructureDamage: 5
+                    name: "🌋 Deprem",
+                    damage: 80000000,
+                    satisfactionLoss: 20,
+                    infrastructureDamage: 15,
+                    inflationIncrease: 1.2
                 },
                 {
                     name: "🌊 Sel",
                     damage: 25000000,
                     satisfactionLoss: 12,
-                    infrastructureDamage: 8
+                    infrastructureDamage: 8,
+                    inflationIncrease: 0.4
                 },
                 {
                     name: "🔥 Orman Yangını",
                     damage: 10000000,
                     satisfactionLoss: 6,
-                    infrastructureDamage: 3
-                },
-                {
-                    name: "🌋 Deprem",
-                    damage: 80000000,
-                    satisfactionLoss: 20,
-                    infrastructureDamage: 15
-                },
-                {
-                    name: "❄️ Kar Fırtınası",
-                    damage: 12000000,
-                    satisfactionLoss: 4,
-                    infrastructureDamage: 2
+                    infrastructureDamage: 3,
+                    inflationIncrease: 0.2
                 },
                 {
                     name: "🌪️ Kasırga",
                     damage: 60000000,
                     satisfactionLoss: 15,
-                    infrastructureDamage: 12
+                    infrastructureDamage: 12,
+                    inflationIncrease: 0.8
                 }
             ];
             
@@ -1812,6 +1988,7 @@
             const actualDamage = disaster.damage * (1 - preparednessReduction * 0.5);
             const actualSatisfactionLoss = disaster.satisfactionLoss * (1 - preparednessReduction * 0.3);
             const actualInfrastructureDamage = disaster.infrastructureDamage * (1 - preparednessReduction * 0.4);
+            const actualInflationIncrease = disaster.inflationIncrease * (1 - preparednessReduction * 0.3);
             
             addLog(`🚨 DOĞAL AFET: ${disaster.name} meydana geldi!`, 'danger');
             addLog(`💸 Hasar: $${(actualDamage/1000000).toFixed(1)}M, Altyapı hasarı: ${actualInfrastructureDamage.toFixed(1)}`, 'warning');
@@ -1819,6 +1996,10 @@
             weeklyBudgetChange -= actualDamage;
             weeklySatisfactionChange -= actualSatisfactionLoss;
             weeklyInfrastructureChange -= actualInfrastructureDamage;
+            weeklyInflationChange += actualInflationIncrease; // Afetler enflasyonu artırır
+            weeklyCrimeRateChange += actualSatisfactionLoss * 0.1; // Afet sonrası asayish bozulabilir
+            
+            lastDecisionImpact = { type: '📈 Enflas.:', value: actualInflationIncrease };
             
             if (naturalDisasterPreparedness > 50) {
                 addLog("🛡️ İyi afet hazırlığımız sayesinde hasarlar azaltıldı.", 'info');
@@ -1840,6 +2021,8 @@
             naturalDisasterPreparedness = 30;
             currentProtests = [];
             protestIntensity = 0;
+            pendingDiplomaticInvitations = [];
+            lastDecisionImpact = { type: '', value: 0 };
 
             population = 10000000; 
             gdp = 1000000000; 
@@ -1889,6 +2072,7 @@
             historicalData.satisfaction = [];
             historicalData.inflation = []; 
             historicalData.politicalStability = [];
+            historicalData.crimeRate = [];
 
             // Ülke ilişkilerini sıfırla
             for (const country in countries) {
@@ -1917,6 +2101,27 @@
             
             const dailyFactor = 1/7;
 
+            // PASİF DEĞİŞİMLER - Hiçbir şey yapmazsak da olacaklar
+            
+            // Doğal enflasyon artışı
+            weeklyInflationChange += (0.1 + Math.random() * 0.05) * dailyFactor; // Her gün küçük enflasyon artışı
+            
+            // Doğal suç artışı (güvenlik yatırımı olmadığında)
+            if (securityLevel < 6) {
+                weeklyCrimeRateChange += (0.05 + Math.random() * 0.03) * dailyFactor;
+            }
+            
+            // Altyapı eskimesi
+            weeklyInfrastructureChange -= (0.1 + Math.random() * 0.05) * dailyFactor;
+            
+            // Siyasi istikrarsızlık (pasif)
+            if (satisfaction < 50) {
+                weeklyPoliticalStabilityChange -= (satisfaction < 30 ? 0.3 : 0.1) * dailyFactor;
+            }
+            
+            // Memnuniyet pasif kaybı (ideal yönetim olmadığında)
+            weeklySatisfactionChange -= (0.2 + Math.random() * 0.1) * dailyFactor;
+
             // Protestoları azalt
             currentProtests.forEach(protest => {
                 protest.duration--;
@@ -1925,6 +2130,11 @@
                     addLog(`📢 ${protest.title} doğal olarak sona erdi.`, 'info');
                 }
             });
+
+            // Rastgele suç olayları
+            if (Math.random() < 0.1) { // %10 şans
+                triggerCrimeEvent();
+            }
 
             // Günlük gelir hesaplamaları
             let currentDailyBudgetChange = 0;
@@ -1948,14 +2158,14 @@
 
             // GSYİH büyümesi
             let dailyGdpGrowth = ( 
-                (Math.random() - 0.45) * 0.004 * cabinet.economy.efficiency + 
+                (Math.random() - 0.5) * 0.002 * cabinet.economy.efficiency + // Daha volatil
                 (economicPolicyLevel - 5) * 0.0015 - 
                 inflation/500 + 
                 infrastructureLevel/10000
             ) * dailyFactor; 
             weeklyGdpChangeFactor *= (1 + dailyGdpGrowth);
 
-            // Memnuniyet değişimi
+            // Memnuniyet değişimi (güncellemelere eklenen pasif kayıp dahil)
             let dailySatDelta = 0;
             dailySatDelta -= (taxes / 60) * dailyFactor;
             dailySatDelta += ((educationSpending / 600000 * cabinet.education.efficiency) + 
@@ -2039,14 +2249,19 @@
             // Haftalık değişiklikleri uygula
             applyAccumulatedWeeklyChanges(); 
 
-            // Rastgele olaylar
-            if (week > 1 && Math.random() < 0.35) { 
+            // Rastgele olaylar (artırıldı)
+            if (week > 1 && Math.random() < 0.4) { 
                 triggerRandomEvent(); 
             }
             
             // Doğal afet kontrolü
-            if (Math.random() < 0.08) { // %8 şans
+            if (Math.random() < 0.1) { // %10 şans
                 triggerNaturalDisaster();
+            }
+            
+            // Diplomatik davet şansı
+            if (Math.random() < 0.15 && foreignRelationsScore > 30) { // %15 şans
+                generateDiplomaticInvitation();
             }
 
             historicalData.weeks.push(week); 
@@ -2054,10 +2269,14 @@
             historicalData.satisfaction.push(satisfaction);
             historicalData.inflation.push(inflation); 
             historicalData.politicalStability.push(politicalStability);
+            historicalData.crimeRate.push(crimeRate);
 
             addLog(`🎯 ----- HAFTA ${week} BİTTİ / HAFTA ${week+1} BAŞLIYOR -----`, 'event');
             week++; 
             dayOfWeek = 1; 
+            
+            // Son kararın etkisini sıfırla
+            lastDecisionImpact = { type: '', value: 0 };
             
             updateGameStats();
             updateMinisterAdvice();
@@ -2119,10 +2338,12 @@
             }
             
             budget -= cost;
-            countries[countryName].relation = Math.min(100, countries[countryName].relation + 5 + Math.floor(Math.random() * 10));
+            const improvement = 5 + Math.floor(Math.random() * 10);
+            countries[countryName].relation = Math.min(100, countries[countryName].relation + improvement);
             weeklyForeignRelationsChange += 2;
             
             addLog(`✅ ${countryName} ile ilişkiler geliştirildi! Yeni seviye: ${countries[countryName].relation}`, 'success');
+            lastDecisionImpact = { type: '🌍 Dış İlş.:', value: 2 };
             updateForeignRelationsDisplay();
             updateGameStats();
         };
@@ -2138,19 +2359,29 @@
                 weeklyPoliticalStabilityChange -= 15;
                 weeklySatisfactionChange -= 10;
                 weeklyBudgetChange -= armySize * 200; // Savaş maliyeti
+                weeklyInflationChange += 2; // Savaş enflasyonu
+                weeklyCrimeRateChange += 0.5; // Savaş suç oranını artırır
+                
+                lastDecisionImpact = { type: '📈 Enflas.:', value: 2 };
                 
                 // Rastgele savaş sonucu
                 setTimeout(() => {
-                    if (Math.random() > 0.5) {
+                    const warOutcome = Math.random();
+                    if (warOutcome > 0.6) {
                         addLog(`🎖️ ${countryName}'a karşı savaşı kazandınız!`, 'success');
                         weeklyForeignRelationsChange += 10;
                         weeklySatisfactionChange += 15;
                         weeklyGdpChangeFactor *= 1.05;
+                        weeklyInflationChange -= 0.5; // Zafer enflasyonu azaltır
                     } else {
-                        addLog(`💀 ${countryName}'a karşı savaşı kaybettiniz...`, 'danger');
-                        weeklyBudgetChange -= 100000000;
-                        weeklySatisfactionChange -= 20;
+                        addLog(`💀 ${countryName}'a karşı savaşı kaybettiniz! Ekonomik çöküş yaşanıyor...`, 'danger');
+                        weeklyBudgetChange -= 150000000;
+                        weeklySatisfactionChange -= 25;
                         weeklyPoliticalStabilityChange -= 20;
+                        weeklyInflationChange += 5; // Büyük enflasyon artışı
+                        weeklyGdpChangeFactor *= 0.85; // Ekonomik çöküş
+                        weeklyCrimeRateChange += 2; // Kaybedilen savaş sonrası kaos
+                        lastDecisionImpact = { type: '📈 Enflas.:', value: 5 };
                     }
                     isAtWar = false;
                     updateGameStats();
@@ -2244,11 +2475,15 @@
                         addLog(`📈 Vergileri %${taxes.toFixed(1)} oranına yükselttiniz.`, 'warning');
                         weeklySatisfactionChange -= change * 2.8; 
                         weeklyPoliticalStabilityChange -= change * 0.5; 
+                        weeklyInflationChange += change * 0.1; // Vergi artışı enflasyonu hafifçe artırır
+                        lastDecisionImpact = { type: '😊 Memnun.:', value: -change * 2.8 };
                         if (taxes > 20) addLog("🚨 Halk arasında büyük bir hoşnutsuzluk var!", 'danger');
                     } else if (change < 0) { 
                         addLog(`📉 Vergileri %${taxes.toFixed(1)} oranına düşürdünüz.`, 'info');
                         weeklySatisfactionChange -= change * 2.0; 
                         weeklyPoliticalStabilityChange -= change * 0.2; 
+                        weeklyInflationChange -= change * 0.05; // Vergi azalışı enflasyonu azaltır
+                        lastDecisionImpact = { type: '😊 Memnun.:', value: -change * 2.0 };
                         if (taxes < 8) addLog("⚠️ Bütçe gelirlerinde ciddi düşüş bekleniyor.", 'warning');
                     } else {
                         addLog("📊 Vergi oranı değişmedi.", 'info');
@@ -2263,8 +2498,6 @@
             setupInvestmentButtons('education-investment', 'decrease-education-investment', 'increase-education-investment', 1, 50);
             setupInvestmentButtons('health-investment', 'decrease-health-investment', 'increase-health-investment', 1, 50);
             setupInvestmentButtons('culture-investment', 'decrease-culture-investment', 'increase-culture-investment', 1, 30);
-            setupInvestmentButtons('social-security-investment', 'decrease-social-security', 'increase-social-security', 1, 40);
-            setupInvestmentButtons('unemployment-support', 'decrease-unemployment', 'increase-unemployment', 1, 25);
 
             // Tüm yatırım butonları
             const investEconomyBtn = document.getElementById('invest-economy');
@@ -2318,54 +2551,7 @@
                 });
             }
 
-            // Yeni sosyal yatırımlar
-            const investSocialSecurityBtn = document.getElementById('invest-social-security');
-            if(investSocialSecurityBtn) {
-                investSocialSecurityBtn.addEventListener('click', () => {
-                    const socialSecurityInput = document.getElementById('social-security-investment');
-                    const amount = socialSecurityInput ? parseInt(socialSecurityInput.value) : 5;
-                    addLog(`🛡️ Sosyal güvenlik sistemini güçlendirme planı hazırlanıyor...`, 'info');
-                    
-                    const cost = amount * 1000000;
-                    if (budget < cost) {
-                        addLog(`❌ Sosyal güvenlik için yeterli bütçe yok! Maliyet: $${cost.toLocaleString()}`, 'warning');
-                        return;
-                    }
-                    
-                    budget -= cost;
-                    socialSecuritySpending += amount;
-                    weeklySatisfactionChange += amount * 0.8;
-                    weeklyPoliticalStabilityChange += amount * 0.3;
-                    
-                    addLog(`✅ Sosyal güvenlik sistemine $${amount}M yatırım yapıldı.`, 'success');
-                    updateGameStats();
-                });
-            }
-
-            const investUnemploymentBtn = document.getElementById('invest-unemployment');
-            if(investUnemploymentBtn) {
-                investUnemploymentBtn.addEventListener('click', () => {
-                    const unemploymentInput = document.getElementById('unemployment-support');
-                    const amount = unemploymentInput ? parseInt(unemploymentInput.value) : 3;
-                    addLog(`💰 İşsizlik yardımı sistemi geliştiriliyor...`, 'info');
-                    
-                    const cost = amount * 1000000;
-                    if (budget < cost) {
-                        addLog(`❌ İşsizlik yardımı için yeterli bütçe yok! Maliyet: $${cost.toLocaleString()}`, 'warning');
-                        return;
-                    }
-                    
-                    budget -= cost;
-                    unemploymentSupport += amount;
-                    weeklySatisfactionChange += amount * 1.2;
-                    weeklyInflationChange += amount * 0.02; // Enflasyonist etki
-                    
-                    addLog(`✅ İşsizlik yardımlarına $${amount}M destek sağlandı.`, 'success');
-                    updateGameStats();
-                });
-            }
-
-            // Diğer sosyal politika butonları
+            // Tatil ilan etme
             const declareHolidayBtn = document.getElementById('declare-holiday');
             if(declareHolidayBtn) {
                 declareHolidayBtn.addEventListener('click', () => {
@@ -2381,217 +2567,11 @@
                     nationalHolidays++;
                     weeklySatisfactionChange += 4;
                     weeklyPoliticalStabilityChange += 1;
+                    weeklyInflationChange += 0.05; // Tatil harcamaları enflasyonu artırır
+                    
+                    lastDecisionImpact = { type: '😊 Memnun.:', value: 4 };
                     
                     addLog(`🎊 Yeni ulusal tatil ilan edildi! Toplam tatil sayısı: ${nationalHolidays}`, 'success');
-                    updateGameStats();
-                });
-            }
-
-            const publicWorksProgramBtn = document.getElementById('public-works-program');
-            if(publicWorksProgramBtn) {
-                publicWorksProgramBtn.addEventListener('click', () => {
-                    addLog('🔨 Kamu işleri programı başlatılıyor...', 'info');
-                    
-                    const cost = 15000000;
-                    if (budget < cost) {
-                        addLog("❌ Kamu işleri programı için yeterli bütçe yok!", 'warning');
-                        return;
-                    }
-                    
-                    budget -= cost;
-                    weeklySatisfactionChange += 6;
-                    weeklyGdpChangeFactor *= 1.01;
-                    weeklyInfrastructureChange += 3;
-                    
-                    addLog(`🏗️ Kamu işleri programı başlatıldı! İşsizlik azalacak ve altyapı gelişecek.`, 'success');
-                    updateGameStats();
-                });
-            }
-
-            // Altyapı butonları
-            const investTransportationBtn = document.getElementById('invest-transportation-btn');
-            if(investTransportationBtn) {
-                investTransportationBtn.addEventListener('click', () => {
-                    addLog('🚗 Ulaşım ağı geliştirme projesi değerlendiriliyor...', 'info');
-                    
-                    const cost = 30000000; 
-                    const duration = 4;
-                    if (transportationInvestmentWeeks > 0) { 
-                        addLog("❌ Devam eden bir ulaşım ağı projesi zaten var.", "warning"); 
-                        return; 
-                    }
-                    if (isAtWar) { 
-                        addLog("❌ Savaş sırasında altyapı yatırımı yapılamaz.", "warning"); 
-                        return; 
-                    }
-                    if (budget >= cost) {
-                        budget -= cost; 
-                        transportationInvestmentWeeks = duration;
-                        addLog(`✅ Ulaşım ağına yatırım projesi başlatıldı ($${(cost/1000000).toFixed(0)}M). ${duration} hafta sürecek.`, "success");
-                        updateGameStats();
-                    } else { 
-                        addLog("❌ Ulaşım ağı yatırımı için bütçe yetersiz.", "warning");
-                    }
-                });
-            }
-
-            const investEnergyBtn = document.getElementById('invest-energy-btn');
-            if(investEnergyBtn) {
-                investEnergyBtn.addEventListener('click', () => {
-                    addLog('⚡ Enerji şebekesi güçlendirme projesi değerlendiriliyor...', 'info');
-                    
-                    const cost = 40000000; 
-                    const duration = 6;
-                    if (energyInvestmentWeeks > 0) { 
-                        addLog("❌ Devam eden bir enerji şebekesi projesi zaten var.", "warning"); 
-                        return; 
-                    }
-                    if (isAtWar) { 
-                        addLog("❌ Savaş sırasında altyapı yatırımı yapılamaz.", "warning"); 
-                        return; 
-                    }
-                    if (budget >= cost) {
-                        budget -= cost; 
-                        energyInvestmentWeeks = duration;
-                        addLog(`✅ Enerji şebekesini güçlendirme projesi başlatıldı ($${(cost/1000000).toFixed(0)}M). ${duration} hafta sürecek.`, "success");
-                        updateGameStats();
-                    } else { 
-                        addLog("❌ Enerji şebekesi yatırımı için bütçe yetersiz.", "warning");
-                    }
-                });
-            }
-
-            const buildHospitalsBtn = document.getElementById('build-hospitals-btn');
-            if(buildHospitalsBtn) {
-                buildHospitalsBtn.addEventListener('click', () => {
-                    addLog('🏥 Hastane inşaat projesi değerlendiriliyor...', 'info');
-                    
-                    const cost = 25000000;
-                    if (budget < cost) {
-                        addLog("❌ Hastane inşaatı için yeterli bütçe yok!", 'warning');
-                        return;
-                    }
-                    
-                    budget -= cost;
-                    healthSpending += cost * 0.1; // Sürekli işletme maliyeti
-                    weeklySatisfactionChange += 5;
-                    weeklyInfrastructureChange += 2;
-                    
-                    addLog(`🏥 Yeni hastaneler inşa edildi! Sağlık hizmetleri gelişecek.`, 'success');
-                    updateGameStats();
-                });
-            }
-
-            const buildSchoolsBtn = document.getElementById('build-schools-btn');
-            if(buildSchoolsBtn) {
-                buildSchoolsBtn.addEventListener('click', () => {
-                    addLog('🏫 Okul inşaat projesi değerlendiriliyor...', 'info');
-                    
-                    const cost = 20000000;
-                    if (budget < cost) {
-                        addLog("❌ Okul inşaatı için yeterli bütçe yok!", 'warning');
-                        return;
-                    }
-                    
-                    budget -= cost;
-                    educationSpending += cost * 0.15; // Sürekli işletme maliyeti
-                    weeklySatisfactionChange += 4;
-                    weeklyInfrastructureChange += 2;
-                    
-                    addLog(`🏫 Yeni okullar inşa edildi! Eğitim kalitesi artacak.`, 'success');
-                    updateGameStats();
-                });
-            }
-
-            // Yeni politika butonları
-            const investGreenEnergyBtn = document.getElementById('invest-green-energy');
-            if(investGreenEnergyBtn) {
-                investGreenEnergyBtn.addEventListener('click', () => {
-                    addLog('♻️ Yeşil enerji projesi değerlendiriliyor...', 'info');
-                    
-                    const cost = 20000000;
-                    if (budget < cost) {
-                        addLog("❌ Yeşil enerji yatırımı için yeterli bütçe yok!", 'warning');
-                        return;
-                    }
-                    
-                    budget -= cost;
-                    weeklyInflationChange -= 0.15; // Enerji maliyetleri düşer
-                    weeklySatisfactionChange += 6; // Çevre bilinci
-                    weeklyForeignRelationsChange += 3; // Uluslararası imaj
-                    weeklyInfrastructureChange += 3;
-                    
-                    addLog(`♻️ Yeşil enerji projesi başlatıldı! Çevre dostu enerji üretimi artacak.`, 'success');
-                    updateGameStats();
-                });
-            }
-
-            const developDefenseIndustryBtn = document.getElementById('develop-defense-industry');
-            if(developDefenseIndustryBtn) {
-                developDefenseIndustryBtn.addEventListener('click', () => {
-                    addLog('🔧 Savunma sanayi geliştirme projesi değerlendiriliyor...', 'info');
-                    
-                    const cost = 50000000;
-                    if (budget < cost) {
-                        addLog("❌ Savunma sanayi geliştirme için yeterli bütçe yok!", 'warning');
-                        return;
-                    }
-                    
-                    budget -= cost;
-                    weeklyMilitaryStrengthChange += 15;
-                    weeklyGdpChangeFactor *= 1.02; // Teknoloji transferi
-                    weeklyForeignRelationsChange += 5; // Askeri işbirliği
-                    
-                    addLog(`🔧 Savunma sanayi geliştirme projesi başlatıldı! Askeri güç ve teknoloji artacak.`, 'success');
-                    updateGameStats();
-                });
-            }
-
-            const disasterPreparationBtn = document.getElementById('disaster-preparation-btn');
-            if(disasterPreparationBtn) {
-                disasterPreparationBtn.addEventListener('click', () => {
-                    addLog('🌪️ Afet hazırlık sistemleri güçlendiriliyor...', 'info');
-                    
-                    const cost = 15000000;
-                    if (budget < cost) {
-                        addLog("❌ Afet hazırlığı için yeterli bütçe yok!", 'warning');
-                        return;
-                    }
-                    
-                    budget -= cost;
-                    naturalDisasterPreparedness = Math.min(100, naturalDisasterPreparedness + 20);
-                    weeklySatisfactionChange += 3;
-                    weeklyInfrastructureChange += 2;
-                    
-                    addLog(`🛡️ Afet hazırlık sistemi güçlendirildi! Doğal afetlere karşı daha hazırlıklıyız.`, 'success');
-                    updateGameStats();
-                });
-            }
-
-            const antiCorruptionCampaignBtn = document.getElementById('anti-corruption-campaign');
-            if(antiCorruptionCampaignBtn) {
-                antiCorruptionCampaignBtn.addEventListener('click', () => {
-                    addLog('⚖️ Yolsuzlukla mücadele kampanyası başlatılıyor...', 'info');
-                    
-                    const cost = 8000000;
-                    if (budget < cost) {
-                        addLog("❌ Yolsuzlukla mücadele için yeterli bütçe yok!", 'warning');
-                        return;
-                    }
-                    
-                    budget -= cost;
-                    
-                    // Tüm bakanların yolsuzluk seviyesini azalt
-                    for (const type in cabinet) {
-                        cabinet[type].corruption = Math.max(0.02, cabinet[type].corruption * 0.7);
-                    }
-                    
-                    weeklySatisfactionChange += 8;
-                    weeklyPoliticalStabilityChange += 5;
-                    weeklyForeignRelationsChange += 4;
-                    
-                    addLog(`⚖️ Yolsuzlukla mücadele kampanyası başarıyla uygulandı! Halk güveni arttı.`, 'success');
-                    updateCabinetDisplay();
                     updateGameStats();
                 });
             }
